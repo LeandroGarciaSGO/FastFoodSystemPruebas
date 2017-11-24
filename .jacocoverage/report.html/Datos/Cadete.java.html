@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cadete.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Datos</a> &gt; <span class="el_source">Cadete.java</span></div><h1>Cadete.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Datos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Leandro
+ */
+public class Cadete {
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private PreparedStatement psPrepSencencias;
+    
+    private int idCadete;
+    private String nombre;
+    private String apellido;
+    private String domicilio;
+    private long telefono;
+    private String tipoDocumento;
+    private int numDocumento;
+    private boolean estado;
+
+    public Statement getSentencia() {
+<span class="nc" id="L35">        return sentencia;</span>
+    }
+
+    public void setSentencia(Statement sentencia) {
+<span class="nc" id="L39">        this.sentencia = sentencia;</span>
+<span class="nc" id="L40">    }</span>
+
+    public ResultSet getRsDatos() {
+<span class="nc" id="L43">        return rsDatos;</span>
+    }
+
+    public void setRsDatos(ResultSet rsDatos) {
+<span class="nc" id="L47">        this.rsDatos = rsDatos;</span>
+<span class="nc" id="L48">    }</span>
+
+    public PreparedStatement getPsPrepSencencias() {
+<span class="nc" id="L51">        return psPrepSencencias;</span>
+    }
+
+    public void setPsPrepSencencias(PreparedStatement psPrepSencencias) {
+<span class="nc" id="L55">        this.psPrepSencencias = psPrepSencencias;</span>
+<span class="nc" id="L56">    }</span>
+
+    public int getIdCadete() {
+<span class="nc" id="L59">        return idCadete;</span>
+    }
+
+    public void setIdCadete(int idCadete) {
+<span class="nc" id="L63">        this.idCadete = idCadete;</span>
+<span class="nc" id="L64">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L67">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L71">        this.nombre = nombre;</span>
+<span class="nc" id="L72">    }</span>
+
+    public String getApellido() {
+<span class="nc" id="L75">        return apellido;</span>
+    }
+
+    public void setApellido(String apellido) {
+<span class="nc" id="L79">        this.apellido = apellido;</span>
+<span class="nc" id="L80">    }</span>
+
+    public String getDomicilio() {
+<span class="nc" id="L83">        return domicilio;</span>
+    }
+
+    public void setDomicilio(String domicilio) {
+<span class="nc" id="L87">        this.domicilio = domicilio;</span>
+<span class="nc" id="L88">    }</span>
+
+    public long getTelefono() {
+<span class="nc" id="L91">        return telefono;</span>
+    }
+
+    public void setTelefono(long telefono) {
+<span class="nc" id="L95">        this.telefono = telefono;</span>
+<span class="nc" id="L96">    }</span>
+
+    public String getTipoDocumento() {
+<span class="nc" id="L99">        return tipoDocumento;</span>
+    }
+
+    public void setTipoDocumento(String tipoDocumento) {
+<span class="nc" id="L103">        this.tipoDocumento = tipoDocumento;</span>
+<span class="nc" id="L104">    }</span>
+
+    public int getNumDocumento() {
+<span class="nc" id="L107">        return numDocumento;</span>
+    }
+
+    public void setNumDocumento(int numDocumento) {
+<span class="nc" id="L111">        this.numDocumento = numDocumento;</span>
+<span class="nc" id="L112">    }</span>
+
+    public boolean isEstado() {
+<span class="nc" id="L115">        return estado;</span>
+    }
+
+    public void setEstado(boolean estado) {
+<span class="nc" id="L119">        this.estado = estado;</span>
+<span class="nc" id="L120">    }</span>
+
+<span class="nc" id="L122">    public Cadete() {</span>
+<span class="nc" id="L123">        this.idCadete = 0;</span>
+<span class="nc" id="L124">        this.nombre = &quot;&quot;;</span>
+<span class="nc" id="L125">        this.apellido = &quot;&quot;;</span>
+<span class="nc" id="L126">        this.domicilio = &quot;&quot;;</span>
+<span class="nc" id="L127">        this.telefono = 0;</span>
+<span class="nc" id="L128">        this.tipoDocumento = &quot;&quot;;</span>
+<span class="nc" id="L129">        this.numDocumento = 0;</span>
+<span class="nc" id="L130">        this.estado = false;</span>
+<span class="nc" id="L131">    }</span>
+    
+<span class="nc" id="L133">    public Cadete(int id, int numDoc, String nomb, String ape, long tel , String dom, String tipo ){</span>
+<span class="nc" id="L134">        this.idCadete = id;</span>
+<span class="nc" id="L135">        this.nombre = nomb;</span>
+<span class="nc" id="L136">        this.apellido = ape;</span>
+<span class="nc" id="L137">        this.domicilio = dom;</span>
+<span class="nc" id="L138">        this.telefono = tel;</span>
+<span class="nc" id="L139">        this.tipoDocumento= tipo;</span>
+<span class="nc" id="L140">        this.numDocumento = numDoc;</span>
+<span class="nc" id="L141">        this.estado = false;</span>
+<span class="nc" id="L142">    }</span>
+
+    
+    
+    
+public ResultSet consultaCadete2(int dni,int cod) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L149">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L150">            String ConsultaSQL = &quot;SELECT * FROM cadete WHERE numDocumento = '&quot; + dni + &quot;' AND idCadete != &quot; + cod; </span>
+<span class="nc" id="L151">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L152">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+            
+<span class="nc" id="L154">        } catch (SQLException ex) {</span>
+<span class="nc" id="L155">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L156">        }       </span>
+<span class="nc" id="L157">        return rsDatos;       </span>
+    } 
+
+public ResultSet consultaCadete(int dni) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L162">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L163">            String ConsultaSQL = &quot;SELECT * FROM cadete WHERE numDocumento = '&quot; + dni + &quot;' and estado = 1&quot;; </span>
+<span class="nc" id="L164">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L165">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+            
+<span class="nc" id="L167">        } catch (SQLException ex) {</span>
+<span class="nc" id="L168">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L169">        }       </span>
+<span class="nc" id="L170">        return rsDatos;       </span>
+    }
+
+public ResultSet consultaEstado(int idCadete) throws ClassNotFoundException{
+    try {
+<span class="nc" id="L175">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L176">        String ConsultaSQL = &quot;SELECT idCadete, estado FROM cadete WHERE idCadete = '&quot;+ idCadete+&quot;' AND estado = true&quot;;</span>
+<span class="nc" id="L177">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L178">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L179">    } catch (SQLException ex) {</span>
+<span class="nc" id="L180">        Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L181">    }</span>
+<span class="nc" id="L182">    return rsDatos;</span>
+}
+
+public ResultSet obtenerCadete() throws ClassNotFoundException{
+    try {
+<span class="nc" id="L187">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L188">        String ConsultaSQL = &quot;SELECT idCadete, nombre FROM cadete WHERE estado = true&quot;;</span>
+<span class="nc" id="L189">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L190">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L191">    } catch (SQLException ex) {</span>
+<span class="nc" id="L192">        Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L193">    }</span>
+<span class="nc" id="L194">    return rsDatos;</span>
+}
+public ResultSet consultarTodoLosCadetes() throws ClassNotFoundException {
+        try {
+<span class="nc" id="L198">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L199">            String ConsultaSQL = &quot;SELECT * FROM cadete WHERE estado = '&quot;+1+&quot;' &quot;;</span>
+<span class="nc" id="L200">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L201">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L203">        } catch (SQLException ex) {</span>
+<span class="nc" id="L204">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L205">        }</span>
+<span class="nc" id="L206">        return rsDatos;</span>
+    }
+
+public ResultSet consultaCadeteConId(int cod) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L211">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L212">            String ConsultaSQL = &quot;SELECT * FROM cadete WHERE idCadete = &quot; + cod; </span>
+<span class="nc" id="L213">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L214">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+            
+<span class="nc" id="L216">        } catch (SQLException ex) {</span>
+<span class="nc" id="L217">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L218">        }       </span>
+<span class="nc" id="L219">        return rsDatos;       </span>
+    }
+public ResultSet cargar() throws ClassNotFoundException{
+    try{
+<span class="nc" id="L223">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L224">                                String ConsultaSQL = &quot;UPDATE cadete SET nombre = '&quot;+getNombre()+&quot;' ,&quot;</span>
+<span class="nc" id="L225">                                        + &quot; apellido = '&quot;+getApellido()+&quot;' , &quot;</span>
+<span class="nc" id="L226">                                        + &quot;domicilio =  '&quot;+getDomicilio()+&quot;' ,&quot;</span>
+<span class="nc" id="L227">                                        + &quot; telefono =  '&quot;+getTelefono()+&quot;' , &quot;</span>
+<span class="nc" id="L228">                                        + &quot;tipoDocumento ='&quot;+getTipoDocumento()+&quot;' , &quot;</span>
+<span class="nc" id="L229">                                        + &quot;numDocumento =  '&quot;+getNumDocumento()+&quot;' &quot;</span>
+<span class="nc" id="L230">                                        + &quot; WHERE idCadete = '&quot;+getIdCadete()+&quot;' &quot;;</span>
+                                
+<span class="nc" id="L232">                                sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L233">                                sentencia.executeUpdate(ConsultaSQL);</span>
+
+<span class="nc" id="L235">}catch (SQLException ex) {</span>
+<span class="nc" id="L236">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+
+<span class="nc" id="L238">}</span>
+<span class="nc" id="L239">        return rsDatos;</span>
+
+}
+public int obtenerSiguienteId() throws ClassNotFoundException, SQLException {
+
+<span class="nc" id="L244">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L245">        String ConsultaSQL = &quot;SELECT (MAX(idCadete) )AS 'ID' FROM cadete&quot;;</span>
+<span class="nc" id="L246">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L247">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (rsDatos.first()) {</span>
+<span class="nc" id="L250">            int id = rsDatos.getInt(&quot;ID&quot;) + 1;</span>
+<span class="nc" id="L251">            return id;</span>
+        } else {
+<span class="nc" id="L253">            return 1;</span>
+        }
+    }
+
+ public int eliminardni(int dni) throws SQLException {
+try {
+<span class="nc" id="L259">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L262">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE Cadete SET estado=? where numDocumento=?&quot;);</span>
+            
+<span class="nc" id="L264">            psPrepSencencias.setBoolean(1, estado);</span>
+<span class="nc" id="L265">            psPrepSencencias.setString(2, Integer.toString(dni));</span>
+
+            //ejecuto sentencia
+<span class="nc" id="L268">            dni = psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+            // rsDatos.first();
+<span class="nc" id="L271">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L272">            Logger.getLogger(Cadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L273">        }</span>
+<span class="nc" id="L274">        return dni;</span>
+}
+
+
+public void agregarNuevoCadete() throws ClassNotFoundException{
+    try {
+<span class="nc" id="L280">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L281">            psPrepSencencias = conex.prepareStatement(&quot;insert into cadete (nombre, apellido, domicilio, telefono, tipoDocumento, numDocumento, estado) values (?, ?, ?, ?, ?, ?, ? )&quot;,PreparedStatement.RETURN_GENERATED_KEYS); </span>
+<span class="nc" id="L282">            psPrepSencencias.setString(1, nombre);</span>
+<span class="nc" id="L283">            psPrepSencencias.setString(2, apellido);</span>
+<span class="nc" id="L284">            psPrepSencencias.setString(3, domicilio);</span>
+<span class="nc" id="L285">            psPrepSencencias.setLong(4, telefono);</span>
+<span class="nc" id="L286">            psPrepSencencias.setString(5, tipoDocumento);</span>
+<span class="nc" id="L287">            psPrepSencencias.setInt(6, numDocumento);</span>
+<span class="nc" id="L288">            psPrepSencencias.setBoolean(7, true);</span>
+<span class="nc" id="L289">            psPrepSencencias.executeUpdate();</span>
+            
+<span class="nc" id="L291">            rsDatos = psPrepSencencias.getGeneratedKeys();</span>
+<span class="nc" id="L292">            rsDatos.first();</span>
+<span class="nc" id="L293">            idCadete = rsDatos.getInt(1);</span>
+            
+<span class="nc" id="L295">        } catch (SQLException ex) {</span>
+<span class="nc" id="L296">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L297">        }           </span>
+<span class="nc" id="L298">    }</span>
+
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

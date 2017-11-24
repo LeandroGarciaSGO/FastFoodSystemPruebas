@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cliente.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Datos</a> &gt; <span class="el_source">Cliente.java</span></div><h1>Cliente.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Datos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Leandro
+ */
+public class Cliente {
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private PreparedStatement psPrepSencencias;
+    
+    private int idCliente;
+    private String nombre;
+    private String apellido;
+    private String domicilio;
+    private long telefono;
+    private boolean estado;
+
+<span class="nc" id="L32">    public Cliente() {</span>
+<span class="nc" id="L33">        this.idCliente = 0;</span>
+<span class="nc" id="L34">        this.nombre = &quot;&quot;;</span>
+<span class="nc" id="L35">        this.apellido = &quot;&quot;;</span>
+<span class="nc" id="L36">        this.domicilio = &quot;&quot;;</span>
+<span class="nc" id="L37">        this.telefono = 0;</span>
+<span class="nc" id="L38">        this.estado = false;</span>
+<span class="nc" id="L39">    }</span>
+
+    public int getIdCliente() {
+<span class="nc" id="L42">        return idCliente;</span>
+    }
+
+    public void setIdCliente(int idCliente) {
+<span class="nc" id="L46">        this.idCliente = idCliente;</span>
+<span class="nc" id="L47">    }</span>
+
+    public String getNombre() {
+<span class="nc" id="L50">        return nombre;</span>
+    }
+
+    public void setNombre(String nombre) {
+<span class="nc" id="L54">        this.nombre = nombre;</span>
+<span class="nc" id="L55">    }</span>
+
+    public String getApellido() {
+<span class="nc" id="L58">        return apellido;</span>
+    }
+
+    public void setApellido(String apellido) {
+<span class="nc" id="L62">        this.apellido = apellido;</span>
+<span class="nc" id="L63">    }</span>
+
+    public String getDomicilio() {
+<span class="nc" id="L66">        return domicilio;</span>
+    }
+
+    public void setDomicilio(String domicilio) {
+<span class="nc" id="L70">        this.domicilio = domicilio;</span>
+<span class="nc" id="L71">    }</span>
+
+    public long getTelefono() {
+<span class="nc" id="L74">        return telefono;</span>
+    }
+
+    public void setTelefono(long telefono) {
+<span class="nc" id="L78">        this.telefono = telefono;</span>
+<span class="nc" id="L79">    }</span>
+
+    public boolean isEstado() {
+<span class="nc" id="L82">        return estado;</span>
+    }
+
+    public void setEstado(boolean estado) {
+<span class="nc" id="L86">        this.estado = estado;</span>
+<span class="nc" id="L87">    }    </span>
+    
+public ResultSet obtenerCliente(long telef) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L91">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L92">            String ConsultaSQL = &quot;SELECT * FROM cliente WHERE telefono = &quot; + telef + &quot; and estado = true&quot;; </span>
+<span class="nc" id="L93">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L94">            rsDatos = sentencia.executeQuery(ConsultaSQL);            </span>
+<span class="nc" id="L95">        } catch (SQLException ex) {</span>
+<span class="nc" id="L96">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L97">        }       </span>
+<span class="nc" id="L98">        return rsDatos;       </span>
+    }
+
+public ResultSet obtenerClienteFiltrado(String telefono) throws ClassNotFoundException, SQLException{
+<span class="nc" id="L102">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L103">        String ConsultaSQL = &quot;SELECT idCliente, nombre, apellido, telefono FROM cliente WHERE telefono LIKE '%&quot;+telefono+&quot;%' AND estado = true&quot;;        </span>
+<span class="nc" id="L104">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L105">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L106">        return rsDatos;</span>
+    }
+
+public ResultSet obtenerClienteConId(int id) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L111">            Connection conex = Conexion.Cadena();            </span>
+<span class="nc" id="L112">            String ConsultaSQL = &quot;SELECT * FROM cliente WHERE idCliente = &quot; + id + &quot; and estado = true&quot;; </span>
+<span class="nc" id="L113">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L114">            rsDatos = sentencia.executeQuery(ConsultaSQL);            </span>
+<span class="nc" id="L115">        } catch (SQLException ex) {</span>
+<span class="nc" id="L116">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L117">        }       </span>
+<span class="nc" id="L118">        return rsDatos;       </span>
+    }
+
+    public int obtenerSiguienteId() throws ClassNotFoundException, SQLException {        
+<span class="nc" id="L122">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L123">        String ConsultaSQL = &quot;SELECT (MAX(idCliente) )AS 'ID' FROM cliente&quot;;</span>
+<span class="nc" id="L124">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L125">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (rsDatos.first()) {</span>
+<span class="nc" id="L127">            int id = rsDatos.getInt(&quot;ID&quot;) + 1;</span>
+<span class="nc" id="L128">            return id;</span>
+        } else {
+<span class="nc" id="L130">            return 1;</span>
+        }
+    }
+
+    public void insertar() throws ClassNotFoundException{
+        try {
+<span class="nc" id="L136">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L139">            psPrepSencencias = cn.prepareStatement(&quot;INSERT INTO cliente (nombre,apellido,domicilio,telefono,estado) VALUES (?, ?, ?, ?,?)&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L141">            psPrepSencencias.setString(1, nombre);</span>
+<span class="nc" id="L142">            psPrepSencencias.setString(2, apellido);</span>
+<span class="nc" id="L143">            psPrepSencencias.setString(3, domicilio);</span>
+<span class="nc" id="L144">            psPrepSencencias.setLong(4, telefono);</span>
+<span class="nc" id="L145">            psPrepSencencias.setBoolean(5, true);</span>
+            //ejecuto sentencia
+<span class="nc" id="L147">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+<span class="nc" id="L149">            rsDatos = psPrepSencencias.getGeneratedKeys();</span>
+<span class="nc" id="L150">            rsDatos.first();</span>
+<span class="nc" id="L151">            idCliente = rsDatos.getInt(1);</span>
+<span class="nc" id="L152">        } catch (SQLException ex) {</span>
+<span class="nc" id="L153">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L154">        }</span>
+<span class="nc" id="L155">    }</span>
+
+    public void eliminar(int cod) throws ClassNotFoundException {
+        try {
+      
+<span class="nc" id="L160">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L163">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE cliente SET estado = ? WHERE idCliente = ?&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L165">            psPrepSencencias.setBoolean(1, false);</span>
+<span class="nc" id="L166">            psPrepSencencias.setInt(2, cod);</span>
+            //ejecuto sentencia
+<span class="nc" id="L168">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+           
+<span class="nc" id="L171">        } catch (SQLException ex) {</span>
+<span class="nc" id="L172">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L173">        }</span>
+<span class="nc" id="L174">    }</span>
+
+ public boolean modificar() throws ClassNotFoundException {
+        try {      
+<span class="nc" id="L178">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L181">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE cliente SET nombre = ? , apellido = ? , domicilio = ? , telefono = ?, estado = ? WHERE idCliente = ?&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L183">            psPrepSencencias.setString(1, nombre);</span>
+<span class="nc" id="L184">            psPrepSencencias.setString(2, apellido);</span>
+<span class="nc" id="L185">            psPrepSencencias.setString(3, domicilio);</span>
+<span class="nc" id="L186">            psPrepSencencias.setLong(4, telefono);</span>
+<span class="nc" id="L187">            psPrepSencencias.setBoolean(5, true);</span>
+<span class="nc" id="L188">            psPrepSencencias.setInt(6, idCliente);</span>
+            //ejecuto sentencia
+<span class="nc" id="L190">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+           
+<span class="nc" id="L193">        } catch (SQLException ex) {</span>
+<span class="nc" id="L194">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L195">        }</span>
+<span class="nc" id="L196">        return true;</span>
+    }
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

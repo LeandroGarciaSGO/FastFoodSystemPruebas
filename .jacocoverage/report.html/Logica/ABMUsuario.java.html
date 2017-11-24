@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ABMUsuario.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ABMUsuario.java</span></div><h1>ABMUsuario.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import Datos.Usuario;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Gonzalez
+ */
+<span class="nc" id="L18">public class ABMUsuario {</span>
+    public boolean modificarUsuario(Usuario U) throws ClassNotFoundException, SQLException {
+        ResultSet NU;
+<span class="nc" id="L21">        NU = U.consultaUsuario(U.getNombreUsuario());</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (NU.first()) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            if (NU.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                if (U.getIdUsuario()== NU.getInt(&quot;idUsuario&quot;)) {</span>
+<span class="nc" id="L26">                    U.modificar();</span>
+<span class="nc" id="L27">                    System.out.println(&quot;\nEXISTE + ACTIVO + ID 1\n&quot;);</span>
+<span class="nc" id="L28">                    return true;</span>
+                } else {
+<span class="nc" id="L30">                    System.out.println(&quot;\nEXISTE + ACTIVO 1\n&quot;);</span>
+<span class="nc" id="L31">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L34">                U.setIdUsuario(NU.getInt(&quot;idUsuario&quot;));</span>
+<span class="nc" id="L35">                U.setEstado(true);</span>
+<span class="nc" id="L36">                U.modificar();</span>
+<span class="nc" id="L37">                System.out.println(&quot;\nEXISTE 1\n&quot;);</span>
+<span class="nc" id="L38">                return true;</span>
+            }
+        } else {
+<span class="nc" id="L41">            System.out.println(&quot;\nNADA 1\n&quot;);</span>
+<span class="nc" id="L42">            U.agregarNuevoUsuario();</span>
+<span class="nc" id="L43">            return true;</span>
+        }
+    }
+
+    public boolean nuevoUsuario(Usuario U) throws ClassNotFoundException, SQLException {
+        ResultSet NU;
+<span class="nc" id="L49">        NU = U.consultaUsuarioId(U.getIdUsuario());</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (NU.first()) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if (NU.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">                if (U.getIdUsuario()== NU.getInt(&quot;idUsuario&quot;)) {</span>
+                    boolean a;
+<span class="nc" id="L55">                    a = modificarUsuario(U);</span>
+<span class="nc" id="L56">                    System.out.println(&quot;\nEXISTE + ACTIVO + ID + ??? 2\n&quot;);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">                    return !a;</span>
+                } else {
+<span class="nc" id="L59">                    System.out.println(&quot;\nEXISTE + ACTIVO 2\n&quot;);</span>
+<span class="nc" id="L60">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L63">                U.modificar();</span>
+<span class="nc" id="L64">                System.out.println(&quot;\nEXISTE 2\n&quot;);</span>
+<span class="nc" id="L65">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L68">            System.out.println(&quot;\nNADA 2\n&quot;);</span>
+<span class="nc" id="L69">            U.agregarNuevoUsuario();</span>
+<span class="nc" id="L70">            return false;</span>
+        }
+    }
+
+    public Usuario buscarUsuario(String nombUsu) throws ClassNotFoundException, SQLException {
+        ResultSet datosUsuario;
+<span class="nc" id="L76">        Usuario miUsuario = new Usuario();</span>
+<span class="nc" id="L77">        datosUsuario = miUsuario.consultaUsuario(nombUsu);</span>
+        try {
+<span class="nc" id="L79">            boolean primerUsuario = datosUsuario.first();</span>
+<span class="nc" id="L80">        } catch (SQLException ex) {</span>
+<span class="nc" id="L81">            Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        if (datosUsuario.first()) {</span>
+<span class="nc" id="L84">            miUsuario.setIdUsuario(datosUsuario.getInt(&quot;idUsuario&quot;));</span>
+<span class="nc" id="L85">            miUsuario.setNombreUsuario(datosUsuario.getString(&quot;nombreUsuario&quot;));</span>
+<span class="nc" id="L86">            miUsuario.setNombreYApellido(datosUsuario.getString(&quot;nombreYApellido&quot;));</span>
+<span class="nc" id="L87">            miUsuario.setContraseña(datosUsuario.getString(&quot;contraseña&quot;));</span>
+<span class="nc" id="L88">            miUsuario.setTipoDocumento(datosUsuario.getString(&quot;tipoDocumento&quot;));</span>
+<span class="nc" id="L89">            miUsuario.setNumDocumento(datosUsuario.getInt(&quot;numDocumento&quot;));</span>
+<span class="nc" id="L90">            miUsuario.setTipoUsuario(datosUsuario.getInt(&quot;tipoUsuario&quot;));</span>
+<span class="nc" id="L91">            miUsuario.setEstado(datosUsuario.getBoolean(&quot;estado&quot;));</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (miUsuario.isEstado()) {</span>
+<span class="nc" id="L93">                return miUsuario;</span>
+            } else {
+<span class="nc" id="L95">                return null;</span>
+            }
+        }
+<span class="nc" id="L98">        return null;</span>
+    }
+
+//    public Usuario buscarUsuarioId(int idUsuario) throws ClassNotFoundException, SQLException {
+//        ResultSet datosUsuario;
+//        Usuario miUsuario = new Usuario();
+//        datosUsuario = miUsuario.consultaUsuarioId(idUsuario);
+//        try {
+//            boolean primeraUsuario = datosUsuario.first();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        if (datosUsuario.first()) {
+//            miUsuario.setNombreUsuario(datosUsuario.getString(&quot;nombreUsuario&quot;));
+//            miUsuario.set(datosComida.getFloat(&quot;Precio&quot;));
+//            //miComida.setTipo(datosComida.getString(&quot;Tipo&quot;));
+//            //miComida.setEstado(datosComida.getBoolean(&quot;Estado&quot;));
+//            //System.out.println(miComida.getIdComida());
+//            return miComida;
+//        }
+//        return null;
+//    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

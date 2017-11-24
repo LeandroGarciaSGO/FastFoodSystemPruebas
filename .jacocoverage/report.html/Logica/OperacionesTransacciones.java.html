@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OperacionesTransacciones.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">OperacionesTransacciones.java</span></div><h1>OperacionesTransacciones.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import Datos.Transaccion;
+import Datos.Usuario;
+
+/**
+ *
+ * @author Leandro
+ */
+<span class="nc" id="L15">public class OperacionesTransacciones {</span>
+    
+    public String obtenerDescripcion(int codigo){
+<span class="nc" id="L18">        String res = &quot;&quot;;</span>
+<span class="nc bnc" id="L19" title="All 22 branches missed.">        switch(codigo){</span>
+<span class="nc" id="L20">            case 1: res = &quot;Ingreso al Sistema&quot;; break;</span>
+<span class="nc" id="L21">            case 2: res = &quot;Alta de Cliente&quot;; break;</span>
+<span class="nc" id="L22">            case 3: res = &quot;Modificacion de Cliente&quot;; break;</span>
+<span class="nc" id="L23">            case 4: res = &quot;Baja de Cliente&quot;; break;</span>
+<span class="nc" id="L24">            case 5: res = &quot;Alta de Comida&quot;; break;</span>
+<span class="nc" id="L25">            case 6: res = &quot;Modificacion de Comida&quot;; break;</span>
+<span class="nc" id="L26">            case 7: res = &quot;Baja de Comida&quot;; break;            </span>
+<span class="nc" id="L27">            case 8: res = &quot;Alta de Cadete&quot;; break;</span>
+<span class="nc" id="L28">            case 9: res = &quot;Modificacion de Cadete&quot;; break;</span>
+<span class="nc" id="L29">            case 10: res = &quot;Baja de Cadete&quot;; break;</span>
+<span class="nc" id="L30">            case 11: res = &quot;Alta de Usuario&quot;; break;</span>
+<span class="nc" id="L31">            case 12: res = &quot;Baja de Usuario&quot;; break;</span>
+<span class="nc" id="L32">            case 13: res = &quot;Modificacion de Usuario&quot;; break;</span>
+<span class="nc" id="L33">            case 14: res = &quot;Registro de un Pedido&quot;; break;</span>
+<span class="nc" id="L34">            case 15: res = &quot;Cancelacion de un Pedido&quot;; break;</span>
+<span class="nc" id="L35">            case 16: res = &quot;Modificacion de un Pedido&quot;; break;</span>
+<span class="nc" id="L36">            case 17: res = &quot;Factura Generada&quot;; break;</span>
+<span class="nc" id="L37">            case 18: res = &quot;Factura Anulada&quot;; break;</span>
+<span class="nc" id="L38">            case 19: res = &quot;Se Inicio Elaboracion de Pedido&quot;; break;</span>
+<span class="nc" id="L39">            case 20: res = &quot;Se Termino el Pedido&quot;; break;</span>
+<span class="nc" id="L40">            case 21: res = &quot;Se Envio al Cliente el Pedido&quot;; break;           </span>
+        }
+<span class="nc" id="L42">        return res;</span>
+    }
+    
+    public String obtenerEntidad(int codigo){
+<span class="nc" id="L46">        String res = &quot;&quot;;</span>
+<span class="nc bnc" id="L47" title="All 7 branches missed.">        switch(codigo){</span>
+<span class="nc" id="L48">            case 1: res = &quot;Cliente&quot;; break;</span>
+<span class="nc" id="L49">            case 2: res = &quot;Usuario&quot;; break;</span>
+<span class="nc" id="L50">            case 3: res = &quot;Comida&quot;; break;</span>
+<span class="nc" id="L51">            case 4: res = &quot;Cadete&quot;; break;</span>
+<span class="nc" id="L52">            case 5: res = &quot;Pedido&quot;; break;</span>
+<span class="nc" id="L53">            case 6: res = &quot;Factura&quot;; break;                   </span>
+        }
+<span class="nc" id="L55">        return res;       </span>
+    }
+
+    public void registrarTransaccion(int accion,int entidad,int codigo, Usuario datosUsuario) throws ClassNotFoundException {
+<span class="nc" id="L59">        String mensaje = obtenerDescripcion(accion);</span>
+<span class="nc" id="L60">        String ent = obtenerEntidad(entidad);</span>
+<span class="nc" id="L61">        Transaccion T = new Transaccion();</span>
+<span class="nc" id="L62">        T.insertar(mensaje,ent,codigo,datosUsuario.getIdUsuario());</span>
+<span class="nc" id="L63">    }</span>
+    
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

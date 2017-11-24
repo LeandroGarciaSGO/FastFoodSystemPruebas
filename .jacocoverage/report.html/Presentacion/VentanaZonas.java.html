@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>VentanaZonas.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">VentanaZonas.java</span></div><h1>VentanaZonas.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Presentacion;
+
+import Datos.Usuario;
+import Datos.Zona;
+import Logica.ABMUsuario;
+import Logica.OperacionesAdicionales;
+import Logica.OperacionesTransacciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Gonzalez
+ */
+public class VentanaZonas extends javax.swing.JFrame {
+
+    private Usuario datosUsuario;
+    private int condatos_vacio;
+    private String nombreUsu;
+    ResultSet R;
+    Usuario usuarioSistema;
+    private int id;
+
+    public int getId() {
+<span class="nc" id="L33">        return id;</span>
+    }
+
+    public void setId(int id) {
+<span class="nc" id="L37">        this.id = id;</span>
+<span class="nc" id="L38">    }</span>
+
+    /**
+     * Creates new form Usuarios
+     */
+<span class="nc" id="L43">    public VentanaZonas() {</span>
+<span class="nc" id="L44">        initComponents();</span>
+<span class="nc" id="L45">        setLocationRelativeTo(null);</span>
+//        cargarTipoDocu();
+//        cargarTipoUsuario();
+<span class="nc" id="L48">        usuarioSistema = new Usuario();</span>
+<span class="nc" id="L49">    }</span>
+
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L52">        return usuarioSistema;</span>
+    }
+
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L56">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L57">    }</span>
+
+    public Usuario getDatosUsuario() {
+<span class="nc" id="L60">        return datosUsuario;</span>
+    }
+
+    public void setDatosUsuario(Usuario datosUsuario) {
+<span class="nc" id="L64">        this.datosUsuario = datosUsuario;</span>
+<span class="nc" id="L65">    }</span>
+
+    public int getCondatos_vacio() {
+<span class="nc" id="L68">        return condatos_vacio;</span>
+    }
+
+    public void setCondatos_vacio(int condatos_vacio) {
+<span class="nc" id="L72">        this.condatos_vacio = condatos_vacio;</span>
+<span class="nc" id="L73">    }</span>
+
+    public String getNombreUsu() {
+<span class="nc" id="L76">        return nombreUsu;</span>
+    }
+
+    public void setNombreUsu(String nombUsu) {
+<span class="nc" id="L80">        this.nombreUsu = nombUsu;</span>
+<span class="nc" id="L81">    }</span>
+
+    void LlenarCampos(int boton,int id, String des,float pre) throws SQLException, ClassNotFoundException {
+
+<span class="nc bnc" id="L85" title="All 4 branches missed.">        switch (boton) {</span>
+            //nuevo usuario
+            case 1:
+<span class="nc" id="L88">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L89">                jButtonGuardar.setEnabled(true);</span>
+<span class="nc" id="L90">                break;</span>
+            //eliminar usuario
+            case 2:
+<span class="nc" id="L93">                jButtonEliminar.setEnabled(true);</span>
+<span class="nc" id="L94">                jButtonGuardar.setEnabled(false);</span>
+<span class="nc" id="L95">                jTextFieldDes.setEditable(false);</span>
+<span class="nc" id="L96">                jTextFieldPre.setEditable(false);</span>
+                
+<span class="nc" id="L98">                break;</span>
+            //modificar usuario
+            case 3:
+<span class="nc" id="L101">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L102">                jButtonGuardar.setEnabled(true);</span>
+                break;
+        }
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if (condatos_vacio == 1) {</span>
+<span class="nc" id="L107">            jLabelIdZona.setText(String.valueOf(id));</span>
+<span class="nc" id="L108">            jTextFieldDes.setText(des);</span>
+<span class="nc" id="L109">            jTextFieldPre.setText(String.valueOf(pre));</span>
+            //jPasswordContra.setText(datosUsuario.getContraseña());
+           
+        } else {
+<span class="nc" id="L113">            Zona Z = new Zona();</span>
+<span class="nc" id="L114">            jLabelIdZona.setText(String.valueOf(Z.obtenerSiguienteId()));</span>
+            //jTextFieldDes.setText(getNombreUsu());
+        }
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L128">        jPanelDatos = new javax.swing.JPanel();</span>
+<span class="nc" id="L129">        jLabelIdUsuario = new javax.swing.JLabel();</span>
+<span class="nc" id="L130">        jLabelNombUsu = new javax.swing.JLabel();</span>
+<span class="nc" id="L131">        jLabelNombApe = new javax.swing.JLabel();</span>
+<span class="nc" id="L132">        jLabelIdZona = new javax.swing.JLabel();</span>
+<span class="nc" id="L133">        jTextFieldDes = new javax.swing.JTextField();</span>
+<span class="nc" id="L134">        jTextFieldPre = new javax.swing.JTextField();</span>
+<span class="nc" id="L135">        jLabelError = new javax.swing.JLabel();</span>
+<span class="nc" id="L136">        jButtonEliminar = new javax.swing.JButton();</span>
+<span class="nc" id="L137">        jButtonGuardar = new javax.swing.JButton();</span>
+<span class="nc" id="L138">        jButtonCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L139">        jLabel1 = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L141">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L142">        setTitle(&quot;FastFoodSystem - Zona&quot;);</span>
+
+<span class="nc" id="L144">        jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Datos de la Zona&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 0, 14))); // NOI18N</span>
+
+<span class="nc" id="L146">        jLabelIdUsuario.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L147">        jLabelIdUsuario.setText(&quot;Id Zona:&quot;);</span>
+
+<span class="nc" id="L149">        jLabelNombUsu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L150">        jLabelNombUsu.setText(&quot;Descripcion:&quot;);</span>
+
+<span class="nc" id="L152">        jLabelNombApe.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L153">        jLabelNombApe.setText(&quot;Precio:&quot;);</span>
+
+<span class="nc" id="L155">        jLabelIdZona.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L156">        jLabelIdZona.setText(&quot;9999999999&quot;);</span>
+
+<span class="nc" id="L158">        jTextFieldDes.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L159">        jTextFieldDes.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L160">        jTextFieldDes.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L162">        jTextFieldPre.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L163">        jTextFieldPre.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L164">        jTextFieldPre.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L166">        jLabelError.setFont(new java.awt.Font(&quot;Verdana&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L167">        jLabelError.setForeground(new java.awt.Color(255, 0, 0));</span>
+
+<span class="nc" id="L169">        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);</span>
+<span class="nc" id="L170">        jPanelDatos.setLayout(jPanelDatosLayout);</span>
+<span class="nc" id="L171">        jPanelDatosLayout.setHorizontalGroup(</span>
+<span class="nc" id="L172">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L173">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L174">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L175">                .addComponent(jLabelError)</span>
+<span class="nc" id="L176">                .addGap(107, 107, 107))</span>
+<span class="nc" id="L177">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L178">                .addContainerGap()</span>
+<span class="nc" id="L179">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L180">                    .addComponent(jLabelNombUsu)</span>
+<span class="nc" id="L181">                    .addComponent(jLabelIdUsuario)</span>
+<span class="nc" id="L182">                    .addComponent(jLabelNombApe))</span>
+<span class="nc" id="L183">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L184">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L185">                    .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L186">                        .addComponent(jTextFieldPre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L187">                        .addComponent(jTextFieldDes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="nc" id="L188">                    .addComponent(jLabelIdZona, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L189">                .addContainerGap(30, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L191">        jPanelDatosLayout.setVerticalGroup(</span>
+<span class="nc" id="L192">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L193">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L194">                .addGap(20, 20, 20)</span>
+<span class="nc" id="L195">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L196">                    .addComponent(jLabelIdUsuario)</span>
+<span class="nc" id="L197">                    .addComponent(jLabelIdZona))</span>
+<span class="nc" id="L198">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L199">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L200">                    .addComponent(jLabelNombUsu)</span>
+<span class="nc" id="L201">                    .addComponent(jTextFieldDes, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L202">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L203">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L204">                    .addComponent(jTextFieldPre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L205">                    .addComponent(jLabelNombApe))</span>
+<span class="nc" id="L206">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L207">                .addComponent(jLabelError)</span>
+<span class="nc" id="L208">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L211">        jButtonEliminar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L212">        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-delete.png&quot;))); // NOI18N</span>
+<span class="nc" id="L213">        jButtonEliminar.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L214">        jButtonEliminar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L215">        jButtonEliminar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L216">        jButtonEliminar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L217">        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L219">                jButtonEliminarActionPerformed(evt);</span>
+<span class="nc" id="L220">            }</span>
+        });
+
+<span class="nc" id="L223">        jButtonGuardar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L224">        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-guardar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L225">        jButtonGuardar.setText(&quot;Guardar&quot;);</span>
+<span class="nc" id="L226">        jButtonGuardar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L227">        jButtonGuardar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L228">        jButtonGuardar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L229">        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L231">                jButtonGuardarActionPerformed(evt);</span>
+<span class="nc" id="L232">            }</span>
+        });
+
+<span class="nc" id="L235">        jButtonCancelar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L236">        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L237">        jButtonCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L238">        jButtonCancelar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L239">        jButtonCancelar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L240">        jButtonCancelar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L241">        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L243">                jButtonCancelarActionPerformed(evt);</span>
+<span class="nc" id="L244">            }</span>
+        });
+
+<span class="nc" id="L247">        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/icono-ubicacion.jpg&quot;))); // NOI18N</span>
+
+<span class="nc" id="L249">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L250">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L251">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L252">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L253">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L254">                .addContainerGap()</span>
+<span class="nc" id="L255">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L256">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L257">                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L258">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L259">                        .addComponent(jLabel1))</span>
+<span class="nc" id="L260">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L261">                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L262">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L263">                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L264">                        .addGap(16, 16, 16)</span>
+<span class="nc" id="L265">                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L266">                .addContainerGap(19, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L268">        layout.setVerticalGroup(</span>
+<span class="nc" id="L269">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L270">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L271">                .addContainerGap()</span>
+<span class="nc" id="L272">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L273">                    .addComponent(jPanelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L274">                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L275">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L276">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L277">                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L278">                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L279">                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L280">                .addContainerGap(29, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L283">        pack();</span>
+<span class="nc" id="L284">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+<span class="nc" id="L287">        VentanaGestionarZonas volverGestionar = null;</span>
+        try {
+<span class="nc" id="L289">            volverGestionar = new VentanaGestionarZonas();</span>
+<span class="nc" id="L290">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L291">            Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L292">        }</span>
+<span class="nc" id="L293">        volverGestionar.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L294">        volverGestionar.setVisible(true);</span>
+<span class="nc" id="L295">        this.dispose();</span>
+<span class="nc" id="L296">    }//GEN-LAST:event_jButtonCancelarActionPerformed</span>
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+<span class="nc" id="L299">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L300">        int accion = 12;</span>
+<span class="nc" id="L301">        int entidad = 2;</span>
+<span class="nc" id="L302">        Zona U = new Zona();</span>
+        try {
+<span class="nc" id="L304">            U.eliminar(Integer.parseInt(jLabelIdZona.getText()));</span>
+<span class="nc" id="L305">            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdZona.getText()), usuarioSistema);</span>
+
+<span class="nc" id="L307">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L308">            Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L309">        } catch (SQLException ex) {</span>
+<span class="nc" id="L310">            Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L311">        }</span>
+<span class="nc" id="L312">        JOptionPane.showMessageDialog(this, &quot;La Zona Se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L313">        VentanaGestionarZonas VGZ = null;</span>
+        try {
+<span class="nc" id="L315">            VGZ = new VentanaGestionarZonas();</span>
+<span class="nc" id="L316">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L317">            Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L318">        }</span>
+<span class="nc" id="L319">        VGZ.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L320">        VGZ.setVisible(true);</span>
+<span class="nc" id="L321">        this.dispose();</span>
+<span class="nc" id="L322">    }//GEN-LAST:event_jButtonEliminarActionPerformed</span>
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+<span class="nc" id="L325">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+        int accion;
+<span class="nc" id="L327">        int entidad = 2;</span>
+<span class="nc bnc" id="L328" title="All 8 branches missed.">        if (((((validarCampoNombreUsuario() &amp;&amp; validarCampoNombreApellido()) &amp;&amp; validarCampoContraseña()) &amp;&amp; validarTipoDocu())</span>
+<span class="nc bnc" id="L329" title="All 4 branches missed.">                &amp;&amp; validarNumeroDocu()) &amp;&amp; validarTipoUsuario()) {</span>
+<span class="nc" id="L330">            Zona U = new Zona();</span>
+<span class="nc" id="L331">            U.setIdZona(Integer.parseInt(jLabelIdZona.getText()));</span>
+<span class="nc" id="L332">            U.setDescripcion(jTextFieldDes.getText());</span>
+<span class="nc" id="L333">            U.setPrecio(Float.parseFloat(jTextFieldPre.getText()));</span>
+            
+            //System.out.print(jComboBoxTipoDocu.getSelectedItem());
+            
+<span class="nc" id="L337">            OperacionesAdicionales OpeA = new OperacionesAdicionales();</span>
+<span class="nc bnc" id="L338" title="All 2 branches missed.">            if (condatos_vacio != 1) {</span>
+                try {
+<span class="nc bnc" id="L340" title="All 2 branches missed.">                    if (OpeA.modificarZona(U)) {</span>
+<span class="nc" id="L341">                        accion = 11;</span>
+<span class="nc" id="L342">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdZona.getText()), usuarioSistema);</span>
+<span class="nc" id="L343">                        JOptionPane.showMessageDialog(this, &quot;La Zona Se Cargo Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L344">                        VentanaGestionarZonas volverGestionar = new VentanaGestionarZonas();</span>
+<span class="nc" id="L345">                        volverGestionar.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L346">                        volverGestionar.setVisible(true);</span>
+<span class="nc" id="L347">                        this.dispose();</span>
+<span class="nc" id="L348">                    } else {</span>
+<span class="nc" id="L349">                        JOptionPane.showMessageDialog(this, &quot;ERROR: La Zona Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    }
+<span class="nc" id="L351">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L352">                    Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+
+<span class="nc" id="L354">                }</span>
+            } else {
+                try {
+<span class="nc bnc" id="L357" title="All 2 branches missed.">                    if (OpeA.nuevaZona(U)) {</span>
+<span class="nc" id="L358">                        JOptionPane.showMessageDialog(this, &quot;ERROR: El Nombre De Zona Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    } else {
+<span class="nc" id="L360">                        JOptionPane.showMessageDialog(this, &quot;La Zona Se Modifico Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L361">                        accion = 13;</span>
+<span class="nc" id="L362">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdZona.getText()), usuarioSistema);</span>
+<span class="nc" id="L363">                        VentanaGestionarZonas volverGestionar = new VentanaGestionarZonas();</span>
+<span class="nc" id="L364">                        volverGestionar.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L365">                        volverGestionar.setVisible(true);</span>
+<span class="nc" id="L366">                        this.dispose();</span>
+                    }
+<span class="nc" id="L368">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L369">                    Logger.getLogger(VentanaZonas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L370">                }</span>
+            }
+        }
+<span class="nc" id="L373">    }//GEN-LAST:event_jButtonGuardarActionPerformed</span>
+
+//    private void cargarTipoDocu() {
+//        try {
+//            Usuario U = new Usuario();
+//            R = U.consultaTipoDocu();
+//            try {
+//                while (R.next()) {
+//                    jComboBoxTipoDocu.addItem(R.getObject(&quot;tipoDocumento&quot;));
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+//    private void cargarTipoUsuario() {
+//        try {
+//            Usuario U = new Usuario();
+//            R = U.consultaTipoUsuario();
+//            try {
+//                while (R.next()) {
+//                    jComboBoxTipoUsu.addItem(R.getObject(&quot;tipoUsuario&quot;));
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+    private boolean validarCampoNombreUsuario() {
+//        if (jTextFieldNombUsu.getText().length() &gt; 0) {
+//            if (jTextFieldNombUsu.getText().length() &lt;= 20) {
+//                if (jTextFieldNombUsu.getText().matches(&quot;[A-Za-z\\s]+&quot;)){
+//                    return true;
+//                }else{
+//                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; Debe Contener Solo Letras&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                    return false;
+//                }
+//                
+//            } else {
+//                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; No Debe Contener Mas de 20 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+<span class="nc" id="L427">return true;</span>
+    }
+
+    private boolean validarCampoNombreApellido() {
+//        if (jTextFieldNombApe.getText().length() &gt; 0) {
+//            if (jTextFieldNombApe.getText().length() &lt;= 40) {
+//                if (jTextFieldNombApe.getText().matches(&quot;[A-Za-z\\s]+&quot;)) {
+//                    return true;
+//                } else {
+//                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; Debe Contener Solo Letras&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                    return false;
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; No Debe Contener Mas de 40 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+
+<span class="nc" id="L448">return true;</span>
+    }
+
+    private boolean validarCampoContraseña() {
+//        if (jPasswordContra.getText().length() &gt;= 8) {
+//            if (jPasswordContra.getText().length() &lt;= 50) {
+//                //if (jPasswordContra.getText().matches(&quot;[   [A-Z]    +    [a-z]   +   [0-9]   +   [@|¡|!|#|$|&amp;|=|?|¿|+|*|-|_]    ]+&quot;)) {
+//                if (jPasswordContra.getText().matches(&quot;^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,50}$&quot;)) {
+//                    return true;
+//                } else {
+//                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; Debe Contener Al Menos Una Letra Mayuscula, Una Letra Minuscula, Un Numero y Un Caracter Especial&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                    return false;
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; No Debe Contener Mas de 50 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } else {
+//            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; Debe Tener Como Minimo 8 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+<span class="nc" id="L469">return true;</span>
+    }
+
+    private boolean validarTipoDocu() {
+//        if (jComboBoxTipoDocu.getSelectedIndex() != 0) {
+//            return true;
+//        } else {
+//            JOptionPane.showMessageDialog(this, &quot;ERROR: Debe Seleccionar Un Tipo De Documento&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+<span class="nc" id="L479">return true;</span>
+    }
+
+    private boolean validarNumeroDocu() {
+        
+//            if (jTextFieldNumDocu.getText().length() == 9) {
+//                if (jTextFieldNumDocu.getText().matches(&quot;[0-9]+&quot;)) {
+//                    return true;
+//                } else {
+//                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Numero de Documento\&quot; Debe Contener Solo Numeros&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                    return false;
+//                }
+//            } else {
+//                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Numero de Documento\&quot; Debe Contener 9 Numeros&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+<span class="nc" id="L495">        return true;</span>
+    }
+
+    private boolean validarTipoUsuario() {
+//        if (jComboBoxTipoUsu.getSelectedIndex() != 0) {
+//            return true;
+//        } else {
+//            JOptionPane.showMessageDialog(this, &quot;ERROR: Debe Seleccionar Un Tipo De Usuario&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+<span class="nc" id="L505">return true;</span>
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L518" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L520">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L521">                    break;</span>
+                }
+            }
+<span class="nc" id="L524">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L525">            java.util.logging.Logger.getLogger(VentanaZonas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L526">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L527">            java.util.logging.Logger.getLogger(VentanaZonas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L528">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L529">            java.util.logging.Logger.getLogger(VentanaZonas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L530">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L531">            java.util.logging.Logger.getLogger(VentanaZonas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L532">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L537">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L539">                new VentanaZonas().setVisible(true);</span>
+<span class="nc" id="L540">            }</span>
+        });
+<span class="nc" id="L542">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelError;
+    private javax.swing.JLabel jLabelIdUsuario;
+    private javax.swing.JLabel jLabelIdZona;
+    private javax.swing.JLabel jLabelNombApe;
+    private javax.swing.JLabel jLabelNombUsu;
+    private javax.swing.JPanel jPanelDatos;
+    private javax.swing.JTextField jTextFieldDes;
+    private javax.swing.JTextField jTextFieldPre;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OperacionesCliente.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">OperacionesCliente.java</span></div><h1>OperacionesCliente.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import Datos.Cliente;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Leandro
+ */
+<span class="nc" id="L18">public class OperacionesCliente {</span>
+
+    public boolean modificarCliente(Cliente C) throws ClassNotFoundException, SQLException {
+        ResultSet NC;
+<span class="nc" id="L22">        NC = C.obtenerCliente(C.getTelefono());</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if(NC.first()){</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">            if(NC.getBoolean(&quot;estado&quot;))</span>
+            {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                if(NC.getInt(&quot;idCliente&quot;) == C.getIdCliente()){</span>
+<span class="nc" id="L27">                    C.modificar();</span>
+<span class="nc" id="L28">                    return true;</span>
+                }else{
+<span class="nc" id="L30">                    return false;</span>
+                }
+            }
+            else
+            {
+<span class="nc" id="L35">                C.modificar();</span>
+<span class="nc" id="L36">                return true;</span>
+            }
+        }
+        else
+        {
+<span class="nc" id="L41">            C.modificar();</span>
+<span class="nc" id="L42">            return true;</span>
+        }
+    //return false;
+    }
+    
+    public Cliente buscarCliente(long telefono) throws ClassNotFoundException, SQLException {
+        ResultSet datosCliente;
+<span class="nc" id="L49">        Cliente miCliente = new Cliente();</span>
+<span class="nc" id="L50">        datosCliente = miCliente.obtenerCliente(telefono);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if (datosCliente.first()) {</span>
+<span class="nc" id="L52">            miCliente.setIdCliente(datosCliente.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L53">            miCliente.setNombre(datosCliente.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L54">            miCliente.setApellido(datosCliente.getString(&quot;apellido&quot;));</span>
+<span class="nc" id="L55">            miCliente.setDomicilio(datosCliente.getString(&quot;domicilio&quot;));</span>
+<span class="nc" id="L56">            miCliente.setTelefono(datosCliente.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L57">            miCliente.setEstado(datosCliente.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L58">            return miCliente;            </span>
+        }
+<span class="nc" id="L60">        return null;</span>
+    }
+    
+    public Cliente buscarClienteConId(int id) throws ClassNotFoundException, SQLException {
+        ResultSet datosCliente;
+<span class="nc" id="L65">        Cliente miCliente = new Cliente();</span>
+<span class="nc" id="L66">        datosCliente = miCliente.obtenerClienteConId(id);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (datosCliente.first()) {</span>
+<span class="nc" id="L68">            miCliente.setIdCliente(datosCliente.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L69">            miCliente.setNombre(datosCliente.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L70">            miCliente.setApellido(datosCliente.getString(&quot;apellido&quot;));</span>
+<span class="nc" id="L71">            miCliente.setDomicilio(datosCliente.getString(&quot;domicilio&quot;));</span>
+<span class="nc" id="L72">            miCliente.setTelefono(datosCliente.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L73">            miCliente.setEstado(datosCliente.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L74">            return miCliente;            </span>
+        }
+<span class="nc" id="L76">        return null;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

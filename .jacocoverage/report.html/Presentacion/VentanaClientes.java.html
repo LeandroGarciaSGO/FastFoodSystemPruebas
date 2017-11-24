@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>VentanaClientes.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">VentanaClientes.java</span></div><h1>VentanaClientes.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Presentacion;
+
+import Datos.Cliente;
+import Datos.Usuario;
+import Logica.OperacionesCliente;
+import Logica.OperacionesTransacciones;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Leandro
+ */
+public class VentanaClientes extends javax.swing.JFrame {
+
+    /**
+     * Creates new form VentanaClientes
+     */
+    private Cliente datosCliente;
+    private int condatos_vacio;
+    private String telefono;
+    Usuario usuarioSistema;
+    
+<span class="nc" id="L31">    public VentanaClientes() {</span>
+<span class="nc" id="L32">        initComponents();</span>
+<span class="nc" id="L33">        setLocationRelativeTo(null); //Centra la Ventana en la Pantalla</span>
+<span class="nc" id="L34">        usuarioSistema = new Usuario();</span>
+<span class="nc" id="L35">    }</span>
+    
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L38">        return usuarioSistema;</span>
+    }
+
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L42">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L43">    }</span>
+    
+    
+
+    public Cliente getDatosCliente() {
+<span class="nc" id="L48">        return datosCliente;</span>
+    }
+
+    public void setDatosCliente(Cliente datosCliente) {
+<span class="nc" id="L52">        this.datosCliente = datosCliente;</span>
+<span class="nc" id="L53">    }</span>
+
+    public int getCondatos_vacio() {
+<span class="nc" id="L56">        return condatos_vacio;</span>
+    }
+
+    public void setCondatos_vacio(int condatos_vacio) {
+<span class="nc" id="L60">        this.condatos_vacio = condatos_vacio;</span>
+<span class="nc" id="L61">    }</span>
+
+    public String getTelefono() {
+<span class="nc" id="L64">        return telefono;</span>
+    }
+
+    public void setTelefono(String telefono) {
+<span class="nc" id="L68">        this.telefono = telefono;</span>
+<span class="nc" id="L69">    }</span>
+
+ 
+    
+    
+    
+     void LlenarCampos() throws SQLException {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if(condatos_vacio == 1){</span>
+<span class="nc" id="L77">            jLabelNumeroCliente.setText(String.valueOf(datosCliente.getIdCliente()));</span>
+<span class="nc" id="L78">            jTextFieldTelefono.setText(String.valueOf(datosCliente.getTelefono()));</span>
+<span class="nc" id="L79">            jTextFieldNombre.setText(datosCliente.getNombre());</span>
+<span class="nc" id="L80">            jTextFieldApellido.setText(datosCliente.getApellido());</span>
+<span class="nc" id="L81">            jTextFieldDomicilio.setText(datosCliente.getDomicilio());</span>
+        }
+        else
+        {
+<span class="nc" id="L85">            Cliente C = new Cliente();</span>
+            try {
+<span class="nc" id="L87">                jLabelNumeroCliente.setText(String.valueOf(C.obtenerSiguienteId()));</span>
+<span class="nc" id="L88">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L89">                Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L90">            }</span>
+<span class="nc" id="L91">            jTextFieldTelefono.setText(getTelefono());</span>
+<span class="nc" id="L92">            jTextFieldTelefono.setEditable(false);</span>
+<span class="nc" id="L93">            jButtonEliminar.setEnabled(false);</span>
+        }
+<span class="nc" id="L95">    }</span>
+     
+     boolean validarCampos(){
+        try{
+<span class="nc" id="L99">            Long.parseLong(jTextFieldTelefono.getText());</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">            if(jTextFieldNombre.getText().length() &lt;= 0){</span>
+<span class="nc" id="L101">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Nombre No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L102">                return false;</span>
+            }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if(jTextFieldApellido.getText().length() &lt;= 0){</span>
+<span class="nc" id="L105">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Apellido No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L106">                return false;</span>
+            }
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if(jTextFieldDomicilio.getText().length() &lt;= 0){</span>
+<span class="nc" id="L109">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Domicilio No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L110">                return false;</span>
+            }
+<span class="nc" id="L112">            return true;</span>
+        }
+<span class="nc" id="L114">        catch(NumberFormatException e){</span>
+<span class="nc" id="L115">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Telefono Debe Ser Numerico&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L116">            return false;</span>
+        }
+        
+    }   
+     
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L130">        jPanelDatos = new javax.swing.JPanel();</span>
+<span class="nc" id="L131">        jLabelClienteNro = new javax.swing.JLabel();</span>
+<span class="nc" id="L132">        jLabelTelefono = new javax.swing.JLabel();</span>
+<span class="nc" id="L133">        jLabelNombre = new javax.swing.JLabel();</span>
+<span class="nc" id="L134">        jLabelApellido = new javax.swing.JLabel();</span>
+<span class="nc" id="L135">        jLabelDomicilio = new javax.swing.JLabel();</span>
+<span class="nc" id="L136">        jLabelNumeroCliente = new javax.swing.JLabel();</span>
+<span class="nc" id="L137">        jTextFieldTelefono = new javax.swing.JTextField();</span>
+<span class="nc" id="L138">        jTextFieldNombre = new javax.swing.JTextField();</span>
+<span class="nc" id="L139">        jTextFieldApellido = new javax.swing.JTextField();</span>
+<span class="nc" id="L140">        jTextFieldDomicilio = new javax.swing.JTextField();</span>
+<span class="nc" id="L141">        jButtonCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L142">        jButtonEliminar = new javax.swing.JButton();</span>
+<span class="nc" id="L143">        jButtonGuardar = new javax.swing.JButton();</span>
+<span class="nc" id="L144">        jLabelImagen = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L146">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L147">        setTitle(&quot;FastFoodSystem - Clientes&quot;);</span>
+<span class="nc" id="L148">        setMinimumSize(new java.awt.Dimension(640, 410));</span>
+
+<span class="nc" id="L150">        jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Datos del Cliente&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 0, 14))); // NOI18N</span>
+
+<span class="nc" id="L152">        jLabelClienteNro.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L153">        jLabelClienteNro.setText(&quot;Cliente Nro:&quot;);</span>
+
+<span class="nc" id="L155">        jLabelTelefono.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L156">        jLabelTelefono.setText(&quot;Telefono:&quot;);</span>
+
+<span class="nc" id="L158">        jLabelNombre.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L159">        jLabelNombre.setText(&quot;Nombre:&quot;);</span>
+
+<span class="nc" id="L161">        jLabelApellido.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L162">        jLabelApellido.setText(&quot;Apellido&quot;);</span>
+
+<span class="nc" id="L164">        jLabelDomicilio.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L165">        jLabelDomicilio.setText(&quot;Domicilio:&quot;);</span>
+
+<span class="nc" id="L167">        jLabelNumeroCliente.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L168">        jLabelNumeroCliente.setText(&quot;9999999999&quot;);</span>
+
+<span class="nc" id="L170">        jTextFieldTelefono.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L171">        jTextFieldTelefono.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L172">        jTextFieldTelefono.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L174">        jTextFieldNombre.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L175">        jTextFieldNombre.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L176">        jTextFieldNombre.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L178">        jTextFieldApellido.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L179">        jTextFieldApellido.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L180">        jTextFieldApellido.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L182">        jTextFieldDomicilio.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L183">        jTextFieldDomicilio.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L184">        jTextFieldDomicilio.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L186">        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);</span>
+<span class="nc" id="L187">        jPanelDatos.setLayout(jPanelDatosLayout);</span>
+<span class="nc" id="L188">        jPanelDatosLayout.setHorizontalGroup(</span>
+<span class="nc" id="L189">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L190">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L191">                .addGap(44, 44, 44)</span>
+<span class="nc" id="L192">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L193">                    .addComponent(jLabelTelefono)</span>
+<span class="nc" id="L194">                    .addComponent(jLabelClienteNro)</span>
+<span class="nc" id="L195">                    .addComponent(jLabelNombre)</span>
+<span class="nc" id="L196">                    .addComponent(jLabelApellido)</span>
+<span class="nc" id="L197">                    .addComponent(jLabelDomicilio))</span>
+<span class="nc" id="L198">                .addGap(46, 46, 46)</span>
+<span class="nc" id="L199">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L200">                    .addComponent(jTextFieldDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L201">                    .addComponent(jLabelNumeroCliente)</span>
+<span class="nc" id="L202">                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L203">                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L204">                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L205">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L207">        jPanelDatosLayout.setVerticalGroup(</span>
+<span class="nc" id="L208">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L209">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L210">                .addGap(23, 23, 23)</span>
+<span class="nc" id="L211">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L212">                    .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L213">                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L214">                            .addComponent(jLabelClienteNro)</span>
+<span class="nc" id="L215">                            .addComponent(jLabelNumeroCliente))</span>
+<span class="nc" id="L216">                        .addGap(18, 18, 18)</span>
+<span class="nc" id="L217">                        .addComponent(jLabelTelefono))</span>
+<span class="nc" id="L218">                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L219">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L220">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L221">                    .addComponent(jLabelNombre)</span>
+<span class="nc" id="L222">                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L223">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L224">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L225">                    .addComponent(jLabelApellido)</span>
+<span class="nc" id="L226">                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L227">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L228">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L229">                    .addComponent(jTextFieldDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L230">                    .addComponent(jLabelDomicilio))</span>
+<span class="nc" id="L231">                .addContainerGap(47, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L234">        jButtonCancelar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L235">        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L236">        jButtonCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L237">        jButtonCancelar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L238">        jButtonCancelar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L239">        jButtonCancelar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L240">        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L242">                jButtonCancelarActionPerformed(evt);</span>
+<span class="nc" id="L243">            }</span>
+        });
+
+<span class="nc" id="L246">        jButtonEliminar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L247">        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-borrar-cliente.png&quot;))); // NOI18N</span>
+<span class="nc" id="L248">        jButtonEliminar.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L249">        jButtonEliminar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L250">        jButtonEliminar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L251">        jButtonEliminar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L252">        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L254">                jButtonEliminarActionPerformed(evt);</span>
+<span class="nc" id="L255">            }</span>
+        });
+
+<span class="nc" id="L258">        jButtonGuardar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L259">        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-guardar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L260">        jButtonGuardar.setText(&quot;Guardar&quot;);</span>
+<span class="nc" id="L261">        jButtonGuardar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L262">        jButtonGuardar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L263">        jButtonGuardar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L264">        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L266">                jButtonGuardarActionPerformed(evt);</span>
+<span class="nc" id="L267">            }</span>
+        });
+
+<span class="nc" id="L270">        jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/cliente.png&quot;))); // NOI18N</span>
+
+<span class="nc" id="L272">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L273">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L274">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L275">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L276">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L277">                .addGap(29, 29, 29)</span>
+<span class="nc" id="L278">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L279">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L280">                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L281">                        .addGap(18, 18, 18)</span>
+<span class="nc" id="L282">                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L283">                        .addGap(18, 18, 18)</span>
+<span class="nc" id="L284">                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L285">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L286">                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L287">                        .addGap(34, 34, 34)</span>
+<span class="nc" id="L288">                        .addComponent(jLabelImagen)))</span>
+<span class="nc" id="L289">                .addContainerGap(35, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L291">        layout.setVerticalGroup(</span>
+<span class="nc" id="L292">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L293">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L294">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L295">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L296">                        .addGap(28, 28, 28)</span>
+<span class="nc" id="L297">                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L298">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()</span>
+<span class="nc" id="L299">                        .addGap(38, 38, 38)</span>
+<span class="nc" id="L300">                        .addComponent(jLabelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L301">                .addGap(25, 25, 25)</span>
+<span class="nc" id="L302">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L303">                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L304">                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L305">                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L306">                .addContainerGap(37, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L309">        pack();</span>
+<span class="nc" id="L310">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L314">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L315">        int accion = 0;</span>
+<span class="nc" id="L316">        int entidad = 1;</span>
+<span class="nc bnc" id="L317" title="All 2 branches missed.">        if (validarCampos()) {</span>
+<span class="nc" id="L318">            Cliente C = new Cliente();</span>
+<span class="nc" id="L319">            C.setIdCliente(Integer.parseInt(jLabelNumeroCliente.getText()));</span>
+<span class="nc" id="L320">            C.setTelefono(Long.parseLong(jTextFieldTelefono.getText()));</span>
+<span class="nc" id="L321">            C.setNombre(jTextFieldNombre.getText());</span>
+<span class="nc" id="L322">            C.setApellido(jTextFieldApellido.getText());</span>
+<span class="nc" id="L323">            C.setDomicilio(jTextFieldDomicilio.getText());</span>
+<span class="nc" id="L324">            OperacionesCliente ABMC = new OperacionesCliente();</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">            if (condatos_vacio != 1) {</span>
+                try {
+<span class="nc" id="L327">                    C.insertar();</span>
+<span class="nc" id="L328">                    accion = 2;</span>
+                    
+<span class="nc" id="L330">                    OT.registrarTransaccion(accion,entidad,Integer.parseInt(jLabelNumeroCliente.getText()),usuarioSistema);</span>
+                    //if(ABMC.nuevoCliente(C))
+                    //{
+                    //JOptionPane.showMessageDialog(this, &quot;-. ERROR: El Cliente Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+                    //}else{
+<span class="nc" id="L335">                    JOptionPane.showMessageDialog(this, &quot;El Cliente se Registro Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L336">                    this.dispose();</span>
+                    //}
+<span class="nc" id="L338">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L339">                    Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);</span>
+                    // } catch (SQLException ex) {
+                    //   Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);
+<span class="nc" id="L342">                }</span>
+            } else {
+                try {
+<span class="nc bnc" id="L345" title="All 2 branches missed.">                    if (!ABMC.modificarCliente(C)) {                        </span>
+<span class="nc" id="L346">                        JOptionPane.showMessageDialog(this, &quot;ERROR: El Telefono Es De Otro Cliente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    } else {
+<span class="nc" id="L348">                        JOptionPane.showMessageDialog(this, &quot;El Cliente se Modifico Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L349">                        accion = 3;</span>
+<span class="nc" id="L350">                        OT.registrarTransaccion(accion,entidad,Integer.parseInt(jLabelNumeroCliente.getText()),usuarioSistema);</span>
+<span class="nc" id="L351">                        this.dispose();</span>
+                    }
+<span class="nc" id="L353">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L354">                    Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L355">                } catch (SQLException ex) {</span>
+<span class="nc" id="L356">                    Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L357">                }</span>
+            }
+
+        }
+        
+        
+        
+        
+<span class="nc" id="L365">    }//GEN-LAST:event_jButtonGuardarActionPerformed</span>
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+        // TODO add your handling code here: 
+<span class="nc" id="L369">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L370">        int accion = 4;</span>
+<span class="nc" id="L371">        int entidad = 1;</span>
+<span class="nc" id="L372">        Cliente C = new Cliente();</span>
+        try {
+<span class="nc" id="L374">            C.eliminar(Integer.parseInt(jLabelNumeroCliente.getText()));</span>
+            
+            
+<span class="nc" id="L377">            OT.registrarTransaccion(accion,entidad,Integer.parseInt(jLabelNumeroCliente.getText()),usuarioSistema);</span>
+<span class="nc" id="L378">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L379">            Logger.getLogger(VentanaClientes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L380">        }</span>
+<span class="nc" id="L381">        JOptionPane.showMessageDialog(this, &quot;El Cliente se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L382">        this.dispose();</span>
+<span class="nc" id="L383">    }//GEN-LAST:event_jButtonEliminarActionPerformed</span>
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L387">        this.dispose();</span>
+<span class="nc" id="L388">    }//GEN-LAST:event_jButtonCancelarActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L400" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L402">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L403">                    break;</span>
+                }
+            }
+<span class="nc" id="L406">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L407">            java.util.logging.Logger.getLogger(VentanaClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L408">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L409">            java.util.logging.Logger.getLogger(VentanaClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L410">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L411">            java.util.logging.Logger.getLogger(VentanaClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L412">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L413">            java.util.logging.Logger.getLogger(VentanaClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L414">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L419">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L421">                new VentanaClientes().setVisible(true);</span>
+<span class="nc" id="L422">            }</span>
+        });
+<span class="nc" id="L424">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JLabel jLabelApellido;
+    private javax.swing.JLabel jLabelClienteNro;
+    private javax.swing.JLabel jLabelDomicilio;
+    private javax.swing.JLabel jLabelImagen;
+    private javax.swing.JLabel jLabelNombre;
+    private javax.swing.JLabel jLabelNumeroCliente;
+    private javax.swing.JLabel jLabelTelefono;
+    private javax.swing.JPanel jPanelDatos;
+    private javax.swing.JTextField jTextFieldApellido;
+    private javax.swing.JTextField jTextFieldDomicilio;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldTelefono;
+    // End of variables declaration//GEN-END:variables
+
+   
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

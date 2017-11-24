@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>InformeActividad.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Datos</a> &gt; <span class="el_source">InformeActividad.java</span></div><h1>InformeActividad.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Datos;
+
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author Leandro
+ */
+public class InformeActividad {
+    
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private PreparedStatement psPrepSencencias;
+    
+    private int idTransaccion;
+    private String fecha;
+    private String hora;
+    private int idUsuario;
+    private String descripcion;
+    private String tabla;
+    private int idEntidad;
+
+<span class="nc" id="L36">    public InformeActividad() {</span>
+<span class="nc" id="L37">        this.sentencia = null;</span>
+<span class="nc" id="L38">        this.rsDatos = null;</span>
+<span class="nc" id="L39">        this.psPrepSencencias = null;</span>
+<span class="nc" id="L40">        this.idTransaccion = 0;</span>
+<span class="nc" id="L41">        this.fecha = &quot;&quot;;</span>
+<span class="nc" id="L42">        this.hora = &quot;&quot;;</span>
+<span class="nc" id="L43">        this.idUsuario = 0;</span>
+<span class="nc" id="L44">        this.descripcion = &quot;&quot;;</span>
+<span class="nc" id="L45">        this.tabla = &quot;&quot;;</span>
+<span class="nc" id="L46">        this.idEntidad = 0;</span>
+<span class="nc" id="L47">    }</span>
+    
+    
+    
+//    public ResultSet obtenerTodasActividades2(Date i,Date f) throws ClassNotFoundException, SQLException {
+//        Connection conex = Conexion.Cadena();
+//        String formato = &quot;yyyy/MM/dd&quot;;
+//        SimpleDateFormat sdf = new SimpleDateFormat(formato);
+//        System.out.println(&quot;FECHA&quot; + i);
+//        String h = String.valueOf(sdf.format(i));
+//        String ConsultaSQL = &quot;SELECT * FROM transacciones where fecha = '&quot; + h + &quot;'&quot;;
+//        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//        rsDatos = sentencia.executeQuery(ConsultaSQL);
+//        return rsDatos;
+//    }
+    
+    public ResultSet obtenerTodasActividades(String i,String f) throws ClassNotFoundException, SQLException {
+<span class="nc" id="L64">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L65">        String ConsultaSQL = &quot;SELECT * FROM transacciones where fecha &gt;= '&quot; + i + &quot;' AND fecha &lt;= '&quot; + &quot;f'&quot;;</span>
+<span class="nc" id="L66">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L67">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L68">        return rsDatos;</span>
+    }
+
+    public Statement getSentencia() {
+<span class="nc" id="L72">        return sentencia;</span>
+    }
+
+    public void setSentencia(Statement sentencia) {
+<span class="nc" id="L76">        this.sentencia = sentencia;</span>
+<span class="nc" id="L77">    }</span>
+
+    public ResultSet getRsDatos() {
+<span class="nc" id="L80">        return rsDatos;</span>
+    }
+
+    public void setRsDatos(ResultSet rsDatos) {
+<span class="nc" id="L84">        this.rsDatos = rsDatos;</span>
+<span class="nc" id="L85">    }</span>
+
+    public PreparedStatement getPsPrepSencencias() {
+<span class="nc" id="L88">        return psPrepSencencias;</span>
+    }
+
+    public void setPsPrepSencencias(PreparedStatement psPrepSencencias) {
+<span class="nc" id="L92">        this.psPrepSencencias = psPrepSencencias;</span>
+<span class="nc" id="L93">    }</span>
+
+    public int getIdTransaccion() {
+<span class="nc" id="L96">        return idTransaccion;</span>
+    }
+
+    public void setIdTransaccion(int idTransaccion) {
+<span class="nc" id="L100">        this.idTransaccion = idTransaccion;</span>
+<span class="nc" id="L101">    }</span>
+
+    public String getFecha() {
+<span class="nc" id="L104">        return fecha;</span>
+    }
+
+    public void setFecha(String fecha) {
+<span class="nc" id="L108">        this.fecha = fecha;</span>
+<span class="nc" id="L109">    }</span>
+
+    public String getHora() {
+<span class="nc" id="L112">        return hora;</span>
+    }
+
+    public void setHora(String hora) {
+<span class="nc" id="L116">        this.hora = hora;</span>
+<span class="nc" id="L117">    }</span>
+
+   
+
+    public int getIdUsuario() {
+<span class="nc" id="L122">        return idUsuario;</span>
+    }
+
+    public void setIdUsuario(int idUsuario) {
+<span class="nc" id="L126">        this.idUsuario = idUsuario;</span>
+<span class="nc" id="L127">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L130">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L134">        this.descripcion = descripcion;</span>
+<span class="nc" id="L135">    }</span>
+
+    public String getTabla() {
+<span class="nc" id="L138">        return tabla;</span>
+    }
+
+    public void setTabla(String tabla) {
+<span class="nc" id="L142">        this.tabla = tabla;</span>
+<span class="nc" id="L143">    }</span>
+
+    public int getIdEntidad() {
+<span class="nc" id="L146">        return idEntidad;</span>
+    }
+
+    public void setIdEntidad(int idEntidad) {
+<span class="nc" id="L150">        this.idEntidad = idEntidad;</span>
+<span class="nc" id="L151">    }</span>
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

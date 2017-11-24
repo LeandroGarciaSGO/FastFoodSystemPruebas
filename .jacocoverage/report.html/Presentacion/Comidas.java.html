@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Comidas.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">Comidas.java</span></div><h1>Comidas.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Presentacion;
+
+import Datos.Comida;
+import Datos.Usuario;
+import Logica.ABMComida;
+import Logica.OperacionesTransacciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Gonzalez
+ */
+public class Comidas extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Comidas
+     */
+    private Comida datosComida;
+    private int condatos_vacio;
+    private String descripcion;
+    ResultSet R;
+    Usuario usuarioSistema;
+    // private String descAnt;
+
+<span class="nc" id="L34">    public Comidas() {</span>
+<span class="nc" id="L35">        initComponents();</span>
+<span class="nc" id="L36">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L37">        cargarTipoComida();</span>
+<span class="nc" id="L38">        usuarioSistema = new Usuario();</span>
+<span class="nc" id="L39">    }</span>
+    
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L42">        return usuarioSistema;</span>
+    }
+
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L46">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L47">    }</span>
+    
+    public Comida getDatosComida() {
+<span class="nc" id="L50">        return datosComida;</span>
+    }
+
+    public void setDatosComida(Comida datosComida) {
+<span class="nc" id="L54">        this.datosComida = datosComida;</span>
+<span class="nc" id="L55">    }</span>
+
+    public int getCondatos_vacio() {
+<span class="nc" id="L58">        return condatos_vacio;</span>
+    }
+
+    public void setCondatos_vacio(int condatos_vacio) {
+<span class="nc" id="L62">        this.condatos_vacio = condatos_vacio;</span>
+<span class="nc" id="L63">    }</span>
+
+    public String getDescripcion() {
+<span class="nc" id="L66">        return descripcion;</span>
+    }
+
+    public void setDescripcion(String desc) {
+<span class="nc" id="L70">        this.descripcion = desc;</span>
+<span class="nc" id="L71">    }</span>
+
+
+    void LlenarCampos(int boton) throws SQLException {
+
+<span class="nc bnc" id="L76" title="All 4 branches missed.">        switch (boton) {</span>
+            //nueva comida
+            case 1:
+<span class="nc" id="L79">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L80">                jButtonGuardar.setEnabled(true);</span>
+<span class="nc" id="L81">                break;</span>
+            //eliminar comida
+            case 2:
+<span class="nc" id="L84">                jButtonEliminar.setEnabled(true);</span>
+<span class="nc" id="L85">                jButtonGuardar.setEnabled(false);</span>
+<span class="nc" id="L86">                jTextFieldDescripComida.setEditable(false);</span>
+<span class="nc" id="L87">                jTextFieldPrecioComida.setEditable(false);</span>
+<span class="nc" id="L88">                jComboBoxTipoComida.setEnabled(false);</span>
+<span class="nc" id="L89">                break;</span>
+            //modificar comida
+            case 3:
+<span class="nc" id="L92">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L93">                jButtonGuardar.setEnabled(true);</span>
+                // jTextFieldDescripComida.setEditable(false);
+                break;
+        }
+
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (condatos_vacio == 1) {</span>
+<span class="nc" id="L99">            jLabelCodigoComida.setText(String.valueOf(datosComida.getIdComida()));</span>
+<span class="nc" id="L100">            jTextFieldDescripComida.setText(datosComida.getDescripcion());</span>
+<span class="nc" id="L101">            jTextFieldPrecioComida.setText(String.valueOf(datosComida.getPrecio()));</span>
+            //jComboBoxTipoComida.setSelectedItem(String.valueOf(datosComida.getTipo()));
+            //jComboBoxTipoComida.setSelectedIndex(datosComida.getTipo() - 1);
+<span class="nc" id="L104">            jComboBoxTipoComida.setSelectedIndex(datosComida.getTipo());</span>
+//            descAnt = String.valueOf(datosComida.getDescripcion());
+        } else {
+<span class="nc" id="L107">            Comida C = new Comida();</span>
+            try {
+<span class="nc" id="L109">                jLabelCodigoComida.setText(String.valueOf(C.obtenerSiguienteId()));</span>
+<span class="nc" id="L110">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L111">                Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L112">            }</span>
+<span class="nc" id="L113">            jTextFieldDescripComida.setText(getDescripcion());</span>
+            //jTextFieldDescripComida.setEditable(false);
+
+        }
+<span class="nc" id="L117">    }</span>
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L128">        jPanelDatos = new javax.swing.JPanel();</span>
+<span class="nc" id="L129">        jLabelCodComida = new javax.swing.JLabel();</span>
+<span class="nc" id="L130">        jLabelDescComida = new javax.swing.JLabel();</span>
+<span class="nc" id="L131">        jLabelPrecioComida = new javax.swing.JLabel();</span>
+<span class="nc" id="L132">        jLabelTipoComida = new javax.swing.JLabel();</span>
+<span class="nc" id="L133">        jLabelCodigoComida = new javax.swing.JLabel();</span>
+<span class="nc" id="L134">        jTextFieldDescripComida = new javax.swing.JTextField();</span>
+<span class="nc" id="L135">        jTextFieldPrecioComida = new javax.swing.JTextField();</span>
+<span class="nc" id="L136">        jComboBoxTipoComida = new javax.swing.JComboBox();</span>
+<span class="nc" id="L137">        jLabelError = new javax.swing.JLabel();</span>
+<span class="nc" id="L138">        jButtonCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L139">        jButtonGuardar = new javax.swing.JButton();</span>
+<span class="nc" id="L140">        jButtonEliminar = new javax.swing.JButton();</span>
+<span class="nc" id="L141">        jLabel2 = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L143">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L144">        setTitle(&quot;FastFoodSystem - Comidas&quot;);</span>
+<span class="nc" id="L145">        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));</span>
+<span class="nc" id="L146">        setMinimumSize(new java.awt.Dimension(640, 380));</span>
+
+<span class="nc" id="L148">        jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Datos de la Comida&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 0, 14))); // NOI18N</span>
+
+<span class="nc" id="L150">        jLabelCodComida.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L151">        jLabelCodComida.setText(&quot;Código:&quot;);</span>
+
+<span class="nc" id="L153">        jLabelDescComida.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L154">        jLabelDescComida.setText(&quot;Descripción:&quot;);</span>
+
+<span class="nc" id="L156">        jLabelPrecioComida.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L157">        jLabelPrecioComida.setText(&quot;Precio:&quot;);</span>
+
+<span class="nc" id="L159">        jLabelTipoComida.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L160">        jLabelTipoComida.setText(&quot;Tipo:&quot;);</span>
+
+<span class="nc" id="L162">        jLabelCodigoComida.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L163">        jLabelCodigoComida.setText(&quot;9999999999&quot;);</span>
+
+<span class="nc" id="L165">        jTextFieldDescripComida.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L166">        jTextFieldDescripComida.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L167">        jTextFieldDescripComida.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L169">        jTextFieldPrecioComida.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L170">        jTextFieldPrecioComida.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L171">        jTextFieldPrecioComida.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L173">        jComboBoxTipoComida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Seleccione un tipo...&quot; }));</span>
+<span class="nc" id="L174">        jComboBoxTipoComida.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L176">                jComboBoxTipoComidaActionPerformed(evt);</span>
+<span class="nc" id="L177">            }</span>
+        });
+
+<span class="nc" id="L180">        jLabelError.setFont(new java.awt.Font(&quot;Verdana&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L181">        jLabelError.setForeground(new java.awt.Color(255, 0, 0));</span>
+
+<span class="nc" id="L183">        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);</span>
+<span class="nc" id="L184">        jPanelDatos.setLayout(jPanelDatosLayout);</span>
+<span class="nc" id="L185">        jPanelDatosLayout.setHorizontalGroup(</span>
+<span class="nc" id="L186">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L187">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L188">                .addGap(44, 44, 44)</span>
+<span class="nc" id="L189">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L190">                    .addComponent(jLabelDescComida)</span>
+<span class="nc" id="L191">                    .addComponent(jLabelCodComida)</span>
+<span class="nc" id="L192">                    .addComponent(jLabelPrecioComida)</span>
+<span class="nc" id="L193">                    .addComponent(jLabelTipoComida))</span>
+<span class="nc" id="L194">                .addGap(46, 46, 46)</span>
+<span class="nc" id="L195">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L196">                    .addComponent(jLabelCodigoComida)</span>
+<span class="nc" id="L197">                    .addComponent(jTextFieldDescripComida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L198">                    .addComponent(jTextFieldPrecioComida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L199">                    .addComponent(jComboBoxTipoComida, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="nc" id="L200">                .addContainerGap(30, Short.MAX_VALUE))</span>
+<span class="nc" id="L201">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L202">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L203">                .addComponent(jLabelError)</span>
+<span class="nc" id="L204">                .addGap(107, 107, 107))</span>
+        );
+<span class="nc" id="L206">        jPanelDatosLayout.setVerticalGroup(</span>
+<span class="nc" id="L207">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L208">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L209">                .addGap(20, 20, 20)</span>
+<span class="nc" id="L210">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L211">                    .addComponent(jLabelCodComida)</span>
+<span class="nc" id="L212">                    .addComponent(jLabelCodigoComida))</span>
+<span class="nc" id="L213">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)</span>
+<span class="nc" id="L214">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L215">                    .addComponent(jLabelDescComida)</span>
+<span class="nc" id="L216">                    .addComponent(jTextFieldDescripComida, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L217">                .addGap(28, 28, 28)</span>
+<span class="nc" id="L218">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L219">                    .addComponent(jLabelPrecioComida)</span>
+<span class="nc" id="L220">                    .addComponent(jTextFieldPrecioComida, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L221">                .addGap(33, 33, 33)</span>
+<span class="nc" id="L222">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L223">                    .addComponent(jLabelTipoComida)</span>
+<span class="nc" id="L224">                    .addComponent(jComboBoxTipoComida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L225">                .addGap(31, 31, 31)</span>
+<span class="nc" id="L226">                .addComponent(jLabelError)</span>
+<span class="nc" id="L227">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L230">        jComboBoxTipoComida.getAccessibleContext().setAccessibleDescription(&quot;&quot;);</span>
+
+<span class="nc" id="L232">        jButtonCancelar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L233">        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L234">        jButtonCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L235">        jButtonCancelar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L236">        jButtonCancelar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L237">        jButtonCancelar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L238">        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L240">                jButtonCancelarActionPerformed(evt);</span>
+<span class="nc" id="L241">            }</span>
+        });
+
+<span class="nc" id="L244">        jButtonGuardar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L245">        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-guardar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L246">        jButtonGuardar.setText(&quot;Guardar&quot;);</span>
+<span class="nc" id="L247">        jButtonGuardar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L248">        jButtonGuardar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L249">        jButtonGuardar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L250">        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L252">                jButtonGuardarActionPerformed(evt);</span>
+<span class="nc" id="L253">            }</span>
+        });
+
+<span class="nc" id="L256">        jButtonEliminar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L257">        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-eliminar-comida.png&quot;))); // NOI18N</span>
+<span class="nc" id="L258">        jButtonEliminar.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L259">        jButtonEliminar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L260">        jButtonEliminar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L261">        jButtonEliminar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L262">        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L264">                jButtonEliminarActionPerformed(evt);</span>
+<span class="nc" id="L265">            }</span>
+        });
+
+<span class="nc" id="L268">        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/ventana-comida.jpg&quot;))); // NOI18N</span>
+
+<span class="nc" id="L270">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L271">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L272">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L273">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L274">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L275">                .addContainerGap(24, Short.MAX_VALUE)</span>
+<span class="nc" id="L276">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L277">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L278">                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L279">                        .addGap(58, 58, 58)</span>
+<span class="nc" id="L280">                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L281">                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L282">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L283">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L284">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L285">                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L286">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L287">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L288">                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L289">                .addGap(0, 19, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L291">        layout.setVerticalGroup(</span>
+<span class="nc" id="L292">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L293">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L294">                .addContainerGap()</span>
+<span class="nc" id="L295">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L296">                    .addComponent(jPanelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L297">                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))</span>
+<span class="nc" id="L298">                .addGap(28, 28, 28)</span>
+<span class="nc" id="L299">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L300">                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L301">                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L302">                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L303">                .addGap(0, 29, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L306">        pack();</span>
+<span class="nc" id="L307">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+<span class="nc" id="L310">        GestionarComida volverGestionarComida = new GestionarComida();</span>
+<span class="nc" id="L311">        volverGestionarComida.setVisible(true);</span>
+<span class="nc" id="L312">        this.dispose();</span>
+<span class="nc" id="L313">    }//GEN-LAST:event_jButtonCancelarActionPerformed</span>
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+<span class="nc" id="L316">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+        int accion;
+<span class="nc" id="L318">        int entidad = 3;</span>
+<span class="nc bnc" id="L319" title="All 6 branches missed.">        if ((validarCampoDescripcion() &amp;&amp; validarCampoPrecio()) &amp;&amp; validarTipo()) {</span>
+<span class="nc" id="L320">            Comida C = new Comida();</span>
+<span class="nc" id="L321">            C.setIdComida(Integer.parseInt(jLabelCodigoComida.getText()));</span>
+<span class="nc" id="L322">            C.setDescripcion(jTextFieldDescripComida.getText());</span>
+<span class="nc" id="L323">            C.setPrecio(Float.parseFloat(jTextFieldPrecioComida.getText()));</span>
+            //C.setTipo(Integer.parseInt(String.valueOf(jComboBoxTipoComida.getSelectedIndex() + 1)));
+<span class="nc" id="L325">            C.setTipo(Integer.parseInt(String.valueOf(jComboBoxTipoComida.getSelectedIndex())));</span>
+<span class="nc" id="L326">            ABMComida ABMC = new ABMComida();</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">            if (condatos_vacio != 1) {</span>
+                try {
+<span class="nc bnc" id="L329" title="All 2 branches missed.">                    if (ABMC.modificarComida(C)) {</span>
+<span class="nc" id="L330">                        accion = 6;</span>
+<span class="nc" id="L331">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoComida.getText()), usuarioSistema);</span>
+<span class="nc" id="L332">                        JOptionPane.showMessageDialog(this, &quot;La Comida Se Cargo Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+                        //   JOptionPane.showMessageDialog(this, &quot;ERROR: La comida ya existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);
+<span class="nc" id="L334">                        GestionarComida volverGestionarComida = new GestionarComida();</span>
+<span class="nc" id="L335">                        volverGestionarComida.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L336">                        volverGestionarComida.setVisible(true);</span>
+<span class="nc" id="L337">                        this.dispose();</span>
+<span class="nc" id="L338">                    } else {</span>
+<span class="nc" id="L339">                        JOptionPane.showMessageDialog(this, &quot;ERROR: La Comida Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                        //  JOptionPane.showMessageDialog(this, &quot;La comida se cargo correctamente 1&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);
+                    }
+<span class="nc" id="L342">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L343">                    Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+
+<span class="nc" id="L345">                } catch (SQLException ex) {</span>
+<span class="nc" id="L346">                    Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L347">                }</span>
+            } else {
+                try {
+                    //if (!ABMC.modificarComida(C)) {
+<span class="nc bnc" id="L351" title="All 2 branches missed.">                    if (ABMC.nuevaComida(C)) {</span>
+<span class="nc" id="L352">                        JOptionPane.showMessageDialog(this, &quot;ERROR: La Descripcion Pertenece A Otra Comida&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    } else {
+<span class="nc" id="L354">                        JOptionPane.showMessageDialog(this, &quot;La Comida Se Modifico Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L355">                        accion = 5;</span>
+<span class="nc" id="L356">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoComida.getText()), usuarioSistema);</span>
+<span class="nc" id="L357">                        GestionarComida volverGestionarComida = new GestionarComida();</span>
+<span class="nc" id="L358">                        volverGestionarComida.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L359">                        volverGestionarComida.setVisible(true);</span>
+<span class="nc" id="L360">                        this.dispose();</span>
+                    }
+<span class="nc" id="L362">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L363">                    Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L364">                } catch (SQLException ex) {</span>
+<span class="nc" id="L365">                    Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L366">                }</span>
+            }
+        }
+<span class="nc" id="L369">    }//GEN-LAST:event_jButtonGuardarActionPerformed</span>
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+<span class="nc" id="L372">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L373">        int accion = 7;</span>
+<span class="nc" id="L374">        int entidad = 3;</span>
+<span class="nc" id="L375">        Comida C = new Comida();</span>
+        try {
+<span class="nc" id="L377">            C.eliminar(Integer.parseInt(jLabelCodigoComida.getText()));</span>
+<span class="nc" id="L378">            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoComida.getText()), usuarioSistema);</span>
+
+<span class="nc" id="L380">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L381">            Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L382">        }</span>
+<span class="nc" id="L383">        JOptionPane.showMessageDialog(this, &quot;La Comida Se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L384">        GestionarComida volverGestionarComida = new GestionarComida();</span>
+<span class="nc" id="L385">        volverGestionarComida.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L386">        volverGestionarComida.setVisible(true);</span>
+<span class="nc" id="L387">        this.dispose();</span>
+<span class="nc" id="L388">    }//GEN-LAST:event_jButtonEliminarActionPerformed</span>
+
+    private void cargarTipoComida() {
+        try {
+<span class="nc" id="L392">            Comida C = new Comida();</span>
+<span class="nc" id="L393">            R = C.consultaTipoComida();</span>
+            //jComboBoxTipoComida.removeAllItems();
+            try {
+<span class="nc bnc" id="L396" title="All 2 branches missed.">                while (R.next()) {</span>
+<span class="nc" id="L397">                    jComboBoxTipoComida.addItem(R.getObject(&quot;descripcion&quot;));</span>
+
+                }
+<span class="nc" id="L400">            } catch (SQLException ex) {</span>
+<span class="nc" id="L401">                Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L402">            }</span>
+
+<span class="nc" id="L404">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L405">            Logger.getLogger(Comidas.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L406">        }</span>
+<span class="nc" id="L407">    }</span>
+
+    public boolean validarTipo() {
+<span class="nc bnc" id="L410" title="All 2 branches missed.">        if (jComboBoxTipoComida.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L411">            return true;</span>
+        } else {
+<span class="nc" id="L413">            JOptionPane.showMessageDialog(this, &quot;ERROR: Debe Seleccionar Un Tipo De Comida&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L414">            return false;</span>
+        }
+    }
+
+    public boolean validarCampoDescripcion() {
+<span class="nc bnc" id="L419" title="All 2 branches missed.">        if (jTextFieldDescripComida.getText().length() &gt; 0) {</span>
+<span class="nc bnc" id="L420" title="All 2 branches missed.">            if (jTextFieldDescripComida.getText().length() &lt;= 40) {</span>
+<span class="nc bnc" id="L421" title="All 2 branches missed.">                if (jTextFieldDescripComida.getText().matches(&quot;[a-zA-Z\\s]+&quot;)) {</span>
+<span class="nc" id="L422">                    return true;</span>
+                } else {
+<span class="nc" id="L424">                    JOptionPane.showMessageDialog(this, &quot;ERROR: La Descripcion Debe Contener Solo Letras&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L425">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L428">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Descripcion\&quot; No Debe Contener Mas de 40 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L429">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L432">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Descripcion\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L433">            return false;</span>
+        }
+    }
+
+    public boolean validarCampoPrecio() {
+<span class="nc bnc" id="L438" title="All 2 branches missed.">        if (jTextFieldPrecioComida.getText().length() &gt; 0) {</span>
+            try {
+<span class="nc" id="L440">                Float.parseFloat(jTextFieldPrecioComida.getText());</span>
+<span class="nc" id="L441">                return true;</span>
+<span class="nc" id="L442">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L443">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Precio Debe Ser Numerico&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L444">                return false;</span>
+            }
+
+        } else {
+<span class="nc" id="L448">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Precio\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L449">            return false;</span>
+        }
+
+    }
+
+    private void jComboBoxTipoComidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoComidaActionPerformed
+
+<span class="nc" id="L456">    }//GEN-LAST:event_jComboBoxTipoComidaActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L468" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L469" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L470">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L471">                    break;</span>
+
+                }
+            }
+<span class="nc" id="L475">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L476">            java.util.logging.Logger.getLogger(Comidas.class</span>
+<span class="nc" id="L477">                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L478">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L479">            java.util.logging.Logger.getLogger(Comidas.class</span>
+<span class="nc" id="L480">                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L481">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L482">            java.util.logging.Logger.getLogger(Comidas.class</span>
+<span class="nc" id="L483">                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L484">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L485">            java.util.logging.Logger.getLogger(Comidas.class</span>
+<span class="nc" id="L486">                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L487">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L491">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L493">                new Comidas().setVisible(true);</span>
+<span class="nc" id="L494">            }</span>
+        });
+<span class="nc" id="L496">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JComboBox jComboBoxTipoComida;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelCodComida;
+    private javax.swing.JLabel jLabelCodigoComida;
+    private javax.swing.JLabel jLabelDescComida;
+    private javax.swing.JLabel jLabelError;
+    private javax.swing.JLabel jLabelPrecioComida;
+    private javax.swing.JLabel jLabelTipoComida;
+    private javax.swing.JPanel jPanelDatos;
+    private javax.swing.JTextField jTextFieldDescripComida;
+    private javax.swing.JTextField jTextFieldPrecioComida;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OperacionesPedido.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">OperacionesPedido.java</span></div><h1>OperacionesPedido.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import Datos.Cliente;
+import Datos.DetallePedido;
+import Datos.Pedido;
+import Datos.Zona;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+/**
+ *
+ * @author Mariano
+ */
+
+<span class="nc" id="L24">public class OperacionesPedido {</span>
+    public int nuevoPedido(Pedido P) throws ClassNotFoundException, SQLException{
+<span class="nc" id="L26">        return P.insertarPedido();</span>
+    }
+    
+    public void modificarPedido(Pedido P) throws ClassNotFoundException{
+<span class="nc" id="L30">        P.modificarPedido();</span>
+<span class="nc" id="L31">    }</span>
+    
+    public Pedido buscarPedido(int idPedido) throws ClassNotFoundException, SQLException{
+        ResultSet datosPedido;
+<span class="nc" id="L35">        Pedido P = new Pedido();</span>
+<span class="nc" id="L36">        datosPedido = P.consultaPedido(idPedido);</span>
+        
+        try {
+<span class="nc" id="L39">            boolean primerpedido = datosPedido.first();</span>
+<span class="nc" id="L40">        } catch (SQLException ex) {</span>
+<span class="nc" id="L41">            Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (datosPedido.first()) {</span>
+<span class="nc" id="L44">            P.setIdPedido(datosPedido.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L45">            P.setEstado(datosPedido.getInt(&quot;estado&quot;));</span>
+<span class="nc" id="L46">            P.setFecha(datosPedido.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L47">            P.setHora(datosPedido.getTime(&quot;hora&quot;));</span>
+<span class="nc" id="L48">            P.setLugarDeEnvio(datosPedido.getString(&quot;lugarDeEnvio&quot;));</span>
+<span class="nc" id="L49">            P.setZona(datosPedido.getInt(&quot;zona&quot;));</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (P.getEstado() == 1) {</span>
+<span class="nc" id="L51">                return P;</span>
+            }
+            else
+            {
+<span class="nc" id="L55">                return null;</span>
+            }
+        }
+<span class="nc" id="L58">        return null;</span>
+    }
+    
+    public void nuevoDetallePedido(ArrayList&lt;DetallePedido&gt; DP) throws ClassNotFoundException{
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for(int i = 0; i&lt;DP.size(); i++){</span>
+<span class="nc" id="L63">            DetallePedido detP = new DetallePedido();</span>
+<span class="nc" id="L64">            detP.setIdPedido(DP.get(i).getIdPedido());</span>
+<span class="nc" id="L65">            detP.setNumLinea(DP.get(i).getNumLinea());</span>
+<span class="nc" id="L66">            detP.setIdComida(DP.get(i).getIdComida());</span>
+<span class="nc" id="L67">            detP.setCantidad(DP.get(i).getCantidad());</span>
+<span class="nc" id="L68">            detP.insertarDetallePedido();</span>
+        }
+<span class="nc" id="L70">    }</span>
+    
+    public ArrayList&lt;DetallePedido&gt; buscarDetallePedido(int idPedido) throws ClassNotFoundException, SQLException{
+        ResultSet datosDetalleP;
+<span class="nc" id="L74">        DetallePedido DP1 = new DetallePedido();</span>
+<span class="nc" id="L75">        ArrayList&lt;DetallePedido&gt; listaDetallePedido = new ArrayList&lt;DetallePedido&gt;();</span>
+<span class="nc" id="L76">        datosDetalleP = DP1.consultaDetallePedido(idPedido);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        while(datosDetalleP.next()) {</span>
+<span class="nc" id="L78">            DetallePedido DP2 = new DetallePedido();</span>
+<span class="nc" id="L79">            DP2.setIdComida(datosDetalleP.getInt(&quot;idComida&quot;));</span>
+<span class="nc" id="L80">            DP2.setCantidad(datosDetalleP.getInt(&quot;cantidad&quot;));</span>
+<span class="nc" id="L81">            listaDetallePedido.add(DP2);</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">        return listaDetallePedido;</span>
+    }
+    
+    public ArrayList&lt;Zona&gt; buscarZona() throws ClassNotFoundException, SQLException{
+        ResultSet datosZona;
+<span class="nc" id="L88">        ArrayList&lt;Zona&gt; listaZonas = new ArrayList&lt;Zona&gt;();</span>
+<span class="nc" id="L89">        Zona z1 = new Zona();</span>
+<span class="nc" id="L90">        datosZona = z1.consultaZona();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        while(datosZona.next()){</span>
+<span class="nc" id="L92">            Zona z2 = new Zona();</span>
+<span class="nc" id="L93">            z2.setIdZona(datosZona.getInt(&quot;idZona&quot;));</span>
+<span class="nc" id="L94">            z2.setDescripcion(datosZona.getString(&quot;descripcion&quot;));</span>
+<span class="nc" id="L95">            z2.setPrecio(datosZona.getFloat(&quot;precio&quot;));</span>
+<span class="nc" id="L96">            listaZonas.add(z2);</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc" id="L98">        return listaZonas;</span>
+    }
+    
+    public void eliminarDetallePedido(int idPedido) throws ClassNotFoundException{
+<span class="nc" id="L102">        DetallePedido DP = new DetallePedido();</span>
+<span class="nc" id="L103">        DP.eliminarDetallePedido(idPedido);  </span>
+<span class="nc" id="L104">    }</span>
+    
+    public void cargarTabla(JTable tabla, String idPedido, String telefono, int p) throws ClassNotFoundException, SQLException{
+        ResultSet datosTabla;
+        ResultSet PidCliente;
+        DefaultTableModel modelo;
+<span class="nc" id="L110">        Pedido P = new Pedido();</span>
+<span class="nc" id="L111">        Cliente C = new Cliente();</span>
+<span class="nc" id="L112">        OperacionesCliente ABMC = new OperacionesCliente();</span>
+<span class="nc" id="L113">        String []titulo = {&quot;Código&quot;,&quot;Teléfono del Cliente&quot;,&quot;Nombre Cliente&quot;,&quot;Fecha&quot;,&quot;Hora&quot;};</span>
+<span class="nc" id="L114">        modelo = new DefaultTableModel(null,titulo);</span>
+<span class="nc" id="L115">        String []datos = new String[5];</span>
+<span class="nc" id="L116">        datosTabla = P.consultaCargarTabla(idPedido);</span>
+<span class="nc bnc" id="L117" title="All 3 branches missed.">        switch (p) {</span>
+            case 0:
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                while(datosTabla.next()){</span>
+<span class="nc" id="L120">                    datos[0] = String.valueOf(datosTabla.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L121">                    datos[3] = String.valueOf(datosTabla.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L122">                    datos[4] = String.valueOf(datosTabla.getTime(&quot;hora&quot;));</span>
+<span class="nc" id="L123">                    C = ABMC.buscarClienteConId(datosTabla.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L124">                    datos[1] = String.valueOf(C.getTelefono());</span>
+<span class="nc" id="L125">                    datos[2] = C.getNombre() + &quot; &quot; + C.getApellido();</span>
+<span class="nc" id="L126">                    modelo.addRow(datos);</span>
+                }       break;
+            case 1:
+<span class="nc" id="L129">                datosTabla = P.consultaCargarTabla(idPedido);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                while(datosTabla.next()){</span>
+<span class="nc" id="L131">                    datos[0] = String.valueOf(datosTabla.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L132">                    datos[3] = String.valueOf(datosTabla.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L133">                    datos[4] = String.valueOf(datosTabla.getTime(&quot;hora&quot;));</span>
+<span class="nc" id="L134">                    C = ABMC.buscarClienteConId(datosTabla.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L135">                    datos[1] = String.valueOf(C.getTelefono());</span>
+<span class="nc" id="L136">                    datos[2] = C.getNombre() + &quot; &quot; +C.getApellido();</span>
+<span class="nc" id="L137">                    modelo.addRow(datos);</span>
+                }   break;
+            default:
+<span class="nc" id="L140">                datosTabla = C.obtenerClienteFiltrado(telefono);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">                while(datosTabla.next()){</span>
+<span class="nc" id="L142">                    datos[1] = String.valueOf(datosTabla.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L143">                    datos[2] = datosTabla.getString(&quot;nombre&quot;) + &quot; &quot; + datosTabla.getString(&quot;apellido&quot;);</span>
+<span class="nc" id="L144">                    PidCliente = P.consultaPedidoIdCliente(datosTabla.getInt(&quot;idCliente&quot;));</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                    if(PidCliente.first()){</span>
+<span class="nc" id="L146">                        datos[0] = String.valueOf(PidCliente.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L147">                        datos[3] = String.valueOf(PidCliente.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L148">                        datos[4] = String.valueOf(PidCliente.getTime(&quot;hora&quot;));</span>
+<span class="nc" id="L149">                        modelo.addRow(datos);</span>
+                    }
+                }   break;       
+        }
+<span class="nc" id="L153">        tabla.setModel(modelo);</span>
+<span class="nc" id="L154">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

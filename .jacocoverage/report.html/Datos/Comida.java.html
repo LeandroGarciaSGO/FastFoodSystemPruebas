@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Comida.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Datos</a> &gt; <span class="el_source">Comida.java</span></div><h1>Comida.java</h1><pre class="source lang-java linenums">package Datos;
+
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Leandro
+ */
+public class Comida {
+
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private PreparedStatement psPrepSencencias;
+
+    private int idComida;
+    private String descripcion;
+    private float precio;
+    private int tipo;
+    private boolean estado;
+
+<span class="nc" id="L23">    public Comida() {</span>
+<span class="nc" id="L24">        this.idComida = 0;</span>
+<span class="nc" id="L25">        this.descripcion = &quot;&quot;;</span>
+<span class="nc" id="L26">        this.precio = 0;</span>
+<span class="nc" id="L27">        this.tipo = 0;</span>
+<span class="nc" id="L28">        this.estado = false;</span>
+<span class="nc" id="L29">    }</span>
+
+<span class="nc" id="L31">    public Comida(int id, String desc, float pre, int tipo) {</span>
+<span class="nc" id="L32">        this.idComida = id;</span>
+<span class="nc" id="L33">        this.descripcion = desc;</span>
+<span class="nc" id="L34">        this.precio = pre;</span>
+<span class="nc" id="L35">        this.tipo = tipo;</span>
+<span class="nc" id="L36">        this.estado = false;</span>
+<span class="nc" id="L37">    }</span>
+
+    public Statement getSentencia() {
+<span class="nc" id="L40">        return sentencia;</span>
+    }
+
+    public ResultSet getRsDatos() {
+<span class="nc" id="L44">        return rsDatos;</span>
+    }
+
+    public PreparedStatement getPsPrepSencencias() {
+<span class="nc" id="L48">        return psPrepSencencias;</span>
+    }
+
+    public int getIdComida() {
+<span class="nc" id="L52">        return idComida;</span>
+    }
+
+    public String getDescripcion() {
+<span class="nc" id="L56">        return descripcion;</span>
+    }
+
+    public Float getPrecio() {
+<span class="nc" id="L60">        return precio;</span>
+    }
+
+    public int getTipo() {
+<span class="nc" id="L64">        return tipo;</span>
+    }
+
+    public boolean isEstado() {
+<span class="nc" id="L68">        return estado;</span>
+    }
+
+    public void setSentencia(Statement sentencia) {
+<span class="nc" id="L72">        this.sentencia = sentencia;</span>
+<span class="nc" id="L73">    }</span>
+
+    public void setRsDatos(ResultSet rsDatos) {
+<span class="nc" id="L76">        this.rsDatos = rsDatos;</span>
+<span class="nc" id="L77">    }</span>
+
+    public void setPsPrepSencencias(PreparedStatement psPrepSencencias) {
+<span class="nc" id="L80">        this.psPrepSencencias = psPrepSencencias;</span>
+<span class="nc" id="L81">    }</span>
+
+    public void setIdComida(int idComida) {
+<span class="nc" id="L84">        this.idComida = idComida;</span>
+<span class="nc" id="L85">    }</span>
+
+    public void setDescripcion(String descripcion) {
+<span class="nc" id="L88">        this.descripcion = descripcion;</span>
+<span class="nc" id="L89">    }</span>
+
+    public void setPrecio(Float precio) {
+<span class="nc" id="L92">        this.precio = precio;</span>
+<span class="nc" id="L93">    }</span>
+
+    public void setTipo(int tipo) {
+<span class="nc" id="L96">        this.tipo = tipo;</span>
+<span class="nc" id="L97">    }</span>
+
+    public void setEstado(boolean estado) {
+<span class="nc" id="L100">        this.estado = estado;</span>
+<span class="nc" id="L101">    }</span>
+
+    public ResultSet consultaComida(String desc) throws ClassNotFoundException {
+        try {
+<span class="nc" id="L105">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L106">            String ConsultaSQL = &quot;SELECT * FROM comida WHERE descripcion = '&quot; + desc + &quot;'&quot;;</span>
+<span class="nc" id="L107">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L108">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L110">        } catch (SQLException ex) {</span>
+<span class="nc" id="L111">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L112">        }</span>
+<span class="nc" id="L113">        return rsDatos;</span>
+    }
+
+    public ResultSet consultarTodasLasComidas() throws ClassNotFoundException {
+        try {
+<span class="nc" id="L118">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L119">            String ConsultaSQL = &quot;SELECT * FROM comida WHERE estado = 1&quot;;</span>
+<span class="nc" id="L120">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L121">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L123">        } catch (SQLException ex) {</span>
+<span class="nc" id="L124">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L125">        }</span>
+<span class="nc" id="L126">        return rsDatos;</span>
+    }
+
+    public ResultSet consultaTipoComida() throws ClassNotFoundException {
+        try {
+<span class="nc" id="L131">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L132">            String ConsultaSQL = &quot;SELECT descripcion FROM tipoComida&quot;;</span>
+<span class="nc" id="L133">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L134">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L136">        } catch (SQLException ex) {</span>
+<span class="nc" id="L137">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">        return rsDatos;</span>
+    }
+
+    public ResultSet consultaComidaId(int idComida) throws ClassNotFoundException {
+        try {
+<span class="nc" id="L144">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L145">            String ConsultaSQL = &quot;SELECT descripcion,precio FROM comida WHERE idComida = '&quot; + idComida + &quot;'&quot;;</span>
+<span class="nc" id="L146">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L147">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L149">        } catch (SQLException ex) {</span>
+<span class="nc" id="L150">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L151">        }</span>
+<span class="nc" id="L152">        return rsDatos;</span>
+    }
+    
+        public ResultSet consultaComidaId2(int idComida) throws ClassNotFoundException {
+        try {
+<span class="nc" id="L157">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L158">            String ConsultaSQL = &quot;SELECT * FROM comida WHERE idComida = '&quot; + idComida + &quot;'&quot;;</span>
+<span class="nc" id="L159">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L160">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc" id="L162">        } catch (SQLException ex) {</span>
+<span class="nc" id="L163">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L164">        }</span>
+<span class="nc" id="L165">        return rsDatos;</span>
+    }
+
+    public int obtenerSiguienteId() throws ClassNotFoundException, SQLException {
+<span class="nc" id="L169">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L170">        String ConsultaSQL = &quot;SELECT (MAX(idComida) )AS 'ID' FROM comida&quot;;</span>
+<span class="nc" id="L171">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L172">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (rsDatos.first()) {</span>
+<span class="nc" id="L175">            int id = rsDatos.getInt(&quot;ID&quot;) + 1;</span>
+<span class="nc" id="L176">            return id;</span>
+        } else {
+<span class="nc" id="L178">            return 1;</span>
+        }
+    }
+
+    public void agregarNuevaComida() throws ClassNotFoundException {
+        try {
+<span class="nc" id="L184">            Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L185">            psPrepSencencias = conex.prepareStatement(&quot;insert into comida (descripcion, precio, tipo, estado) values (?, ?, ?, ?)&quot;, PreparedStatement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L186">            psPrepSencencias.setString(1, descripcion);</span>
+<span class="nc" id="L187">            psPrepSencencias.setFloat(2, precio);</span>
+<span class="nc" id="L188">            psPrepSencencias.setInt(3, tipo);</span>
+<span class="nc" id="L189">            psPrepSencencias.setBoolean(4, true);</span>
+
+<span class="nc" id="L191">            psPrepSencencias.executeUpdate();</span>
+
+<span class="nc" id="L193">            rsDatos = psPrepSencencias.getGeneratedKeys();</span>
+<span class="nc" id="L194">            rsDatos.first();</span>
+<span class="nc" id="L195">            idComida = rsDatos.getInt(1);</span>
+
+<span class="nc" id="L197">        } catch (SQLException ex) {</span>
+<span class="nc" id="L198">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L199">        }</span>
+<span class="nc" id="L200">    }</span>
+
+    public void eliminar(int cod) throws ClassNotFoundException {
+        try {
+
+<span class="nc" id="L205">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L208">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE comida SET estado = ? WHERE idComida = ?&quot;, PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L210">            psPrepSencencias.setBoolean(1, false);</span>
+<span class="nc" id="L211">            psPrepSencencias.setInt(2, cod);</span>
+            //ejecuto sentencia
+<span class="nc" id="L213">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+
+<span class="nc" id="L216">        } catch (SQLException ex) {</span>
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+<span class="nc" id="L218">            Logger.getLogger(Comida.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L219">        }</span>
+<span class="nc" id="L220">    }</span>
+
+    public boolean modificar() throws ClassNotFoundException {
+        try {
+<span class="nc" id="L224">            System.out.println(tipo);</span>
+<span class="nc" id="L225">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L228">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE comida SET descripcion = ? , precio = ? , tipo = ? , estado = ? WHERE idComida = ?&quot;, PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L230">            psPrepSencencias.setString(1, descripcion);</span>
+<span class="nc" id="L231">            psPrepSencencias.setFloat(2, precio);</span>
+<span class="nc" id="L232">            psPrepSencencias.setInt(3, tipo);</span>
+<span class="nc" id="L233">            psPrepSencencias.setBoolean(4, true);</span>
+<span class="nc" id="L234">            psPrepSencencias.setInt(5, idComida);</span>
+            //ejecuto sentencia
+<span class="nc" id="L236">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+<span class="nc" id="L238">        } catch (SQLException ex) {</span>
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+<span class="nc" id="L240">            Logger.getLogger(Comida.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L241">        }</span>
+<span class="nc" id="L242">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

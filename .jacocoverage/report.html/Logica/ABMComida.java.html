@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ABMComida.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">ABMComida.java</span></div><h1>ABMComida.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+import Datos.Comida;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Gonzalez
+ */
+<span class="nc" id="L19">public class ABMComida {</span>
+
+    public boolean modificarComida(Comida C) throws ClassNotFoundException, SQLException {
+        ResultSet NC;
+<span class="nc" id="L23">        NC = C.consultaComida(C.getDescripcion());</span>
+
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        if (NC.first()) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            if (NC.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                if (C.getIdComida() == NC.getInt(&quot;idComida&quot;)) {</span>
+<span class="nc" id="L28">                    C.modificar();</span>
+<span class="nc" id="L29">                    System.out.println(&quot;\nEXISTE + ACTIVO + ID 1\n&quot;);</span>
+<span class="nc" id="L30">                    return true;</span>
+                } else {
+<span class="nc" id="L32">                    System.out.println(&quot;\nEXISTE + ACTIVO 1\n&quot;);</span>
+<span class="nc" id="L33">                    return false;</span>
+                }
+            } else {
+                //C.agregarNuevaComida();
+<span class="nc" id="L37">                C.modificar();</span>
+<span class="nc" id="L38">                System.out.println(&quot;\nEXISTE 1\n&quot;);</span>
+<span class="nc" id="L39">                return true;</span>
+            }
+        } else {
+<span class="nc" id="L42">            System.out.println(&quot;\nNADA 1\n&quot;);</span>
+<span class="nc" id="L43">            C.agregarNuevaComida();</span>
+<span class="nc" id="L44">            return true;</span>
+        }
+    }
+
+    public boolean nuevaComida(Comida C) throws ClassNotFoundException, SQLException {
+        ResultSet NC;
+<span class="nc" id="L50">        NC = C.consultaComidaId2(C.getIdComida());</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (NC.first()) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            if (NC.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (C.getIdComida() == NC.getInt(&quot;idComida&quot;)) {</span>
+                    boolean a;
+<span class="nc" id="L56">                    a = modificarComida(C);</span>
+<span class="nc" id="L57">                    System.out.println(&quot;\nEXISTE + ACTIVO + ID + ??? 2\n&quot;);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                    return !a;</span>
+                } else {
+<span class="nc" id="L60">                    System.out.println(&quot;\nEXISTE + ACTIVO 2\n&quot;);</span>
+<span class="nc" id="L61">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L64">                C.modificar();</span>
+<span class="nc" id="L65">                System.out.println(&quot;\nEXISTE 2\n&quot;);</span>
+<span class="nc" id="L66">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L69">            System.out.println(&quot;\nNADA 2\n&quot;);</span>
+<span class="nc" id="L70">            C.agregarNuevaComida();</span>
+<span class="nc" id="L71">            return false;</span>
+        }
+    }
+
+    public Comida buscarComida(String desc) throws ClassNotFoundException, SQLException {
+        ResultSet datosComida;
+<span class="nc" id="L77">        Comida miComida = new Comida();</span>
+<span class="nc" id="L78">        datosComida = miComida.consultaComida(desc);</span>
+
+        try {
+<span class="nc" id="L81">            boolean primeraComida = datosComida.first();</span>
+<span class="nc" id="L82">        } catch (SQLException ex) {</span>
+<span class="nc" id="L83">            Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (datosComida.first()) {</span>
+<span class="nc" id="L86">            miComida.setIdComida(datosComida.getInt(&quot;idComida&quot;));</span>
+<span class="nc" id="L87">            miComida.setDescripcion(datosComida.getString(&quot;descripcion&quot;));</span>
+<span class="nc" id="L88">            miComida.setPrecio(datosComida.getFloat(&quot;precio&quot;));</span>
+<span class="nc" id="L89">            miComida.setTipo(datosComida.getInt(&quot;tipo&quot;));</span>
+<span class="nc" id="L90">            miComida.setEstado(datosComida.getBoolean(&quot;estado&quot;));</span>
+            //System.out.println(miComida.getIdComida());
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (miComida.isEstado()) {</span>
+<span class="nc" id="L93">                return miComida;</span>
+            } else {
+<span class="nc" id="L95">                return null;</span>
+            }
+        }
+<span class="nc" id="L98">        return null;</span>
+    }
+
+    public Comida buscarComidaId(int idComida) throws ClassNotFoundException, SQLException {
+        ResultSet datosComida;
+<span class="nc" id="L103">        Comida miComida = new Comida();</span>
+<span class="nc" id="L104">        datosComida = miComida.consultaComidaId(idComida);</span>
+
+        try {
+<span class="nc" id="L107">            boolean primeraComida = datosComida.first();</span>
+<span class="nc" id="L108">        } catch (SQLException ex) {</span>
+<span class="nc" id="L109">            Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (datosComida.first()) {</span>
+            //miComida.setIdComida(datosComida.getInt(&quot;idComida&quot;));
+<span class="nc" id="L113">            miComida.setDescripcion(datosComida.getString(&quot;Descripcion&quot;));</span>
+<span class="nc" id="L114">            miComida.setPrecio(datosComida.getFloat(&quot;Precio&quot;));</span>
+            //miComida.setTipo(datosComida.getString(&quot;Tipo&quot;));
+            //miComida.setEstado(datosComida.getBoolean(&quot;Estado&quot;));
+            //System.out.println(miComida.getIdComida());
+<span class="nc" id="L118">            return miComida;</span>
+        }
+<span class="nc" id="L120">        return null;</span>
+    }
+
+    public ArrayList&lt;Comida&gt; recuperarComidas() throws ClassNotFoundException, SQLException {
+        ResultSet datosComida;
+<span class="nc" id="L125">        Comida miComida = new Comida();</span>
+<span class="nc" id="L126">        ArrayList&lt;Comida&gt; listaComidas = new ArrayList&lt;Comida&gt;();</span>
+<span class="nc" id="L127">        datosComida = miComida.consultarTodasLasComidas();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        while (datosComida.next()) {</span>
+<span class="nc" id="L129">            Comida miComidaLista = new Comida();</span>
+<span class="nc" id="L130">            miComidaLista.setDescripcion(datosComida.getString(&quot;descripcion&quot;));</span>
+<span class="nc" id="L131">            listaComidas.add(miComidaLista);</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc" id="L133">        return listaComidas;</span>
+    }
+
+//    public static int obtenerSiguienteId(){
+//    return 1;
+//}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

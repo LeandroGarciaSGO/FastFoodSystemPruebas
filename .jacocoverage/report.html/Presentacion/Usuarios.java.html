@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Usuarios.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">Usuarios.java</span></div><h1>Usuarios.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Presentacion;
+
+import Datos.Usuario;
+import Logica.ABMUsuario;
+import Logica.OperacionesTransacciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Gonzalez
+ */
+public class Usuarios extends javax.swing.JFrame {
+
+    private Usuario datosUsuario;
+    private int condatos_vacio;
+    private String nombreUsu;
+    ResultSet R;
+    Usuario usuarioSistema;
+
+    /**
+     * Creates new form Usuarios
+     */
+<span class="nc" id="L32">    public Usuarios() {</span>
+<span class="nc" id="L33">        initComponents();</span>
+<span class="nc" id="L34">        setLocationRelativeTo(null);</span>
+//        cargarTipoDocu();
+//        cargarTipoUsuario();
+<span class="nc" id="L37">        usuarioSistema = new Usuario();</span>
+<span class="nc" id="L38">    }</span>
+
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L41">        return usuarioSistema;</span>
+    }
+
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L45">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L46">    }</span>
+
+    public Usuario getDatosUsuario() {
+<span class="nc" id="L49">        return datosUsuario;</span>
+    }
+
+    public void setDatosUsuario(Usuario datosUsuario) {
+<span class="nc" id="L53">        this.datosUsuario = datosUsuario;</span>
+<span class="nc" id="L54">    }</span>
+
+    public int getCondatos_vacio() {
+<span class="nc" id="L57">        return condatos_vacio;</span>
+    }
+
+    public void setCondatos_vacio(int condatos_vacio) {
+<span class="nc" id="L61">        this.condatos_vacio = condatos_vacio;</span>
+<span class="nc" id="L62">    }</span>
+
+    public String getNombreUsu() {
+<span class="nc" id="L65">        return nombreUsu;</span>
+    }
+
+    public void setNombreUsu(String nombUsu) {
+<span class="nc" id="L69">        this.nombreUsu = nombUsu;</span>
+<span class="nc" id="L70">    }</span>
+
+    void LlenarCampos(int boton) throws SQLException {
+
+<span class="nc bnc" id="L74" title="All 4 branches missed.">        switch (boton) {</span>
+            //nuevo usuario
+            case 1:
+<span class="nc" id="L77">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L78">                jButtonGuardar.setEnabled(true);</span>
+<span class="nc" id="L79">                break;</span>
+            //eliminar usuario
+            case 2:
+<span class="nc" id="L82">                jButtonEliminar.setEnabled(true);</span>
+<span class="nc" id="L83">                jButtonGuardar.setEnabled(false);</span>
+<span class="nc" id="L84">                jTextFieldNombUsu.setEditable(false);</span>
+<span class="nc" id="L85">                jTextFieldNombApe.setEditable(false);</span>
+<span class="nc" id="L86">                jPasswordContra.setEditable(false);</span>
+<span class="nc" id="L87">                jComboBoxTipoDocu.setEnabled(false);</span>
+<span class="nc" id="L88">                jTextFieldNumDocu.setEnabled(false);</span>
+<span class="nc" id="L89">                jComboBoxTipoUsu.setEnabled(false);</span>
+<span class="nc" id="L90">                break;</span>
+            //modificar usuario
+            case 3:
+<span class="nc" id="L93">                jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L94">                jButtonGuardar.setEnabled(true);</span>
+                break;
+        }
+
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (condatos_vacio == 1) {</span>
+<span class="nc" id="L99">            jLabelIdUsu.setText(String.valueOf(datosUsuario.getIdUsuario()));</span>
+<span class="nc" id="L100">            jTextFieldNombUsu.setText(datosUsuario.getNombreUsuario());</span>
+<span class="nc" id="L101">            jTextFieldNombApe.setText(datosUsuario.getNombreYApellido());</span>
+            //jPasswordContra.setText(datosUsuario.getContraseña());
+<span class="nc" id="L103">            jComboBoxTipoDocu.setSelectedItem(datosUsuario.getTipoDocumento());</span>
+<span class="nc" id="L104">            jTextFieldNumDocu.setText(String.valueOf(datosUsuario.getNumDocumento()));</span>
+<span class="nc" id="L105">            jComboBoxTipoUsu.setSelectedIndex(datosUsuario.getTipoUsuario());</span>
+        } else {
+<span class="nc" id="L107">            Usuario U = new Usuario();</span>
+            try {
+<span class="nc" id="L109">                jLabelIdUsu.setText(String.valueOf(U.obtenerSiguienteId()));</span>
+<span class="nc" id="L110">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L111">                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L112">            }</span>
+<span class="nc" id="L113">            jTextFieldNombUsu.setText(getNombreUsu());</span>
+        }
+<span class="nc" id="L115">    }</span>
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L126">        jPanelDatos = new javax.swing.JPanel();</span>
+<span class="nc" id="L127">        jLabelIdUsuario = new javax.swing.JLabel();</span>
+<span class="nc" id="L128">        jLabelNombUsu = new javax.swing.JLabel();</span>
+<span class="nc" id="L129">        jLabelNombApe = new javax.swing.JLabel();</span>
+<span class="nc" id="L130">        jLabeContra = new javax.swing.JLabel();</span>
+<span class="nc" id="L131">        jLabelIdUsu = new javax.swing.JLabel();</span>
+<span class="nc" id="L132">        jTextFieldNombUsu = new javax.swing.JTextField();</span>
+<span class="nc" id="L133">        jTextFieldNombApe = new javax.swing.JTextField();</span>
+<span class="nc" id="L134">        jComboBoxTipoUsu = new javax.swing.JComboBox();</span>
+<span class="nc" id="L135">        jLabelError = new javax.swing.JLabel();</span>
+<span class="nc" id="L136">        jLabelTipoDocu = new javax.swing.JLabel();</span>
+<span class="nc" id="L137">        jLabelNroDocu = new javax.swing.JLabel();</span>
+<span class="nc" id="L138">        jLabelTipoUsu = new javax.swing.JLabel();</span>
+<span class="nc" id="L139">        jTextFieldNumDocu = new javax.swing.JTextField();</span>
+<span class="nc" id="L140">        jPasswordContra = new javax.swing.JPasswordField();</span>
+<span class="nc" id="L141">        jComboBoxTipoDocu = new javax.swing.JComboBox();</span>
+<span class="nc" id="L142">        jButtonEliminar = new javax.swing.JButton();</span>
+<span class="nc" id="L143">        jButtonGuardar = new javax.swing.JButton();</span>
+<span class="nc" id="L144">        jButtonCancelar = new javax.swing.JButton();</span>
+<span class="nc" id="L145">        jLabel1 = new javax.swing.JLabel();</span>
+
+<span class="nc" id="L147">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L148">        setTitle(&quot;FastFoodSystem - Usuario&quot;);</span>
+
+<span class="nc" id="L150">        jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Datos del Usuario&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 0, 14))); // NOI18N</span>
+
+<span class="nc" id="L152">        jLabelIdUsuario.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L153">        jLabelIdUsuario.setText(&quot;Id Usuario:&quot;);</span>
+
+<span class="nc" id="L155">        jLabelNombUsu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L156">        jLabelNombUsu.setText(&quot;Nombre de Usuario:&quot;);</span>
+
+<span class="nc" id="L158">        jLabelNombApe.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L159">        jLabelNombApe.setText(&quot;Nombre y Apellido:&quot;);</span>
+
+<span class="nc" id="L161">        jLabeContra.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L162">        jLabeContra.setText(&quot;Contraseña:&quot;);</span>
+
+<span class="nc" id="L164">        jLabelIdUsu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L165">        jLabelIdUsu.setText(&quot;9999999999&quot;);</span>
+
+<span class="nc" id="L167">        jTextFieldNombUsu.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L168">        jTextFieldNombUsu.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L169">        jTextFieldNombUsu.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L171">        jTextFieldNombApe.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L172">        jTextFieldNombApe.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L173">        jTextFieldNombApe.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L175">        jComboBoxTipoUsu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Seleccione un tipo de usuario...&quot;, &quot;Administrador&quot;, &quot;Empleado&quot;, &quot;Cocina&quot; }));</span>
+<span class="nc" id="L176">        jComboBoxTipoUsu.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L178">                jComboBoxTipoUsuActionPerformed(evt);</span>
+<span class="nc" id="L179">            }</span>
+        });
+
+<span class="nc" id="L182">        jLabelError.setFont(new java.awt.Font(&quot;Verdana&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L183">        jLabelError.setForeground(new java.awt.Color(255, 0, 0));</span>
+
+<span class="nc" id="L185">        jLabelTipoDocu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L186">        jLabelTipoDocu.setText(&quot;Tipo de Documento:&quot;);</span>
+
+<span class="nc" id="L188">        jLabelNroDocu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L189">        jLabelNroDocu.setText(&quot;Nro de Documento:&quot;);</span>
+
+<span class="nc" id="L191">        jLabelTipoUsu.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L192">        jLabelTipoUsu.setText(&quot;Tipo de Usuario&quot;);</span>
+
+<span class="nc" id="L194">        jTextFieldNumDocu.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L195">        jTextFieldNumDocu.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L196">        jTextFieldNumDocu.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+
+<span class="nc" id="L198">        jPasswordContra.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L200">                jPasswordContraActionPerformed(evt);</span>
+<span class="nc" id="L201">            }</span>
+        });
+
+<span class="nc" id="L204">        jComboBoxTipoDocu.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Seleccione un tipo de documento...&quot;, &quot;DNI&quot;, &quot;Pasaporte&quot;, &quot;Cedula&quot; }));</span>
+<span class="nc" id="L205">        jComboBoxTipoDocu.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L207">                jComboBoxTipoDocuActionPerformed(evt);</span>
+<span class="nc" id="L208">            }</span>
+        });
+
+<span class="nc" id="L211">        javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);</span>
+<span class="nc" id="L212">        jPanelDatos.setLayout(jPanelDatosLayout);</span>
+<span class="nc" id="L213">        jPanelDatosLayout.setHorizontalGroup(</span>
+<span class="nc" id="L214">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L215">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L216">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L217">                .addComponent(jLabelError)</span>
+<span class="nc" id="L218">                .addGap(107, 107, 107))</span>
+<span class="nc" id="L219">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L220">                .addContainerGap()</span>
+<span class="nc" id="L221">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L222">                    .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L223">                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
+<span class="nc" id="L224">                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L225">                                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L226">                                    .addComponent(jLabelNombUsu)</span>
+<span class="nc" id="L227">                                    .addComponent(jLabelIdUsuario))</span>
+<span class="nc" id="L228">                                .addGap(46, 46, 46)</span>
+<span class="nc" id="L229">                                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L230">                                    .addComponent(jTextFieldNombUsu, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)</span>
+<span class="nc" id="L231">                                    .addComponent(jLabelIdUsu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
+<span class="nc" id="L232">                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L233">                                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L234">                                    .addComponent(jLabelNroDocu)</span>
+<span class="nc" id="L235">                                    .addComponent(jLabelTipoUsu))</span>
+<span class="nc" id="L236">                                .addGap(50, 50, 50)</span>
+<span class="nc" id="L237">                                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L238">                                    .addComponent(jTextFieldNumDocu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L239">                                    .addComponent(jComboBoxTipoUsu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))</span>
+<span class="nc" id="L240">                        .addContainerGap(21, Short.MAX_VALUE))</span>
+<span class="nc" id="L241">                    .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L242">                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L243">                            .addComponent(jLabelNombApe)</span>
+<span class="nc" id="L244">                            .addComponent(jLabeContra)</span>
+<span class="nc" id="L245">                            .addComponent(jLabelTipoDocu))</span>
+<span class="nc" id="L246">                        .addGap(46, 46, 46)</span>
+<span class="nc" id="L247">                        .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L248">                            .addComponent(jTextFieldNombApe, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)</span>
+<span class="nc" id="L249">                            .addComponent(jPasswordContra)</span>
+<span class="nc" id="L250">                            .addComponent(jComboBoxTipoDocu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="nc" id="L251">                        .addGap(0, 0, Short.MAX_VALUE))))</span>
+        );
+<span class="nc" id="L253">        jPanelDatosLayout.setVerticalGroup(</span>
+<span class="nc" id="L254">            jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L255">            .addGroup(jPanelDatosLayout.createSequentialGroup()</span>
+<span class="nc" id="L256">                .addGap(20, 20, 20)</span>
+<span class="nc" id="L257">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L258">                    .addComponent(jLabelIdUsuario)</span>
+<span class="nc" id="L259">                    .addComponent(jLabelIdUsu))</span>
+<span class="nc" id="L260">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L261">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L262">                    .addComponent(jLabelNombUsu)</span>
+<span class="nc" id="L263">                    .addComponent(jTextFieldNombUsu, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L264">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L265">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L266">                    .addComponent(jLabelNombApe)</span>
+<span class="nc" id="L267">                    .addComponent(jTextFieldNombApe, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L268">                .addGap(9, 9, 9)</span>
+<span class="nc" id="L269">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L270">                    .addComponent(jLabeContra)</span>
+<span class="nc" id="L271">                    .addComponent(jPasswordContra, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L272">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L273">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L274">                    .addComponent(jComboBoxTipoDocu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L275">                    .addComponent(jLabelTipoDocu))</span>
+<span class="nc" id="L276">                .addGap(11, 11, 11)</span>
+<span class="nc" id="L277">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L278">                    .addComponent(jLabelNroDocu)</span>
+<span class="nc" id="L279">                    .addComponent(jTextFieldNumDocu, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L280">                .addGap(11, 11, 11)</span>
+<span class="nc" id="L281">                .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L282">                    .addComponent(jLabelTipoUsu)</span>
+<span class="nc" id="L283">                    .addComponent(jComboBoxTipoUsu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L284">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)</span>
+<span class="nc" id="L285">                .addComponent(jLabelError)</span>
+<span class="nc" id="L286">                .addContainerGap())</span>
+        );
+
+<span class="nc" id="L289">        jButtonEliminar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L290">        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-borrar-usuario.png&quot;))); // NOI18N</span>
+<span class="nc" id="L291">        jButtonEliminar.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L292">        jButtonEliminar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L293">        jButtonEliminar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L294">        jButtonEliminar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L295">        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L297">                jButtonEliminarActionPerformed(evt);</span>
+<span class="nc" id="L298">            }</span>
+        });
+
+<span class="nc" id="L301">        jButtonGuardar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L302">        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-guardar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L303">        jButtonGuardar.setText(&quot;Guardar&quot;);</span>
+<span class="nc" id="L304">        jButtonGuardar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L305">        jButtonGuardar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L306">        jButtonGuardar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L307">        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L309">                jButtonGuardarActionPerformed(evt);</span>
+<span class="nc" id="L310">            }</span>
+        });
+
+<span class="nc" id="L313">        jButtonCancelar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L314">        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L315">        jButtonCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L316">        jButtonCancelar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L317">        jButtonCancelar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L318">        jButtonCancelar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L319">        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L321">                jButtonCancelarActionPerformed(evt);</span>
+<span class="nc" id="L322">            }</span>
+        });
+
+<span class="nc" id="L325">        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/ventana-usuarios.png&quot;))); // NOI18N</span>
+
+<span class="nc" id="L327">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L328">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L329">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L330">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L331">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L332">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L333">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L334">                        .addGap(22, 22, 22)</span>
+<span class="nc" id="L335">                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L336">                        .addGap(98, 98, 98)</span>
+<span class="nc" id="L337">                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L338">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L339">                        .addContainerGap()</span>
+<span class="nc" id="L340">                        .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L341">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L342">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L343">                        .addGap(80, 80, 80)</span>
+<span class="nc" id="L344">                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L345">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L346">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L347">                        .addComponent(jLabel1)))</span>
+<span class="nc" id="L348">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L350">        layout.setVerticalGroup(</span>
+<span class="nc" id="L351">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L352">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L353">                .addContainerGap()</span>
+<span class="nc" id="L354">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L355">                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L356">                    .addComponent(jLabel1))</span>
+<span class="nc" id="L357">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L358">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L359">                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L360">                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L361">                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L362">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L365">        pack();</span>
+<span class="nc" id="L366">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jComboBoxTipoUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoUsuActionPerformed
+
+<span class="nc" id="L370">    }//GEN-LAST:event_jComboBoxTipoUsuActionPerformed</span>
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+<span class="nc" id="L373">        GestionarUsuario volverGestionarUsuario = new GestionarUsuario();</span>
+<span class="nc" id="L374">        volverGestionarUsuario.setVisible(true);</span>
+<span class="nc" id="L375">        this.dispose();</span>
+<span class="nc" id="L376">    }//GEN-LAST:event_jButtonCancelarActionPerformed</span>
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+<span class="nc" id="L379">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L380">        int accion = 12;</span>
+<span class="nc" id="L381">        int entidad = 2;</span>
+<span class="nc" id="L382">        Usuario U = new Usuario();</span>
+        try {
+<span class="nc" id="L384">            U.eliminar(Integer.parseInt(jLabelIdUsu.getText()));</span>
+<span class="nc" id="L385">            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdUsu.getText()), usuarioSistema);</span>
+
+<span class="nc" id="L387">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L388">            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L389">        }</span>
+<span class="nc" id="L390">        JOptionPane.showMessageDialog(this, &quot;El Usuario Se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L391">        GestionarUsuario volverGestionarUsuario = new GestionarUsuario();</span>
+<span class="nc" id="L392">        volverGestionarUsuario.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L393">        volverGestionarUsuario.setVisible(true);</span>
+<span class="nc" id="L394">        this.dispose();</span>
+<span class="nc" id="L395">    }//GEN-LAST:event_jButtonEliminarActionPerformed</span>
+
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+<span class="nc" id="L398">        OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+        int accion;
+<span class="nc" id="L400">        int entidad = 2;</span>
+<span class="nc bnc" id="L401" title="All 8 branches missed.">        if (((((validarCampoNombreUsuario() &amp;&amp; validarCampoNombreApellido()) &amp;&amp; validarCampoContraseña()) &amp;&amp; validarTipoDocu())</span>
+<span class="nc bnc" id="L402" title="All 4 branches missed.">                &amp;&amp; validarNumeroDocu()) &amp;&amp; validarTipoUsuario()) {</span>
+<span class="nc" id="L403">            Usuario U = new Usuario();</span>
+<span class="nc" id="L404">            U.setIdUsuario(Integer.parseInt(jLabelIdUsu.getText()));</span>
+<span class="nc" id="L405">            U.setNombreUsuario(jTextFieldNombUsu.getText());</span>
+<span class="nc" id="L406">            U.setNombreYApellido(jTextFieldNombApe.getText());</span>
+<span class="nc" id="L407">            U.setContraseña(jPasswordContra.getText());</span>
+<span class="nc" id="L408">            U.setTipoDocumento(String.valueOf(jComboBoxTipoDocu.getSelectedItem()));</span>
+            //System.out.print(jComboBoxTipoDocu.getSelectedItem());
+<span class="nc" id="L410">            U.setNumDocumento(Integer.parseInt(jTextFieldNumDocu.getText()));</span>
+<span class="nc" id="L411">            U.setTipoUsuario(jComboBoxTipoUsu.getSelectedIndex());</span>
+<span class="nc" id="L412">            ABMUsuario ABMU = new ABMUsuario();</span>
+<span class="nc bnc" id="L413" title="All 2 branches missed.">            if (condatos_vacio != 1) {</span>
+                try {
+<span class="nc bnc" id="L415" title="All 2 branches missed.">                    if (ABMU.modificarUsuario(U)) {</span>
+<span class="nc" id="L416">                        accion = 11;</span>
+<span class="nc" id="L417">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdUsu.getText()), usuarioSistema);</span>
+<span class="nc" id="L418">                        JOptionPane.showMessageDialog(this, &quot;El Usuario Se Cargo Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L419">                        GestionarUsuario volverGestionarUsuario = new GestionarUsuario();</span>
+<span class="nc" id="L420">                        volverGestionarUsuario.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L421">                        volverGestionarUsuario.setVisible(true);</span>
+<span class="nc" id="L422">                        this.dispose();</span>
+<span class="nc" id="L423">                    } else {</span>
+<span class="nc" id="L424">                        JOptionPane.showMessageDialog(this, &quot;ERROR: El Usuario Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    }
+<span class="nc" id="L426">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L427">                    Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+
+<span class="nc" id="L429">                } catch (SQLException ex) {</span>
+<span class="nc" id="L430">                    Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L431">                }</span>
+            } else {
+                try {
+<span class="nc bnc" id="L434" title="All 2 branches missed.">                    if (ABMU.nuevoUsuario(U)) {</span>
+<span class="nc" id="L435">                        JOptionPane.showMessageDialog(this, &quot;ERROR: El Nombre De Usuario Pertenece A Otro Usuario&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                    } else {
+<span class="nc" id="L437">                        JOptionPane.showMessageDialog(this, &quot;El Usuario Se Modifico Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L438">                        accion = 13;</span>
+<span class="nc" id="L439">                        OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelIdUsu.getText()), usuarioSistema);</span>
+<span class="nc" id="L440">                        GestionarUsuario volverGestionarUsuario = new GestionarUsuario();</span>
+<span class="nc" id="L441">                        volverGestionarUsuario.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L442">                        volverGestionarUsuario.setVisible(true);</span>
+<span class="nc" id="L443">                        this.dispose();</span>
+                    }
+<span class="nc" id="L445">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L446">                    Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L447">                } catch (SQLException ex) {</span>
+<span class="nc" id="L448">                    Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L449">                }</span>
+            }
+        }
+<span class="nc" id="L452">    }//GEN-LAST:event_jButtonGuardarActionPerformed</span>
+
+//    private void cargarTipoDocu() {
+//        try {
+//            Usuario U = new Usuario();
+//            R = U.consultaTipoDocu();
+//            try {
+//                while (R.next()) {
+//                    jComboBoxTipoDocu.addItem(R.getObject(&quot;tipoDocumento&quot;));
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+//    private void cargarTipoUsuario() {
+//        try {
+//            Usuario U = new Usuario();
+//            R = U.consultaTipoUsuario();
+//            try {
+//                while (R.next()) {
+//                    jComboBoxTipoUsu.addItem(R.getObject(&quot;tipoUsuario&quot;));
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+    private boolean validarCampoNombreUsuario() {
+<span class="nc bnc" id="L489" title="All 2 branches missed.">        if (jTextFieldNombUsu.getText().length() &gt; 0) {</span>
+<span class="nc bnc" id="L490" title="All 2 branches missed.">            if (jTextFieldNombUsu.getText().length() &lt;= 20) {</span>
+<span class="nc bnc" id="L491" title="All 2 branches missed.">                if (jTextFieldNombUsu.getText().matches(&quot;[A-Za-z\\s]+&quot;)){</span>
+<span class="nc" id="L492">                    return true;</span>
+                }else{
+<span class="nc" id="L494">                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; Debe Contener Solo Letras&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L495">                    return false;</span>
+                }
+                
+            } else {
+<span class="nc" id="L499">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; No Debe Contener Mas de 20 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L500">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L503">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre de Usuario\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L504">            return false;</span>
+        }
+
+    }
+
+    private boolean validarCampoNombreApellido() {
+<span class="nc bnc" id="L510" title="All 2 branches missed.">        if (jTextFieldNombApe.getText().length() &gt; 0) {</span>
+<span class="nc bnc" id="L511" title="All 2 branches missed.">            if (jTextFieldNombApe.getText().length() &lt;= 40) {</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">                if (jTextFieldNombApe.getText().matches(&quot;[A-Za-z\\s]+&quot;)) {</span>
+<span class="nc" id="L513">                    return true;</span>
+                } else {
+<span class="nc" id="L515">                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; Debe Contener Solo Letras&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L516">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L519">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; No Debe Contener Mas de 40 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L520">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L523">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Nombre y Apellido\&quot; No Debe Estar Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L524">            return false;</span>
+        }
+    }
+
+    private boolean validarCampoContraseña() {
+<span class="nc bnc" id="L529" title="All 2 branches missed.">        if (jPasswordContra.getText().length() &gt;= 8) {</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">            if (jPasswordContra.getText().length() &lt;= 50) {</span>
+                //if (jPasswordContra.getText().matches(&quot;[   [A-Z]    +    [a-z]   +   [0-9]   +   [@|¡|!|#|$|&amp;|=|?|¿|+|*|-|_]    ]+&quot;)) {
+<span class="nc bnc" id="L532" title="All 2 branches missed.">                if (jPasswordContra.getText().matches(&quot;^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,50}$&quot;)) {</span>
+<span class="nc" id="L533">                    return true;</span>
+                } else {
+<span class="nc" id="L535">                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; Debe Contener Al Menos Una Letra Mayuscula, Una Letra Minuscula, Un Numero y Un Caracter Especial&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L536">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L539">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; No Debe Contener Mas de 50 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L540">                return false;</span>
+            }
+        } else {
+<span class="nc" id="L543">            JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Contraseña\&quot; Debe Tener Como Minimo 8 Caracteres&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L544">            return false;</span>
+        }
+    }
+
+
+    private boolean validarTipoDocu() {
+<span class="nc bnc" id="L550" title="All 2 branches missed.">        if (jComboBoxTipoDocu.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L551">            return true;</span>
+        } else {
+<span class="nc" id="L553">            JOptionPane.showMessageDialog(this, &quot;ERROR: Debe Seleccionar Un Tipo De Documento&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L554">            return false;</span>
+        }
+    }
+
+    private boolean validarNumeroDocu() {
+        
+<span class="nc bnc" id="L560" title="All 2 branches missed.">            if (jTextFieldNumDocu.getText().length() == 9) {</span>
+<span class="nc bnc" id="L561" title="All 2 branches missed.">                if (jTextFieldNumDocu.getText().matches(&quot;[0-9]+&quot;)) {</span>
+<span class="nc" id="L562">                    return true;</span>
+                } else {
+<span class="nc" id="L564">                    JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Numero de Documento\&quot; Debe Contener Solo Numeros&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L565">                    return false;</span>
+                }
+            } else {
+<span class="nc" id="L568">                JOptionPane.showMessageDialog(this, &quot;ERROR: El Campo \&quot;Numero de Documento\&quot; Debe Contener 9 Numeros&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L569">                return false;</span>
+            }
+        
+    }
+
+    private boolean validarTipoUsuario() {
+<span class="nc bnc" id="L575" title="All 2 branches missed.">        if (jComboBoxTipoUsu.getSelectedIndex() != 0) {</span>
+<span class="nc" id="L576">            return true;</span>
+        } else {
+<span class="nc" id="L578">            JOptionPane.showMessageDialog(this, &quot;ERROR: Debe Seleccionar Un Tipo De Usuario&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L579">            return false;</span>
+        }
+    }
+
+    private void jComboBoxTipoDocuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoDocuActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L585">    }//GEN-LAST:event_jComboBoxTipoDocuActionPerformed</span>
+
+    private void jPasswordContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordContraActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L589">    }//GEN-LAST:event_jPasswordContraActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L601" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L602" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L603">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L604">                    break;</span>
+                }
+            }
+<span class="nc" id="L607">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L608">            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L609">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L610">            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L611">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L612">            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L613">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L614">            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L615">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L619">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L621">                new Usuarios().setVisible(true);</span>
+<span class="nc" id="L622">            }</span>
+        });
+<span class="nc" id="L624">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JComboBox jComboBoxTipoDocu;
+    private javax.swing.JComboBox jComboBoxTipoUsu;
+    private javax.swing.JLabel jLabeContra;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelError;
+    private javax.swing.JLabel jLabelIdUsu;
+    private javax.swing.JLabel jLabelIdUsuario;
+    private javax.swing.JLabel jLabelNombApe;
+    private javax.swing.JLabel jLabelNombUsu;
+    private javax.swing.JLabel jLabelNroDocu;
+    private javax.swing.JLabel jLabelTipoDocu;
+    private javax.swing.JLabel jLabelTipoUsu;
+    private javax.swing.JPanel jPanelDatos;
+    private javax.swing.JPasswordField jPasswordContra;
+    private javax.swing.JTextField jTextFieldNombApe;
+    private javax.swing.JTextField jTextFieldNombUsu;
+    private javax.swing.JTextField jTextFieldNumDocu;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

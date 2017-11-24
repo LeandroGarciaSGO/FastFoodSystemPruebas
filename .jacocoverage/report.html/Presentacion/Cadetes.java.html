@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Cadetes.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">Cadetes.java</span></div><h1>Cadetes.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Presentacion;
+
+import Datos.Cadete;
+import Logica.AMBCadete;
+import Datos.Cliente;
+import Datos.Conexion;
+import Datos.Usuario;
+//import Logica.ABMCliente;
+import Logica.ABMComida;
+import Logica.OperacionesTransacciones;
+import java.sql.Connection;
+import java.sql.ResultSet;
+//import Datos.Comida;
+//import Logica.ABMComida;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+//import javax.swing.table.DefaultTableModel;
+//import javax.swing.table.TableRowSorter;
+
+/**
+ *
+ * @author Luji
+ */
+public class Cadetes extends javax.swing.JFrame {
+
+    private Cadete datosCadete;
+    private int condatos_vacio;
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    public int docant;
+    private int numDocumento;
+    private Usuario usuarioSistema;
+
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L43">        return usuarioSistema;</span>
+    }
+
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L47">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L48">    }</span>
+    
+    /**
+     * Creates new form DatosCadetes
+     */
+<span class="nc" id="L53">    public Cadetes() {</span>
+<span class="nc" id="L54">        initComponents();</span>
+<span class="nc" id="L55">        setLocationRelativeTo(null);</span>
+
+<span class="nc" id="L57">    }</span>
+
+    public Cadete getDatosCadete() {
+<span class="nc" id="L60">        return datosCadete;</span>
+    }
+
+    public void setDatosCadete(Cadete datosCadete) {
+<span class="nc" id="L64">        this.datosCadete = datosCadete;</span>
+<span class="nc" id="L65">    }</span>
+
+    public int getCondatos_vacio() {
+<span class="nc" id="L68">        return condatos_vacio;</span>
+    }
+
+    public void setCondatos_vacio(int condatos_vacio) {
+<span class="nc" id="L72">        this.condatos_vacio = condatos_vacio;</span>
+<span class="nc" id="L73">    }</span>
+    public int getNumDocumento() {
+<span class="nc" id="L75">        return numDocumento;</span>
+    }
+
+    public void setNumDocumento(int numDocumento) {
+<span class="nc" id="L79">        this.numDocumento = numDocumento;</span>
+<span class="nc" id="L80">    }</span>
+
+    void LlenarCampos() throws SQLException {
+       
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (condatos_vacio == 1) {</span>
+<span class="nc" id="L85">            jLabelCodigoCadete.setText(String.valueOf(datosCadete.getIdCadete()));</span>
+<span class="nc" id="L86">            jTextFieldNombre.setText(datosCadete.getNombre());</span>
+<span class="nc" id="L87">            jTextFieldApellido.setText(datosCadete.getApellido());</span>
+<span class="nc" id="L88">            jTextFieldDocumento.setText(String.valueOf(datosCadete.getNumDocumento()));</span>
+<span class="nc" id="L89">            jComboBoxTipoDoc.setSelectedItem(String.valueOf(datosCadete.getTipoDocumento()));</span>
+<span class="nc" id="L90">            jTextFieldDomicilio.setText(datosCadete.getDomicilio());</span>
+<span class="nc" id="L91">            jTextFieldTelefono.setText(String.valueOf(datosCadete.getTelefono()));</span>
+<span class="nc" id="L92">            docant= Integer.parseInt(String.valueOf(datosCadete.getNumDocumento()));</span>
+//            docanterior.setText(String.valueOf(datosCadete.getNumDocumento()));
+//            docanterior.setVisible(false);
+//            
+
+        } else {
+<span class="nc" id="L98">            Cadete C = new Cadete();</span>
+            try {
+<span class="nc" id="L100">                jLabelCodigoCadete.setText(String.valueOf(C.obtenerSiguienteId()));</span>
+<span class="nc" id="L101">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L102">                Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L103">            }</span>
+            
+            //jTextFieldDocumento.setText(String.valueOf(getNumDocumento()));
+            
+            //jLabelCodigoCadete.setText(String.valueOf(AMBCadete.obtenerSiguienteId()));
+            //jLabelCodigoCadete.setText(String.valueOf(AMBCadete.obtenerSiguienteId()));
+            
+            //jTextFieldDocumento.setText(String.valueOf(getNumDocumento()));
+            
+            //jLabelCodigoCadete.setText(String.valueOf(AMBCadete.obtenerSiguienteId()));
+            //jLabelCodigoCadete.setText(String.valueOf(AMBCadete.obtenerSiguienteId()));
+        }
+<span class="nc" id="L115">    }</span>
+
+    
+    
+    
+    private boolean validarCampos() {
+        try {
+            //Long.parseLong(jTextFieldTelefono.getText());
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (jTextFieldNombre.getText().length() &lt;= 0) {</span>
+<span class="nc" id="L124">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Nombre No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L125">                return false;</span>
+            }
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (jTextFieldApellido.getText().length() &lt;= 0) {</span>
+<span class="nc" id="L128">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Apellido No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L129">                return false;</span>
+            }
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            if (Integer.parseInt(jTextFieldDocumento.getText()) &lt;= 0) {</span>
+<span class="nc" id="L132">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Documento No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L133">                return false;</span>
+            }
+            //VER ESTO NO FUNCIONA
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            if ((jComboBoxTipoDoc.getSelectedIndex()) == 0) {</span>
+<span class="nc" id="L137">                JOptionPane.showMessageDialog(this, &quot; ERROR: Debe Seleccionar Una Opcion De Tipo Documento&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L138">                return false;</span>
+            }
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (jTextFieldDomicilio.getText().length() &lt;= 0) {</span>
+<span class="nc" id="L142">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Domicilio No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L143">                return false;</span>
+            }
+<span class="nc bnc" id="L145" title="All 2 branches missed.">            if (jTextFieldTelefono.getText().length() &lt;= 0) {</span>
+<span class="nc" id="L146">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Telefono No Debe Ser Vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L147">                return false;</span>
+            }
+<span class="nc" id="L149">            return true;</span>
+<span class="nc" id="L150">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L151">            JOptionPane.showMessageDialog(this, &quot;-. ERROR: El Documento No debe ser vacio&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L152">            return false;</span>
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L166">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="nc" id="L167">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L168">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="nc" id="L169">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="nc" id="L170">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="nc" id="L171">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="nc" id="L172">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="nc" id="L173">        jLabel7 = new javax.swing.JLabel();</span>
+<span class="nc" id="L174">        jTextFieldNombre = new javax.swing.JTextField();</span>
+<span class="nc" id="L175">        jTextFieldApellido = new javax.swing.JTextField();</span>
+<span class="nc" id="L176">        jTextFieldDocumento = new javax.swing.JTextField();</span>
+<span class="nc" id="L177">        jTextFieldDomicilio = new javax.swing.JTextField();</span>
+<span class="nc" id="L178">        jTextFieldTelefono = new javax.swing.JTextField();</span>
+<span class="nc" id="L179">        jComboBoxTipoDoc = new javax.swing.JComboBox();</span>
+<span class="nc" id="L180">        jLabelCodigoCadete = new javax.swing.JLabel();</span>
+<span class="nc" id="L181">        jButtonGuardar = new javax.swing.JButton();</span>
+<span class="nc" id="L182">        jLabelError = new javax.swing.JLabel();</span>
+<span class="nc" id="L183">        jLabel8 = new javax.swing.JLabel();</span>
+<span class="nc" id="L184">        jButtonCancelar = new javax.swing.JButton();</span>
+
+<span class="nc" id="L186">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L187">        setTitle(&quot;FastFoodSystem - Cadetes&quot;);</span>
+<span class="nc" id="L188">        setMinimumSize(new java.awt.Dimension(600, 380));</span>
+<span class="nc" id="L189">        setResizable(false);</span>
+
+<span class="nc" id="L191">        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Datos del Cadete&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 1, 14))); // NOI18N</span>
+<span class="nc" id="L192">        jPanel1.setToolTipText(&quot;&quot;);</span>
+
+<span class="nc" id="L194">        jLabel1.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L195">        jLabel1.setText(&quot;Codigo: &quot;);</span>
+
+<span class="nc" id="L197">        jLabel2.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L198">        jLabel2.setText(&quot;Nombre:&quot;);</span>
+
+<span class="nc" id="L200">        jLabel3.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L201">        jLabel3.setText(&quot;Apellido:&quot;);</span>
+
+<span class="nc" id="L203">        jLabel4.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L204">        jLabel4.setText(&quot;Documento:&quot;);</span>
+
+<span class="nc" id="L206">        jLabel5.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L207">        jLabel5.setText(&quot;Tipo Documento:&quot;);</span>
+
+<span class="nc" id="L209">        jLabel6.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L210">        jLabel6.setText(&quot;Domicilio: &quot;);</span>
+
+<span class="nc" id="L212">        jLabel7.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L213">        jLabel7.setText(&quot;Telefono:&quot;);</span>
+
+<span class="nc" id="L215">        jTextFieldNombre.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L217">                jTextFieldNombreKeyTyped(evt);</span>
+<span class="nc" id="L218">            }</span>
+        });
+
+<span class="nc" id="L221">        jTextFieldApellido.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L223">                jTextFieldApellidoKeyTyped(evt);</span>
+<span class="nc" id="L224">            }</span>
+        });
+
+<span class="nc" id="L227">        jTextFieldDocumento.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L229">                jTextFieldDocumentoActionPerformed(evt);</span>
+<span class="nc" id="L230">            }</span>
+        });
+<span class="nc" id="L232">        jTextFieldDocumento.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L234">                jTextFieldDocumentoKeyTyped(evt);</span>
+<span class="nc" id="L235">            }</span>
+        });
+
+<span class="nc" id="L238">        jTextFieldTelefono.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L240">                jTextFieldTelefonoKeyTyped(evt);</span>
+<span class="nc" id="L241">            }</span>
+        });
+
+<span class="nc" id="L244">        jComboBoxTipoDoc.setModel(new javax.swing.DefaultComboBoxModel(new String[] { &quot;Seleccione el Tipo de Documento...&quot;, &quot;DNI&quot;, &quot;PASAPORTE&quot; }));</span>
+<span class="nc" id="L245">        jComboBoxTipoDoc.setToolTipText(&quot;&quot;);</span>
+
+<span class="nc" id="L247">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="nc" id="L248">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="nc" id="L249">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="nc" id="L250">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L251">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L252">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L253">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L254">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L255">                            .addComponent(jLabel6)</span>
+<span class="nc" id="L256">                            .addComponent(jLabel7)</span>
+<span class="nc" id="L257">                            .addComponent(jLabel5))</span>
+<span class="nc" id="L258">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L259">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L260">                            .addComponent(jTextFieldTelefono)</span>
+<span class="nc" id="L261">                            .addComponent(jTextFieldDomicilio)</span>
+<span class="nc" id="L262">                            .addComponent(jComboBoxTipoDoc, 0, 248, Short.MAX_VALUE)))</span>
+<span class="nc" id="L263">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L264">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L265">                            .addComponent(jLabel3)</span>
+<span class="nc" id="L266">                            .addComponent(jLabel2)</span>
+<span class="nc" id="L267">                            .addComponent(jLabel1)</span>
+<span class="nc" id="L268">                            .addComponent(jLabel4))</span>
+<span class="nc" id="L269">                        .addGap(40, 40, 40)</span>
+<span class="nc" id="L270">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="nc" id="L271">                            .addComponent(jTextFieldNombre)</span>
+<span class="nc" id="L272">                            .addComponent(jTextFieldApellido)</span>
+<span class="nc" id="L273">                            .addComponent(jTextFieldDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)</span>
+<span class="nc" id="L274">                            .addComponent(jLabelCodigoCadete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))</span>
+<span class="nc" id="L275">                .addContainerGap(12, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L277">        jPanel1Layout.setVerticalGroup(</span>
+<span class="nc" id="L278">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L279">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="nc" id="L280">                .addContainerGap()</span>
+<span class="nc" id="L281">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="nc" id="L282">                    .addComponent(jLabel1)</span>
+<span class="nc" id="L283">                    .addComponent(jLabelCodigoCadete, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L284">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L285">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L286">                    .addComponent(jLabel2)</span>
+<span class="nc" id="L287">                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L288">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L289">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L290">                    .addComponent(jLabel3)</span>
+<span class="nc" id="L291">                    .addComponent(jTextFieldApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L292">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L293">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L294">                    .addComponent(jLabel4)</span>
+<span class="nc" id="L295">                    .addComponent(jTextFieldDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L296">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L297">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L298">                    .addComponent(jLabel5)</span>
+<span class="nc" id="L299">                    .addComponent(jComboBoxTipoDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L300">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L301">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L302">                    .addComponent(jLabel6)</span>
+<span class="nc" id="L303">                    .addComponent(jTextFieldDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L304">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L305">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L306">                    .addComponent(jLabel7)</span>
+<span class="nc" id="L307">                    .addComponent(jTextFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L308">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L311">        jButtonGuardar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L312">        jButtonGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-guardar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L313">        jButtonGuardar.setText(&quot;Guardar&quot;);</span>
+<span class="nc" id="L314">        jButtonGuardar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L315">        jButtonGuardar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L316">        jButtonGuardar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L317">        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L319">                jButtonGuardarActionPerformed(evt);</span>
+<span class="nc" id="L320">            }</span>
+        });
+
+<span class="nc" id="L323">        jLabel8.setBackground(new java.awt.Color(204, 0, 0));</span>
+<span class="nc" id="L324">        jLabel8.setForeground(new java.awt.Color(51, 255, 51));</span>
+<span class="nc" id="L325">        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/man2.png&quot;))); // NOI18N</span>
+<span class="nc" id="L326">        jLabel8.setMaximumSize(new java.awt.Dimension(664, 593));</span>
+<span class="nc" id="L327">        jLabel8.setMinimumSize(new java.awt.Dimension(664, 593));</span>
+
+<span class="nc" id="L329">        jButtonCancelar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L330">        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L331">        jButtonCancelar.setText(&quot;Cancelar&quot;);</span>
+<span class="nc" id="L332">        jButtonCancelar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L333">        jButtonCancelar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L334">        jButtonCancelar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L335">        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L337">                jButtonCancelarActionPerformed(evt);</span>
+<span class="nc" id="L338">            }</span>
+        });
+
+<span class="nc" id="L341">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L342">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L343">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L344">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L345">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L346">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L347">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L348">                        .addContainerGap()</span>
+<span class="nc" id="L349">                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L350">                            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L351">                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L352">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L353">                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L354">                            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L355">                                .addGap(486, 486, 486)</span>
+<span class="nc" id="L356">                                .addComponent(jLabelError, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))</span>
+<span class="nc" id="L357">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L358">                        .addGap(95, 95, 95)</span>
+<span class="nc" id="L359">                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L360">                        .addGap(32, 32, 32)</span>
+<span class="nc" id="L361">                        .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L362">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L364">        layout.setVerticalGroup(</span>
+<span class="nc" id="L365">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L366">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L367">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L368">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L369">                        .addGap(26, 26, 26)</span>
+<span class="nc" id="L370">                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L371">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L372">                        .addContainerGap()</span>
+<span class="nc" id="L373">                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L374">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L375">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L376">                    .addComponent(jButtonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L377">                    .addComponent(jButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L378">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L379">                .addComponent(jLabelError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L380">                .addGap(82, 82, 82))</span>
+        );
+
+<span class="nc" id="L383">        pack();</span>
+<span class="nc" id="L384">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void jTextFieldDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDocumentoActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L388">    }//GEN-LAST:event_jTextFieldDocumentoActionPerformed</span>
+
+
+    
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
+
+//int docant;
+//docant =(Integer.parseInt(docanterior.getText()));
+
+
+//docanterior.setEditable(false);
+//JOptionPane.showMessageDialog(null,docant);
+<span class="nc bnc" id="L400" title="All 2 branches missed.">        if (validarCampos()) {</span>
+  
+<span class="nc" id="L402">            Cadete C = new Cadete();</span>
+            //C.setIdCadete(Integer.parseInt(jLabelCodigoCadete.getText()));
+<span class="nc" id="L404">            C.setNombre(jTextFieldNombre.getText());</span>
+<span class="nc" id="L405">            C.setApellido(jTextFieldApellido.getText());</span>
+<span class="nc" id="L406">            C.setNumDocumento(Integer.parseInt(jTextFieldDocumento.getText()));</span>
+<span class="nc" id="L407">            C.setTipoDocumento(String.valueOf(jComboBoxTipoDoc.getSelectedItem()));</span>
+<span class="nc" id="L408">            C.setDomicilio(jTextFieldDomicilio.getText());</span>
+<span class="nc" id="L409">            C.setTelefono(Long.parseLong(jTextFieldTelefono.getText()));</span>
+<span class="nc" id="L410">            AMBCadete ABMC = new AMBCadete();</span>
+<span class="nc bnc" id="L411" title="All 2 branches missed.">            if (condatos_vacio != 1) {</span>
+                try {
+                    try {
+<span class="nc bnc" id="L414" title="All 2 branches missed.">                        if (ABMC.nuevaCadet(C) == 1) {</span>
+<span class="nc" id="L415">                            JOptionPane.showMessageDialog(this, &quot;-. ERROR: El cadete ya existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                        } else {
+<span class="nc" id="L417">                            JOptionPane.showMessageDialog(this, &quot;El cadete se registro correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L418">                            OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L419">                            int accion = 8;</span>
+<span class="nc" id="L420">                            int entidad = 4;</span>
+<span class="nc" id="L421">                            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoCadete.getText()), usuarioSistema);</span>
+<span class="nc" id="L422">                            GestionarCadete volverGestionarCadete= new GestionarCadete();</span>
+<span class="nc" id="L423">                            volverGestionarCadete.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L424">                            volverGestionarCadete.setVisible(true);</span>
+<span class="nc" id="L425">                            this.dispose();</span>
+                            //setVisible(false);
+                        }
+                        
+<span class="nc" id="L429">                    } catch (SQLException ex) {</span>
+<span class="nc" id="L430">                        Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L431">                    }</span>
+                   
+<span class="nc" id="L433">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L434">                    Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+           
+<span class="nc" id="L436">                }</span>
+            } else {
+//               
+                try { 
+                   
+                   int docac;
+<span class="nc" id="L442">                   docac= (Integer.parseInt(jTextFieldDocumento.getText()));</span>
+                   
+                    try {
+<span class="nc bnc" id="L445" title="All 2 branches missed.">                        if (ABMC.esNueva(C) != 1){</span>
+<span class="nc" id="L446">                            C.setIdCadete(datosCadete.getIdCadete());</span>
+                            
+<span class="nc" id="L448">                            C.cargar();</span>
+<span class="nc" id="L449">                            OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L450">                            int accion = 9;</span>
+<span class="nc" id="L451">                            int entidad = 4;</span>
+<span class="nc" id="L452">                            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoCadete.getText()), usuarioSistema);</span>
+<span class="nc" id="L453">                            JOptionPane.showMessageDialog(this, &quot;El cadete se modifico exitosamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L454">                            GestionarCadete volverGestionarCadete= new GestionarCadete();</span>
+<span class="nc" id="L455">                            volverGestionarCadete.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L456">                            volverGestionarCadete.setVisible(true);</span>
+                            //setVisible(false);
+<span class="nc" id="L458">                            this.dispose();</span>
+                            
+<span class="nc" id="L460">                        }else{</span>
+                            
+<span class="nc bnc" id="L462" title="All 2 branches missed.">                            if(docac== docant){</span>
+<span class="nc" id="L463">                                C.setIdCadete(datosCadete.getIdCadete());</span>
+                                
+<span class="nc" id="L465">                                C.cargar();</span>
+<span class="nc" id="L466">                                JOptionPane.showMessageDialog(this, &quot;El cadete se modifico exitosamente&quot;, &quot;FastFoodSystem&quot; ,JOptionPane.INFORMATION_MESSAGE);</span>
+//                                GestionarCadete volverGestionarCadete= new GestionarCadete();
+//                                volverGestionarCadete.setVisible(true);
+//                                setVisible(false);
+<span class="nc" id="L470">                            OperacionesTransacciones OT = new OperacionesTransacciones();</span>
+<span class="nc" id="L471">                            int accion = 9;</span>
+<span class="nc" id="L472">                            int entidad = 4;</span>
+<span class="nc" id="L473">                            OT.registrarTransaccion(accion, entidad, Integer.parseInt(jLabelCodigoCadete.getText()), usuarioSistema);</span>
+<span class="nc" id="L474">                            JOptionPane.showMessageDialog(this, &quot;El cadete se modifico exitosamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+<span class="nc" id="L475">                            GestionarCadete volverGestionarCadete= new GestionarCadete();</span>
+<span class="nc" id="L476">                            volverGestionarCadete.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L477">                            volverGestionarCadete.setVisible(true);</span>
+                            //setVisible(false);
+<span class="nc" id="L479">                            this.dispose();</span>
+                                
+<span class="nc" id="L481">                            }else {</span>
+<span class="nc" id="L482">                                JOptionPane.showMessageDialog(this, &quot;-. ERROR: El Cadete Ya Existe&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+                                //GestionarCadete volverGestionarCadete= new GestionarCadete();
+                            //volverGestionarCadete.setVisible(true);
+                            //setVisible(false);
+                            }}
+<span class="nc" id="L487">                    } catch (SQLException ex) {</span>
+<span class="nc" id="L488">                        Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L489">                    }</span>
+<span class="nc" id="L490">                } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L491">                    Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L492">                } </span>
+            }
+            
+        
+}  
+
+<span class="nc" id="L498">    }//GEN-LAST:event_jButtonGuardarActionPerformed</span>
+    
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:
+        //GestionarCadete G = new GestionarCadete();
+<span class="nc" id="L503">        GestionarCadete volverGestionarCadete= new GestionarCadete();</span>
+<span class="nc" id="L504">        volverGestionarCadete.setVisible(true);</span>
+<span class="nc" id="L505">        setVisible(false);</span>
+       //this.dispose();
+<span class="nc" id="L507">    }//GEN-LAST:event_jButtonCancelarActionPerformed</span>
+
+    private void jTextFieldNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNombreKeyTyped
+        // TODO add your handling code here:
+        
+<span class="nc" id="L512">       char c =evt.getKeyChar();</span>
+<span class="nc bnc" id="L513" title="All 8 branches missed.">       if((c &lt; 'a'|| c&gt; 'z'  )&amp;&amp; (c &lt; 'A'|| c&gt; 'Z' ) )</span>
+<span class="nc" id="L514">           evt.consume();</span>
+      
+       // evt.consume();
+<span class="nc" id="L517">    }//GEN-LAST:event_jTextFieldNombreKeyTyped</span>
+
+    private void jTextFieldDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldDocumentoKeyTyped
+<span class="nc" id="L520">        char c =evt.getKeyChar();</span>
+<span class="nc bnc" id="L521" title="All 4 branches missed.">        if(c &lt; '0'|| c&gt; '9') evt.consume();</span>
+        // TODO add your handling code here:
+<span class="nc" id="L523">    }//GEN-LAST:event_jTextFieldDocumentoKeyTyped</span>
+
+    private void jTextFieldTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTelefonoKeyTyped
+<span class="nc" id="L526">         char c =evt.getKeyChar();</span>
+<span class="nc bnc" id="L527" title="All 4 branches missed.">        if(c &lt; '0'|| c&gt; '9') evt.consume();</span>
+// TODO add your handling code here:
+<span class="nc" id="L529">    }//GEN-LAST:event_jTextFieldTelefonoKeyTyped</span>
+
+    private void jTextFieldApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldApellidoKeyTyped
+        // TODO add your handling code here:
+<span class="nc" id="L533">        char c =evt.getKeyChar();</span>
+<span class="nc bnc" id="L534" title="All 8 branches missed.">       if((c &lt; 'a'|| c&gt; 'z'  )&amp;&amp; (c &lt; 'A'|| c&gt; 'Z' ) ) evt.consume();</span>
+<span class="nc" id="L535">    }//GEN-LAST:event_jTextFieldApellidoKeyTyped</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L547" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L548" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L549">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L550">                    break;</span>
+                }
+            }
+<span class="nc" id="L553">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L554">            java.util.logging.Logger.getLogger(Cadetes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L555">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L556">            java.util.logging.Logger.getLogger(Cadetes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L557">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L558">            java.util.logging.Logger.getLogger(Cadetes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L559">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L560">            java.util.logging.Logger.getLogger(Cadetes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L561">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L580">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L582">                new Cadetes().setVisible(true);</span>
+<span class="nc" id="L583">            }</span>
+        });
+<span class="nc" id="L585">    }</span>
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonGuardar;
+    private javax.swing.JComboBox jComboBoxTipoDoc;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabelCodigoCadete;
+    private javax.swing.JLabel jLabelError;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldApellido;
+    private javax.swing.JTextField jTextFieldDocumento;
+    private javax.swing.JTextField jTextFieldDomicilio;
+    private javax.swing.JTextField jTextFieldNombre;
+    private javax.swing.JTextField jTextFieldTelefono;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AMBCadete.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">AMBCadete.java</span></div><h1>AMBCadete.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Logica;
+
+
+import Datos.Cadete;
+import Datos.Cliente;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Luji
+ */
+<span class="nc" id="L21">public class AMBCadete {</span>
+    
+//    public boolean modificarCadete(Cadete C) throws ClassNotFoundException, SQLException {
+//        ResultSet NC;
+//        NC = C.consultaCadete(C.getNumDocumento());
+//        if(NC.first()){
+//            if(NC.getBoolean(&quot;estado&quot;))
+//            {
+//               C.modificar();
+//                    return true;
+//               
+//            }
+//            //else
+//            //{
+//              //  C.modificar();
+//               // return true;
+//            //}
+//        }
+//        else
+//        {
+//            //C.insertar();
+//            return false;
+//        }
+//        return false;
+//    }
+    
+    
+       public Cadete buscarCadeteConId(int id) throws ClassNotFoundException, SQLException {
+        ResultSet datosCadete;
+<span class="nc" id="L50">        Cadete miCadete = new Cadete();</span>
+<span class="nc" id="L51">        datosCadete = miCadete.consultaCadeteConId(id);</span>
+        
+      
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (datosCadete.first()) {</span>
+<span class="nc" id="L55">            miCadete.setIdCadete(datosCadete.getInt(&quot;idCadete&quot;));</span>
+<span class="nc" id="L56">            miCadete.setNombre(datosCadete.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L57">            miCadete.setApellido(datosCadete.getString(&quot;apellido&quot;));</span>
+<span class="nc" id="L58">            miCadete.setDomicilio(datosCadete.getString(&quot;domicilio&quot;));</span>
+<span class="nc" id="L59">            miCadete.setTelefono(datosCadete.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L60">            miCadete.setTipoDocumento(datosCadete.getString(&quot;TipoDocumento&quot;));</span>
+<span class="nc" id="L61">            miCadete.setNumDocumento(datosCadete.getInt(&quot;numDocumento&quot;));</span>
+<span class="nc" id="L62">            miCadete.setEstado(datosCadete.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L63">            System.out.print(miCadete.getApellido());</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if (miCadete.isEstado()) {</span>
+<span class="nc" id="L65">                return miCadete;</span>
+            }
+            else
+            {
+<span class="nc" id="L69">                return null;</span>
+            }
+        }
+<span class="nc" id="L72">        return null;</span>
+    }
+    
+    
+    public Cadete buscarCadete(int numDocumento) throws ClassNotFoundException, SQLException {
+        ResultSet datosCadete;
+<span class="nc" id="L78">        Cadete miCadete = new Cadete();</span>
+<span class="nc" id="L79">        datosCadete = miCadete.consultaCadete(numDocumento);</span>
+        
+
+
+        //MUESTRA LOS DATOS DEL CADETE SELECCIONADO
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (datosCadete.first()) {</span>
+<span class="nc" id="L85">            miCadete.setIdCadete(datosCadete.getInt(&quot;idCadete&quot;));</span>
+<span class="nc" id="L86">            miCadete.setNombre(datosCadete.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L87">            miCadete.setApellido(datosCadete.getString(&quot;apellido&quot;));</span>
+<span class="nc" id="L88">            miCadete.setDomicilio(datosCadete.getString(&quot;domicilio&quot;));</span>
+<span class="nc" id="L89">            miCadete.setTelefono(datosCadete.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L90">            miCadete.setTipoDocumento(datosCadete.getString(&quot;TipoDocumento&quot;));</span>
+<span class="nc" id="L91">            miCadete.setNumDocumento(datosCadete.getInt(&quot;numDocumento&quot;));</span>
+<span class="nc" id="L92">            miCadete.setEstado(datosCadete.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L93">            System.out.print(miCadete.getApellido());</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (miCadete.isEstado()) {</span>
+<span class="nc" id="L95">                return miCadete;</span>
+            }
+            else
+            {
+<span class="nc" id="L99">                return null;</span>
+            }
+        }
+<span class="nc" id="L102">        return null;</span>
+    }
+    
+    public ArrayList&lt;Cadete&gt; listaCadetes() throws ClassNotFoundException, SQLException{
+        ResultSet datosCadete;
+<span class="nc" id="L107">        Cadete miCadete = new Cadete();</span>
+<span class="nc" id="L108">        ArrayList&lt;Cadete&gt; listaCadete = new ArrayList&lt;Cadete&gt;();</span>
+<span class="nc" id="L109">        datosCadete = miCadete.obtenerCadete();</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        while(datosCadete.next()){</span>
+<span class="nc" id="L111">            Cadete miCadeteLista = new Cadete();</span>
+<span class="nc" id="L112">            miCadeteLista.setIdCadete(datosCadete.getInt(&quot;idCadete&quot;));</span>
+<span class="nc" id="L113">            miCadeteLista.setNombre(datosCadete.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L114">            listaCadete.add(miCadeteLista);</span>
+<span class="nc" id="L115">        }</span>
+<span class="nc" id="L116">        return listaCadete;</span>
+    }
+    
+    
+    
+        public static int obtenerSiguienteId(){
+<span class="nc" id="L122">    return 1;</span>
+}
+ public int nuevoCadete(Cadete C) throws ClassNotFoundException, SQLException{
+    ResultSet NC;
+<span class="nc" id="L126">    NC = C.consultaCadete(C.getNumDocumento());</span>
+    
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    if(NC.first()){</span>
+<span class="nc" id="L129">        return 1;</span>
+    }else{
+<span class="nc" id="L131">        C.agregarNuevoCadete();</span>
+<span class="nc" id="L132">        return 0;</span>
+    }
+}
+ 
+ public int esNueva (Cadete C) throws ClassNotFoundException, SQLException {
+        ResultSet NC;
+<span class="nc" id="L138">        NC = C.consultaCadete(C.getNumDocumento());</span>
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (NC.first()) {</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if (NC.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc" id="L142">                return 1;</span>
+            } else {
+                //C.agregarNuevoCadete();
+<span class="nc" id="L145">                return 0;</span>
+            }
+        } else {
+           // C.agregarNuevoCadete();
+<span class="nc" id="L149">            return 0;</span>
+        }
+    }
+ 
+ 
+ 
+ public int nuevaCadet(Cadete C) throws ClassNotFoundException, SQLException {
+        ResultSet NC;
+<span class="nc" id="L157">        NC = C.consultaCadete(C.getNumDocumento());</span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (NC.first()) {</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            if (NC.getBoolean(&quot;estado&quot;)) {</span>
+<span class="nc" id="L161">                return 1;</span>
+            } else {
+<span class="nc" id="L163">                C.agregarNuevoCadete();</span>
+<span class="nc" id="L164">                return 0;</span>
+            }
+        } else {
+<span class="nc" id="L167">            C.agregarNuevoCadete();</span>
+<span class="nc" id="L168">            return 0;</span>
+        }
+    }
+ 
+ public Cadete consultaCadeteEstado(int idCadete) throws SQLException, ClassNotFoundException{
+     ResultSet datosCadete;
+<span class="nc" id="L174">     Cadete miCadete = new Cadete();</span>
+<span class="nc" id="L175">     datosCadete = miCadete.consultaEstado(idCadete);</span>
+     try {
+<span class="nc" id="L177">         boolean primercadete = datosCadete.first();</span>
+<span class="nc" id="L178">     } catch (SQLException ex) {</span>
+<span class="nc" id="L179">         Logger.getLogger(OperacionesLogueo.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L180">     }</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">     if (datosCadete.first()) {</span>
+<span class="nc" id="L182">         miCadete.setIdCadete(datosCadete.getInt(&quot;idCadete&quot;));</span>
+<span class="nc" id="L183">         miCadete.setEstado(datosCadete.getBoolean(&quot;estado&quot;));</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">         if (miCadete.isEstado()) {</span>
+<span class="nc" id="L185">             return miCadete;</span>
+         }
+         else{
+<span class="nc" id="L188">             return null;</span>
+         }
+     }
+<span class="nc" id="L191">     return null;</span>
+ }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

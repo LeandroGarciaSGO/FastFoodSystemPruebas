@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GestionarCadete.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Presentacion</a> &gt; <span class="el_source">GestionarCadete.java</span></div><h1>GestionarCadete.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//HACER: NO ME VERIFICA EL CADETE CUANDO LO MODIFICO;me AGREGA OTRO DNI IGUAL-CORREGIR
+//hacer: FILTRADO EN GESTIONAR CADETES
+//HACER : LA VALIDACION DEL COMBOBOX
+package Presentacion;
+
+import Datos.Cadete;
+import Presentacion.Cadetes;
+import Datos.Cliente;
+import Datos.Comida;
+import Datos.Conexion;
+import Datos.Usuario;
+import Logica.ABMComida;
+
+import Logica.AMBCadete;
+import Logica.OperacionesTransacciones;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+/**
+ *
+ * @author Luji
+ */
+public class GestionarCadete extends javax.swing.JFrame {
+
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private DefaultTableModel modelo;
+    //private TableRowSorter trsFiltro;
+    //AGREGO
+    private PreparedStatement psPrepSencencias;
+
+    private TableRowSorter trsFiltro;
+    private Usuario usuarioSistema;
+
+    
+    
+    public Usuario getUsuarioSistema() {
+<span class="nc" id="L57">        return usuarioSistema;</span>
+
+    }
+
+    /**
+     * Creates new form GestionarCadete
+     */
+    public void setUsuarioSistema(Usuario usuarioSistema) {
+<span class="nc" id="L65">        this.usuarioSistema = usuarioSistema;</span>
+<span class="nc" id="L66">    }</span>
+
+<span class="nc" id="L68">    public GestionarCadete() {</span>
+<span class="nc" id="L69">        initComponents();</span>
+<span class="nc" id="L70">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L71">        setResizable(false);</span>
+<span class="nc" id="L72">        jButtonEliminar.setEnabled(false);</span>
+<span class="nc" id="L73">        jButtonModificar.setEnabled(false);</span>
+<span class="nc" id="L74">        String cabecera[] = {&quot;Codigo&quot;, &quot;Documento&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Telefono&quot;, &quot;Domicilio&quot;, &quot;tipo&quot;};</span>
+<span class="nc" id="L75">        String datos[][] = {};</span>
+<span class="nc" id="L76">        modelo = new DefaultTableModel(datos, cabecera);</span>
+<span class="nc" id="L77">        jTableCadetes.setModel(modelo);</span>
+<span class="nc" id="L78">        cargarTablaCadetes();</span>
+        //jButton.setBackground(java.awt.Color.red);
+        //jButtonCancelarSelecc.setEnabled(false);
+<span class="nc" id="L81">        jTableCadetes.addMouseListener(new MouseAdapter() {</span>
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L83">                int fila = jTableCadetes.rowAtPoint(e.getPoint());</span>
+<span class="nc" id="L84">                int columna = jTableCadetes.columnAtPoint(e.getPoint());</span>
+<span class="nc bnc" id="L85" title="All 4 branches missed.">                if ((fila &gt; -1) &amp;&amp; (columna &gt; -1)) {</span>
+<span class="nc" id="L86">                    jButtonEliminar.setEnabled(true);</span>
+<span class="nc" id="L87">                    jButtonModificar.setEnabled(true);</span>
+<span class="nc" id="L88">                    jButtonNuevoCadete.setEnabled(false);</span>
+                    //jButtonCancelarSelecc.setEnabled(true);
+                }
+<span class="nc" id="L91">            }</span>
+        });
+//        try {
+//            initComponents();
+//            cargarTablaCadetes();
+//            setLocationRelativeTo(null);
+//           // validarCampos();
+//           // jButtonNuevoCadete.setEnabled(false);
+//
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+<span class="nc" id="L103">    }</span>
+
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="nc" id="L115">        jLabel2Mensaje = new javax.swing.JPanel();</span>
+<span class="nc" id="L116">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="nc" id="L117">        jTextFieldNumeroDocumento = new javax.swing.JTextField();</span>
+<span class="nc" id="L118">        jLabelMensajeError = new javax.swing.JLabel();</span>
+<span class="nc" id="L119">        jButtonNuevoCadete = new javax.swing.JButton();</span>
+<span class="nc" id="L120">        jButtonModificar = new javax.swing.JButton();</span>
+<span class="nc" id="L121">        jButtonEliminar = new javax.swing.JButton();</span>
+<span class="nc" id="L122">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="nc" id="L123">        jTableCadetes = new javax.swing.JTable();</span>
+<span class="nc" id="L124">        jButton1 = new javax.swing.JButton();</span>
+<span class="nc" id="L125">        jButton2 = new javax.swing.JButton();</span>
+
+<span class="nc" id="L127">        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);</span>
+<span class="nc" id="L128">        setTitle(&quot;FastFoodSystem - Gestionar Cadete&quot;);</span>
+<span class="nc" id="L129">        setMaximumSize(new java.awt.Dimension(600, 440));</span>
+<span class="nc" id="L130">        setMinimumSize(new java.awt.Dimension(600, 440));</span>
+<span class="nc" id="L131">        setPreferredSize(new java.awt.Dimension(600, 440));</span>
+<span class="nc" id="L132">        setResizable(false);</span>
+
+<span class="nc" id="L134">        jLabel2Mensaje.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Buscar Cadete&quot;, javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Verdana&quot;, 0, 14))); // NOI18N</span>
+<span class="nc" id="L135">        jLabel2Mensaje.setMaximumSize(new java.awt.Dimension(370, 77));</span>
+<span class="nc" id="L136">        jLabel2Mensaje.setMinimumSize(new java.awt.Dimension(370, 77));</span>
+<span class="nc" id="L137">        jLabel2Mensaje.setPreferredSize(new java.awt.Dimension(370, 77));</span>
+
+<span class="nc" id="L139">        jLabel1.setFont(new java.awt.Font(&quot;Verdana&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L140">        jLabel1.setText(&quot;Documento:&quot;);</span>
+
+<span class="nc" id="L142">        jTextFieldNumeroDocumento.setMaximumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L143">        jTextFieldNumeroDocumento.setMinimumSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L144">        jTextFieldNumeroDocumento.setPreferredSize(new java.awt.Dimension(210, 20));</span>
+<span class="nc" id="L145">        jTextFieldNumeroDocumento.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L147">                jTextFieldNumeroDocumentoActionPerformed(evt);</span>
+<span class="nc" id="L148">            }</span>
+        });
+<span class="nc" id="L150">        jTextFieldNumeroDocumento.addKeyListener(new java.awt.event.KeyAdapter() {</span>
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L152">                jTextFieldNumeroDocumentoKeyReleased(evt);</span>
+<span class="nc" id="L153">            }</span>
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+<span class="nc" id="L155">                jTextFieldNumeroDocumentoKeyTyped(evt);</span>
+<span class="nc" id="L156">            }</span>
+        });
+
+<span class="nc" id="L159">        jLabelMensajeError.setFont(new java.awt.Font(&quot;Verdana&quot;, 1, 14)); // NOI18N</span>
+<span class="nc" id="L160">        jLabelMensajeError.setForeground(new java.awt.Color(255, 0, 0));</span>
+
+<span class="nc" id="L162">        javax.swing.GroupLayout jLabel2MensajeLayout = new javax.swing.GroupLayout(jLabel2Mensaje);</span>
+<span class="nc" id="L163">        jLabel2Mensaje.setLayout(jLabel2MensajeLayout);</span>
+<span class="nc" id="L164">        jLabel2MensajeLayout.setHorizontalGroup(</span>
+<span class="nc" id="L165">            jLabel2MensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L166">            .addGroup(jLabel2MensajeLayout.createSequentialGroup()</span>
+<span class="nc" id="L167">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L168">                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L169">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L170">                .addComponent(jTextFieldNumeroDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L171">                .addGap(157, 157, 157)</span>
+<span class="nc" id="L172">                .addComponent(jLabelMensajeError))</span>
+        );
+<span class="nc" id="L174">        jLabel2MensajeLayout.setVerticalGroup(</span>
+<span class="nc" id="L175">            jLabel2MensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L176">            .addGroup(jLabel2MensajeLayout.createSequentialGroup()</span>
+<span class="nc" id="L177">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L178">                .addGroup(jLabel2MensajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L179">                    .addComponent(jLabel1)</span>
+<span class="nc" id="L180">                    .addComponent(jTextFieldNumeroDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L181">                .addGap(18, 18, 18)</span>
+<span class="nc" id="L182">                .addComponent(jLabelMensajeError, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+        );
+
+<span class="nc" id="L185">        jButtonNuevoCadete.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L186">        jButtonNuevoCadete.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/Añadir.png&quot;))); // NOI18N</span>
+<span class="nc" id="L187">        jButtonNuevoCadete.setText(&quot;Nuevo&quot;);</span>
+<span class="nc" id="L188">        jButtonNuevoCadete.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L189">        jButtonNuevoCadete.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L190">        jButtonNuevoCadete.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L191">        jButtonNuevoCadete.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L193">                jButtonNuevoCadeteActionPerformed(evt);</span>
+<span class="nc" id="L194">            }</span>
+        });
+
+<span class="nc" id="L197">        jButtonModificar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L198">        jButtonModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/modificar1.png&quot;))); // NOI18N</span>
+<span class="nc" id="L199">        jButtonModificar.setText(&quot;Modificar&quot;);</span>
+<span class="nc" id="L200">        jButtonModificar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L201">        jButtonModificar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L202">        jButtonModificar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L203">        jButtonModificar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L205">                jButtonModificarActionPerformed(evt);</span>
+<span class="nc" id="L206">            }</span>
+        });
+
+<span class="nc" id="L209">        jButtonEliminar.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L210">        jButtonEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/eliminar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L211">        jButtonEliminar.setText(&quot;Eliminar&quot;);</span>
+<span class="nc" id="L212">        jButtonEliminar.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L213">        jButtonEliminar.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L214">        jButtonEliminar.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L215">        jButtonEliminar.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L217">                jButtonEliminarActionPerformed(evt);</span>
+<span class="nc" id="L218">            }</span>
+        });
+
+<span class="nc" id="L221">        jTableCadetes.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                &quot;Codigo&quot;, &quot;Documento&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Telefono&quot;, &quot;Domicilio&quot;, &quot;tipo&quot;
+            }
+<span class="nc" id="L240">        ) {</span>
+<span class="nc" id="L241">            boolean[] canEdit = new boolean [] {</span>
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+<span class="nc" id="L246">                return canEdit [columnIndex];</span>
+            }
+        });
+<span class="nc" id="L249">        jTableCadetes.setMaximumSize(new java.awt.Dimension(60, 800));</span>
+<span class="nc" id="L250">        jTableCadetes.setMinimumSize(new java.awt.Dimension(60, 800));</span>
+<span class="nc" id="L251">        jTableCadetes.setPreferredSize(new java.awt.Dimension(60, 800));</span>
+<span class="nc" id="L252">        jScrollPane1.setViewportView(jTableCadetes);</span>
+
+<span class="nc" id="L254">        jButton1.setFont(new java.awt.Font(&quot;SansSerif&quot;, 0, 12)); // NOI18N</span>
+<span class="nc" id="L255">        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/icono-cancelar.png&quot;))); // NOI18N</span>
+<span class="nc" id="L256">        jButton1.setText(&quot;Salir&quot;);</span>
+<span class="nc" id="L257">        jButton1.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L258">        jButton1.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L259">        jButton1.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L260">        jButton1.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L262">                jButton1ActionPerformed(evt);</span>
+<span class="nc" id="L263">            }</span>
+        });
+
+<span class="nc" id="L266">        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/Imagenes/Iconos_Botones/actualizar-l.png&quot;))); // NOI18N</span>
+<span class="nc" id="L267">        jButton2.setText(&quot;Actualizar&quot;);</span>
+<span class="nc" id="L268">        jButton2.setMaximumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L269">        jButton2.setMinimumSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L270">        jButton2.setPreferredSize(new java.awt.Dimension(180, 50));</span>
+<span class="nc" id="L271">        jButton2.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L273">                jButton2ActionPerformed(evt);</span>
+<span class="nc" id="L274">            }</span>
+        });
+
+<span class="nc" id="L277">        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());</span>
+<span class="nc" id="L278">        getContentPane().setLayout(layout);</span>
+<span class="nc" id="L279">        layout.setHorizontalGroup(</span>
+<span class="nc" id="L280">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L281">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L282">                .addContainerGap()</span>
+<span class="nc" id="L283">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)</span>
+<span class="nc" id="L284">                    .addComponent(jLabel2Mensaje, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)</span>
+<span class="nc" id="L285">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L286">                        .addComponent(jButtonNuevoCadete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L287">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="nc" id="L288">                        .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L289">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L290">                        .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L291">                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L292">                    .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L293">                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L294">                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="nc" id="L295">                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="nc" id="L296">                .addContainerGap(34, Short.MAX_VALUE))</span>
+        );
+<span class="nc" id="L298">        layout.setVerticalGroup(</span>
+<span class="nc" id="L299">            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="nc" id="L300">            .addGroup(layout.createSequentialGroup()</span>
+<span class="nc" id="L301">                .addContainerGap()</span>
+<span class="nc" id="L302">                .addComponent(jLabel2Mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L303">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L304">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L305">                    .addComponent(jButtonNuevoCadete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L306">                    .addComponent(jButtonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L307">                    .addComponent(jButtonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L308">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L309">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L310">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="nc" id="L311">                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="nc" id="L312">                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="nc" id="L313">                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="nc" id="L314">                .addContainerGap(61, Short.MAX_VALUE))</span>
+        );
+
+<span class="nc" id="L317">        getAccessibleContext().setAccessibleName(&quot;FastFoodSystem- Gestionar Cadete&quot;);</span>
+
+<span class="nc" id="L319">        pack();</span>
+<span class="nc" id="L320">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    
+//    public void cargarTablaCadetes() throws ClassNotFoundException {
+//        String datos[] = new String[5];
+//        DefaultTableModel dtm = (DefaultTableModel) jTableCadetes.getModel();
+//        while (dtm.getRowCount() &gt; 0) {
+//            dtm.removeRow(0);
+//        }
+//        try {
+//            Connection conex = Conexion.Cadena();
+//            String ConsultaSQL = &quot;SELECT * FROM Cadete WHERE estado = '&quot;+1+&quot;' &quot;;
+//            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//            rsDatos = sentencia.executeQuery(ConsultaSQL);
+//            while (rsDatos.next()) {
+//                datos[0] = rsDatos.getString(1);
+//                datos[1] = rsDatos.getString(7);
+//                datos[2] = rsDatos.getString(2);
+//                datos[3] = rsDatos.getString(3);
+//                datos[4] = rsDatos.getString(5);
+//                dtm.addRow(datos);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
+    private int validarCampos() {
+       
+<span class="nc bnc" id="L349" title="All 2 branches missed.">          if (jTextFieldNumeroDocumento.getText().length() &lt;= 0) {</span>
+<span class="nc" id="L350">                JOptionPane.showMessageDialog(this, &quot; ERROR: El Documento no debe Ser Vacio, presione actualizar&quot;, &quot;FastFoodSystem&quot;, JOptionPane.ERROR_MESSAGE);</span>
+//              try {
+//                  //cargarTablaCadetes();
+//              } catch (ClassNotFoundException ex) {
+//                  Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);
+//              }
+            }else{ 
+<span class="nc" id="L357">          return 1;</span>
+          }
+<span class="nc" id="L359">        return 0;</span>
+
+        }
+    
+    private void jTextFieldNumeroDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNumeroDocumentoActionPerformed
+        // TODO add your handling code here:
+       // if (validarCampoDescripcion()) {
+<span class="nc" id="L366">            AMBCadete BC = new AMBCadete();</span>
+<span class="nc" id="L367">            Cadete C = new Cadete();</span>
+            try {
+
+<span class="nc" id="L370">                C = BC.buscarCadete(Integer.parseInt(jTextFieldNumeroDocumento.getText()));</span>
+<span class="nc bnc" id="L371" title="All 2 branches missed.">                if (C == null) {</span>
+//                jButtonEliminarComida.setEnabled(true);
+//                jButtonModificarComida.setEnabled(true);
+//                jButtonNuevaComida.setEnabled(false);
+//                jTextFieldDescripcion.setEditable(false);
+//                int cod = C.getIdComida();
+//                String desc = C.getDescripcion();
+//                float precio = C.getPrecio();
+//                int tipo = C.getTipo();
+//                Object fila[] = {cod, desc, precio, tipo};
+//                modelo.addRow(fila);
+//            } else {
+//                //jLabelError.setText(&quot;Comida Inexistente - Para Registrar presione \&quot;Nueva Comida\&quot;&quot;);
+<span class="nc" id="L384">                    JOptionPane.showMessageDialog(this, &quot;El cadete No Existe\nPara registrarla presione \&quot;Nueva Comida\&quot;&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+//                jButtonNuevaComida.setEnabled(true);
+//                jButtonModificarComida.setEnabled(false);
+//                jButtonEliminarComida.setEnabled(false);
+//                //jTextFieldDescripcion.setEditable(false);
+                }
+//
+<span class="nc" id="L391">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L392">                Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L393">            } catch (SQLException ex) {</span>
+<span class="nc" id="L394">                Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L395">            }</span>
+        //}
+//        
+//        AMBCadete CD = new AMBCadete();
+//        Cadete CA = new Cadete();
+//        String cabecera[] = {&quot;Codigo&quot;, &quot;Documento&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Telefono&quot;};
+//        String datos[][] = {};
+//        DefaultTableModel modelo = new DefaultTableModel(datos, cabecera);
+//
+//        jTableCadetes.setModel(modelo);
+//        try {
+//            if(validarCampos()==1){
+//            //cargarTablaCadetes();
+//            CA = CD.buscarCadete(Integer.parseInt(jTextFieldNumeroDocumento.getText()));
+//            if (CA != null) {
+//                jButtonNuevoCadete.setEnabled(false);
+//                int cod = CA.getIdCadete();
+//                int doc = CA.getNumDocumento();
+//                String nombre = CA.getNombre();
+//                String apellido = CA.getApellido();
+//                long tel = CA.getTelefono();
+//                Object fila[] = {cod, doc, nombre, apellido, tel};
+//                modelo.addRow(fila);
+//                jButtonEliminar.setEnabled(true);
+//                jButtonModificar.setEnabled(true);
+//                //cargarTablaCadetes();
+//
+//            } else {
+//               
+//                jButtonEliminar.setEnabled(false);
+//                jButtonModificar.setEnabled(false);
+//                jButtonNuevoCadete.setEnabled(true);
+//                JOptionPane.showMessageDialog(this, &quot; ERROR: Cadete Inexistente, Presione Nuevo para Agregarlo&quot;, &quot;Fast Food System&quot;, JOptionPane.ERROR_MESSAGE);
+//
+//            }}
+//
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            Logger.getLogger(VentanaBuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        //}
+//        
+//        AMBCadete CD = new AMBCadete();
+//        Cadete CA = new Cadete();
+//        String cabecera[] = {&quot;Codigo&quot;, &quot;Documento&quot;, &quot;Nombre&quot;, &quot;Apellido&quot;, &quot;Telefono&quot;};
+//        String datos[][] = {};
+//        DefaultTableModel modelo = new DefaultTableModel(datos, cabecera);
+//
+//        jTableCadetes.setModel(modelo);
+//        try {
+//            if(validarCampos()==1){
+//            //cargarTablaCadetes();
+//            CA = CD.buscarCadete(Integer.parseInt(jTextFieldNumeroDocumento.getText()));
+//            if (CA != null) {
+//                jButtonNuevoCadete.setEnabled(false);
+//                int cod = CA.getIdCadete();
+//                int doc = CA.getNumDocumento();
+//                String nombre = CA.getNombre();
+//                String apellido = CA.getApellido();
+//                long tel = CA.getTelefono();
+//                Object fila[] = {cod, doc, nombre, apellido, tel};
+//                modelo.addRow(fila);
+//                jButtonEliminar.setEnabled(true);
+//                jButtonModificar.setEnabled(true);
+//                //cargarTablaCadetes();
+//
+//            } else {
+//               
+//                jButtonEliminar.setEnabled(false);
+//                jButtonModificar.setEnabled(false);
+//                jButtonNuevoCadete.setEnabled(true);
+//                JOptionPane.showMessageDialog(this, &quot; ERROR: Cadete Inexistente, Presione Nuevo para Agregarlo&quot;, &quot;Fast Food System&quot;, JOptionPane.ERROR_MESSAGE);
+//
+//            }}
+//
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            Logger.getLogger(VentanaBuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+<span class="nc" id="L472">    }//GEN-LAST:event_jTextFieldNumeroDocumentoActionPerformed</span>
+
+    private void jButtonNuevoCadeteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNuevoCadeteActionPerformed
+<span class="nc" id="L475">        Cadetes C = new Cadetes();</span>
+
+        try {
+<span class="nc" id="L478">            C.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L479">            C.LlenarCampos();</span>
+           
+<span class="nc" id="L481">        } catch (SQLException ex) {</span>
+<span class="nc" id="L482">            Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L483">        }</span>
+
+<span class="nc" id="L485">        C.setVisible(true);</span>
+<span class="nc" id="L486">        this.dispose();</span>
+
+        // TODO add your handling code here:
+<span class="nc" id="L489">    }//GEN-LAST:event_jButtonNuevoCadeteActionPerformed</span>
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+<span class="nc" id="L492">        this.dispose();</span>
+        // TODO add your handling code here:
+<span class="nc" id="L494">    }//GEN-LAST:event_jButton1ActionPerformed</span>
+
+    private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
+        try {
+            // TODO add your handling code here:
+<span class="nc" id="L499">            DefaultTableModel modelo = (DefaultTableModel) jTableCadetes.getModel();</span>
+<span class="nc" id="L500">            int fila = jTableCadetes.getSelectedRow();</span>
+            
+<span class="nc" id="L502">            int cod = (int) jTableCadetes.getValueAt(fila, 0);</span>
+            //int doc =  (int) jTableCadetes.getValueAt(fila,1));
+            
+<span class="nc" id="L505">            int doc = Integer.parseInt(String.valueOf(jTableCadetes.getValueAt(fila,1)));</span>
+<span class="nc" id="L506">            String nombre = String.valueOf(jTableCadetes.getValueAt(fila, 2));</span>
+<span class="nc" id="L507">            String apellido = String.valueOf(jTableCadetes.getValueAt(fila, 3));</span>
+<span class="nc" id="L508">            long tel = (long) jTableCadetes.getValueAt(fila, 4);</span>
+<span class="nc" id="L509">            String dom = String.valueOf(jTableCadetes.getValueAt(fila, 5));</span>
+<span class="nc" id="L510">            String tipo =String.valueOf(jTableCadetes.getValueAt(fila, 6));</span>
+<span class="nc" id="L511">            System.out.print(cod + doc + nombre + apellido + tel + dom + tipo );</span>
+            
+            
+            
+<span class="nc" id="L515">            Cadete C = new Cadete (cod, doc, nombre, apellido, tel, dom, tipo);</span>
+<span class="nc" id="L516">            AMBCadete BC = new AMBCadete();</span>
+            
+<span class="nc" id="L518">            Cadetes VC = new Cadetes();</span>
+<span class="nc" id="L519">            VC.setUsuarioSistema(usuarioSistema);</span>
+            //Cadete CO = new Cadete (cod, doc, nombre, apellido, tel);
+<span class="nc" id="L521">            VC.setDatosCadete(C);</span>
+<span class="nc" id="L522">            VC.setCondatos_vacio(1);</span>
+<span class="nc" id="L523">            VC.LlenarCampos();</span>
+<span class="nc" id="L524">            VC.setVisible(true);</span>
+<span class="nc" id="L525">            this.dispose();</span>
+//            }
+            
+            
+            
+            
+<span class="nc" id="L531">        } catch (SQLException ex) {</span>
+<span class="nc" id="L532">            Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L533">        }</span>
+        
+        
+<span class="nc" id="L536">    }//GEN-LAST:event_jButtonModificarActionPerformed</span>
+
+
+    private void jButtonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarActionPerformed
+
+<span class="nc" id="L541">       DefaultTableModel modelo = (DefaultTableModel) jTableCadetes.getModel();</span>
+  
+<span class="nc" id="L543">       int fila = jTableCadetes.getSelectedRow();</span>
+<span class="nc bnc" id="L544" title="All 2 branches missed.">        if (fila &gt;= 0) {</span>
+//            int docCadete = Integer.parseInt(String.valueOf(modelo.getValueAt(fila, 1))); 
+<span class="nc" id="L546">            int cod = (int) jTableCadetes.getValueAt(fila, 0);</span>
+<span class="nc" id="L547">            int doc = Integer.parseInt(String.valueOf(jTableCadetes.getValueAt(fila,1)));</span>
+<span class="nc" id="L548">            String nombre = String.valueOf(jTableCadetes.getValueAt(fila, 2));</span>
+<span class="nc" id="L549">            String apellido = String.valueOf(jTableCadetes.getValueAt(fila, 3));</span>
+<span class="nc" id="L550">            long tel = (long) jTableCadetes.getValueAt(fila, 4);</span>
+<span class="nc" id="L551">            String dom = String.valueOf(jTableCadetes.getValueAt(fila, 5));</span>
+<span class="nc" id="L552">            String tipo =String.valueOf(jTableCadetes.getValueAt(fila, 6));</span>
+<span class="nc" id="L553">            System.out.print(cod + doc + nombre + apellido + tel + dom + tipo );</span>
+       
+<span class="nc" id="L555">            Cadete CA = new Cadete();</span>
+            try {
+<span class="nc" id="L557">               int resp = JOptionPane.showConfirmDialog(this, &quot;¿Esta Seguro que Desea Elimiar un cadete?&quot;, &quot;FastFoodSystem - ATENCION&quot;, JOptionPane.YES_NO_OPTION);</span>
+<span class="nc bnc" id="L558" title="All 2 branches missed.">               if (JOptionPane.OK_OPTION == resp) {</span>
+<span class="nc" id="L559">                        this.dispose();</span>
+<span class="nc" id="L560">                        CA.eliminardni(doc);</span>
+<span class="nc" id="L561">                        OperacionesTransacciones OP = new OperacionesTransacciones();</span>
+<span class="nc" id="L562">                        int accion = 10;</span>
+<span class="nc" id="L563">                        int entidad = 4;                        </span>
+<span class="nc" id="L564">                        OP.registrarTransaccion(accion, entidad, cod, usuarioSistema);</span>
+<span class="nc" id="L565">                        JOptionPane.showMessageDialog(this, &quot;El Cadete se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);</span>
+            
+<span class="nc" id="L567">                     }else{</span>
+                   
+<span class="nc" id="L569">                    GestionarCadete volverGestionarCadete = new GestionarCadete();</span>
+<span class="nc" id="L570">                    volverGestionarCadete.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L571">                    volverGestionarCadete.setVisible(true);</span>
+<span class="nc" id="L572">                    this.dispose();</span>
+               }
+                
+                
+<span class="nc" id="L576">            } catch (SQLException ex) {</span>
+<span class="nc" id="L577">                Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L578">            } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L579">               Logger.getLogger(GestionarCadete.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L580">           }</span>
+
+//            JOptionPane.showMessageDialog(this, &quot;El Cadete se Elimino Correctamente&quot;, &quot;FastFoodSystem&quot;, JOptionPane.INFORMATION_MESSAGE);
+            //cargarTablaCadetes();
+<span class="nc" id="L584">            GestionarCadete volverGestionarCadete = new GestionarCadete();</span>
+<span class="nc" id="L585">            volverGestionarCadete.setVisible(true);</span>
+<span class="nc" id="L586">            volverGestionarCadete.setUsuarioSistema(usuarioSistema);</span>
+<span class="nc" id="L587">            this.dispose();</span>
+<span class="nc" id="L588">        } else {</span>
+<span class="nc" id="L589">            JOptionPane.showMessageDialog(this, &quot; -. ERROR:  No Selecciono Ningun Cadete&quot;, &quot;Fast Food System&quot;, JOptionPane.ERROR_MESSAGE);</span>
+        }
+
+
+<span class="nc" id="L593">    }//GEN-LAST:event_jButtonEliminarActionPerformed</span>
+
+    private void jTextFieldNumeroDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroDocumentoKeyTyped
+<span class="nc" id="L596">        char c =evt.getKeyChar();</span>
+<span class="nc bnc" id="L597" title="All 4 branches missed.">        if(c &lt; '0'|| c&gt; '9') evt.consume();</span>
+        
+        //Agrego esto para filtrar. defino arriba el trsFiltro.
+<span class="nc" id="L600">         jTextFieldNumeroDocumento.addKeyListener(new KeyAdapter() {</span>
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                //String cadena = (jTextFieldDescripcion.getText());
+                //jTextFieldDescripcion.setText(cadena);
+                //repaint();
+<span class="nc" id="L606">                trsFiltro.setRowFilter(RowFilter.regexFilter(&quot;(?i)&quot; + jTextFieldNumeroDocumento.getText(), 1));</span>
+<span class="nc" id="L607">            }</span>
+        });
+
+<span class="nc" id="L610">        trsFiltro = new TableRowSorter(jTableCadetes.getModel());</span>
+<span class="nc" id="L611">        jTableCadetes.setRowSorter(trsFiltro);</span>
+<span class="nc" id="L612">        jTableCadetes.addMouseListener(new MouseAdapter() {</span>
+            public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L614">                int fila = jTableCadetes.rowAtPoint(e.getPoint());</span>
+<span class="nc" id="L615">                int columna = jTableCadetes.columnAtPoint(e.getPoint());</span>
+<span class="nc bnc" id="L616" title="All 4 branches missed.">                if ((fila &gt; -1) &amp;&amp; (columna &gt; -1)) {</span>
+<span class="nc" id="L617">                    jButtonEliminar.setEnabled(true);</span>
+<span class="nc" id="L618">                    jButtonModificar.setEnabled(true);</span>
+<span class="nc" id="L619">                    jButtonNuevoCadete.setEnabled(false);</span>
+                    //jButtonCancelarSelecc.setEnabled(true);
+                }
+<span class="nc" id="L622">            }</span>
+        });
+
+        
+<span class="nc" id="L626">    }//GEN-LAST:event_jTextFieldNumeroDocumentoKeyTyped</span>
+
+private void cargarTablaCadetes() {
+        ResultSet Re;
+        try {
+<span class="nc" id="L631">            Cadete C = new Cadete();</span>
+<span class="nc" id="L632">            Re = C.consultarTodoLosCadetes();</span>
+            try {
+<span class="nc bnc" id="L634" title="All 2 branches missed.">                while (Re.next()) {</span>
+<span class="nc" id="L635">                    int cod = Re.getInt(&quot;idCadete&quot;);</span>
+<span class="nc" id="L636">                    String doc = Re.getString(&quot;numDocumento&quot;);</span>
+<span class="nc" id="L637">                    String nom = Re.getString(&quot;nombre&quot;);</span>
+<span class="nc" id="L638">                    String ape = Re.getString(&quot;apellido&quot;);</span>
+<span class="nc" id="L639">                    long tel = Re.getLong(&quot;telefono&quot;);</span>
+<span class="nc" id="L640">                    String dom = Re.getString(&quot;domicilio&quot;);</span>
+<span class="nc" id="L641">                    String tipDoc = Re.getString(&quot;tipoDocumento&quot;);</span>
+<span class="nc" id="L642">                    Object fila[] = {cod, doc, nom, ape, tel , dom , tipDoc};</span>
+<span class="nc" id="L643">                    modelo.addRow(fila);</span>
+<span class="nc" id="L644">                }</span>
+<span class="nc" id="L645">            } catch (SQLException ex) {</span>
+<span class="nc" id="L646">                Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L647">            }</span>
+
+<span class="nc" id="L649">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L650">            Logger.getLogger(Cadetes.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L651">        }</span>
+
+<span class="nc" id="L653">    }    </span>
+    
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //cargarTablaCadetes();
+<span class="nc" id="L658">        GestionarCadete volverGestionarCadete = new GestionarCadete();</span>
+<span class="nc" id="L659">        volverGestionarCadete.setVisible(true);</span>
+//        jButtonNuevoCadete.setEnabled(true);
+//        jButtonEliminar.setEnabled(true);
+//        jButtonModificar.setEnabled(true);
+<span class="nc" id="L663">    }//GEN-LAST:event_jButton2ActionPerformed</span>
+
+    private void jTextFieldNumeroDocumentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNumeroDocumentoKeyReleased
+        
+            // TODO add your handling code here:
+            //cargarTablaCadetes();
+        
+        
+        
+<span class="nc" id="L672">    }//GEN-LAST:event_jTextFieldNumeroDocumentoKeyReleased</span>
+
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L685" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L686" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L687">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L688">                    break;</span>
+                }
+            }
+<span class="nc" id="L691">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L692">            java.util.logging.Logger.getLogger(GestionarCadete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L693">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L694">            java.util.logging.Logger.getLogger(GestionarCadete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L695">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L696">            java.util.logging.Logger.getLogger(GestionarCadete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L697">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L698">            java.util.logging.Logger.getLogger(GestionarCadete.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L699">        }</span>
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L710">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L712">                new GestionarCadete().setVisible(true);</span>
+<span class="nc" id="L713">            }</span>
+        });
+<span class="nc" id="L715">    }</span>
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonEliminar;
+    private javax.swing.JButton jButtonModificar;
+    private javax.swing.JButton jButtonNuevoCadete;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jLabel2Mensaje;
+    private javax.swing.JLabel jLabelMensajeError;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable jTableCadetes;
+    private javax.swing.JTextField jTextFieldNumeroDocumento;
+    // End of variables declaration//GEN-END:variables
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

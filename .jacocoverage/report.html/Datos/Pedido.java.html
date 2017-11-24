@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pedido.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Datos</a> &gt; <span class="el_source">Pedido.java</span></div><h1>Pedido.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Datos;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Mariano
+ */
+public class Pedido {
+    private Statement sentencia;
+    private ResultSet rsDatos;
+    private PreparedStatement psPrepSencencias;
+    
+    private int idPedido;
+    private int idCliente;
+    private int estado;
+    private Date fecha;
+    private Time hora;
+    private String lugarDeEnvio;
+    private int zona;
+    private int idCadete;
+    private DetallePedido detalle;
+
+<span class="nc" id="L37">    public Pedido() {</span>
+<span class="nc" id="L38">        this.idPedido = 0;</span>
+<span class="nc" id="L39">        this.idCliente = 0;</span>
+<span class="nc" id="L40">        this.estado = 0;</span>
+<span class="nc" id="L41">        this.fecha = null;</span>
+<span class="nc" id="L42">        this.hora = null;</span>
+<span class="nc" id="L43">        this.lugarDeEnvio = &quot;&quot;;</span>
+<span class="nc" id="L44">        this.zona = 0;</span>
+<span class="nc" id="L45">        this.idCadete = 0;</span>
+<span class="nc" id="L46">    }</span>
+
+    public int getIdPedido() {
+<span class="nc" id="L49">        return idPedido;</span>
+    }
+
+    public void setIdPedido(int idPedido) {
+<span class="nc" id="L53">        this.idPedido = idPedido;</span>
+<span class="nc" id="L54">    }</span>
+
+    public int getIdCliente() {
+<span class="nc" id="L57">        return idCliente;</span>
+    }
+
+    public void setIdCliente(int idCliente) {
+<span class="nc" id="L61">        this.idCliente = idCliente;</span>
+<span class="nc" id="L62">    }</span>
+
+    public int getEstado() {
+<span class="nc" id="L65">        return estado;</span>
+    }
+
+    public void setEstado(int estado) {
+<span class="nc" id="L69">        this.estado = estado;</span>
+<span class="nc" id="L70">    }</span>
+
+    public Date getFecha() {
+<span class="nc" id="L73">        return fecha;</span>
+    }
+
+    public void setFecha(Date fecha) {
+<span class="nc" id="L77">        this.fecha = fecha;</span>
+<span class="nc" id="L78">    }</span>
+
+    public Time getHora() {
+<span class="nc" id="L81">        return hora;</span>
+    }
+
+    public void setHora(Time hora) {
+<span class="nc" id="L85">        this.hora = hora;</span>
+<span class="nc" id="L86">    }</span>
+
+    public String getLugarDeEnvio() {
+<span class="nc" id="L89">        return lugarDeEnvio;</span>
+    }
+
+    public void setLugarDeEnvio(String lugarDeEnvio) {
+<span class="nc" id="L93">        this.lugarDeEnvio = lugarDeEnvio;</span>
+<span class="nc" id="L94">    }</span>
+
+    public int getZona() {
+<span class="nc" id="L97">        return zona;</span>
+    }
+
+    public void setZona(int zona) {
+<span class="nc" id="L101">        this.zona = zona;</span>
+<span class="nc" id="L102">    }    </span>
+
+    public int getIdCadete() {
+<span class="nc" id="L105">        return idCadete;</span>
+    }
+
+    public void setIdCadete(int idCadete) {
+<span class="nc" id="L109">        this.idCadete = idCadete;</span>
+<span class="nc" id="L110">    }</span>
+
+    public DetallePedido getDetalle() {
+<span class="nc" id="L113">        return detalle;</span>
+    }
+
+    public void setDetalle(DetallePedido detalle) {
+<span class="nc" id="L117">        this.detalle = detalle;</span>
+<span class="nc" id="L118">    }</span>
+    
+    
+    
+    public ResultSet consultaPedido(int idPedido) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L124">            Connection conex = Conexion.Cadena();         </span>
+<span class="nc" id="L125">            String ConsultaSQL = &quot;SELECT idPedido, estado, fecha, hora, lugarDeEnvio, zona FROM pedido WHERE idPedido = '&quot; + idPedido + &quot;' AND estado = '&quot; + 1 + &quot;'&quot;;</span>
+<span class="nc" id="L126">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L127">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L128">        } catch (SQLException ex) {</span>
+<span class="nc" id="L129">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L130">        }       </span>
+<span class="nc" id="L131">        return rsDatos;       </span>
+    }
+    
+    public ResultSet consultaPedidoIdCliente(int idCliente) throws ClassNotFoundException{
+        try {
+<span class="nc" id="L136">            Connection conex = Conexion.Cadena();         </span>
+<span class="nc" id="L137">            String ConsultaSQL = &quot;SELECT idPedido, fecha, hora FROM pedido WHERE idCliente = '&quot; + idCliente + &quot;' AND estado = '&quot; + 1 + &quot;'&quot;;</span>
+<span class="nc" id="L138">            sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L139">            rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L140">        } catch (SQLException ex) {</span>
+<span class="nc" id="L141">            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L142">        }       </span>
+<span class="nc" id="L143">        return rsDatos; </span>
+    }
+    
+    public ResultSet consultaCargarTabla(String idPedido) throws ClassNotFoundException, SQLException{
+<span class="nc" id="L147">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L148">        String ConsultaSQL = &quot;SELECT idPedido, idCliente, fecha, hora FROM pedido WHERE idPedido LIKE '%&quot;+idPedido+&quot;%' AND estado = '&quot; + 1 + &quot;'&quot;;        </span>
+<span class="nc" id="L149">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L150">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L151">        return rsDatos;</span>
+    }
+    
+    public int insertarPedido() throws ClassNotFoundException{
+        try{
+<span class="nc" id="L156">            Connection conec = Conexion.Cadena();</span>
+<span class="nc" id="L157">            psPrepSencencias = conec.prepareStatement(&quot;INSERT INTO pedido (idCliente,estado,fecha,hora,lugarDeEnvio,zona,idCadete) VALUES (?,?,?,?,?,?,?)&quot;, PreparedStatement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L158">            psPrepSencencias.setInt(1, idCliente);</span>
+<span class="nc" id="L159">            psPrepSencencias.setInt(2, estado);</span>
+<span class="nc" id="L160">            psPrepSencencias.setDate(3, fecha);</span>
+<span class="nc" id="L161">            psPrepSencencias.setTime(4, hora);</span>
+<span class="nc" id="L162">            psPrepSencencias.setString(5, lugarDeEnvio);</span>
+<span class="nc" id="L163">            psPrepSencencias.setInt(6, zona);</span>
+<span class="nc" id="L164">            psPrepSencencias.setInt(7, idCadete);</span>
+<span class="nc" id="L165">            psPrepSencencias.executeUpdate();</span>
+<span class="nc" id="L166">            rsDatos = psPrepSencencias.getGeneratedKeys();</span>
+<span class="nc" id="L167">            rsDatos.first();</span>
+<span class="nc" id="L168">            idPedido = rsDatos.getInt(1);</span>
+<span class="nc" id="L169">        } catch (SQLException ex){</span>
+<span class="nc" id="L170">            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L171">        }</span>
+<span class="nc" id="L172">        return idPedido;</span>
+    }
+    
+    public void eliminarPedido(int idPedido) throws ClassNotFoundException{
+        try {      
+<span class="nc" id="L177">            Connection cn = Conexion.Cadena();</span>
+<span class="nc" id="L178">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE pedido SET estado = ? WHERE idPedido = ?&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L180">            psPrepSencencias.setInt(1, 0);</span>
+<span class="nc" id="L181">            psPrepSencencias.setInt(2, idPedido);</span>
+            //ejecuto sentencia
+<span class="nc" id="L183">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+           
+<span class="nc" id="L186">        } catch (SQLException ex) {</span>
+<span class="nc" id="L187">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L188">        }</span>
+<span class="nc" id="L189">    }</span>
+    
+     public void modificarPedido() throws ClassNotFoundException {
+        try {      
+<span class="nc" id="L193">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L196">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE pedido SET lugarDeEnvio = ?, zona = ?, idCadete = ? WHERE idPedido = ?&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L198">            psPrepSencencias.setString(1, lugarDeEnvio);</span>
+<span class="nc" id="L199">            psPrepSencencias.setInt(2, zona);</span>
+<span class="nc" id="L200">            psPrepSencencias.setInt(3, idCadete);</span>
+<span class="nc" id="L201">            psPrepSencencias.setInt(4, idPedido);</span>
+            //ejecuto sentencia
+<span class="nc" id="L203">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+           
+<span class="nc" id="L206">        } catch (SQLException ex) {</span>
+<span class="nc" id="L207">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L208">        }</span>
+<span class="nc" id="L209">     }</span>
+
+    public ResultSet obtenerPedidosListos() throws ClassNotFoundException, SQLException {
+<span class="nc" id="L212">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L213">        String ConsultaSQL = &quot;SELECT * FROM pedido WHERE estado = 3&quot;;</span>
+<span class="nc" id="L214">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L215">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L216">        return rsDatos;</span>
+    }
+    
+    public ResultSet obtenerDetallesPedidosListos(int idPedido) throws ClassNotFoundException, SQLException {
+<span class="nc" id="L220">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L221">        String ConsultaSQL = &quot;SELECT * FROM detallePedido WHERE idPedido = &quot; + idPedido;</span>
+<span class="nc" id="L222">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L223">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc" id="L224">        return rsDatos;</span>
+    }
+    
+    public int obtenerSiguienteIdPedido() throws ClassNotFoundException, SQLException{
+<span class="nc" id="L228">        Connection conex = Conexion.Cadena();</span>
+<span class="nc" id="L229">        String ConsultaSQL = &quot;SELECT (MAX(idPedido) )AS 'ID' FROM pedido&quot;;</span>
+<span class="nc" id="L230">        sentencia = conex.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);</span>
+<span class="nc" id="L231">        rsDatos = sentencia.executeQuery(ConsultaSQL);</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if (rsDatos.first()) {</span>
+<span class="nc" id="L233">            int id = rsDatos.getInt(&quot;ID&quot;) + 1;</span>
+<span class="nc" id="L234">            return id;</span>
+        } else {
+<span class="nc" id="L236">            return 1;</span>
+        }
+    }
+
+    public void modificarEstado(int est) throws ClassNotFoundException {
+        try {      
+<span class="nc" id="L242">            Connection cn = Conexion.Cadena();</span>
+            // preparo la sentencia el parametro RETURN_GENERATED_KEYS debe ser especificado explicitamente
+            // para poder obtener el ID del campo autoincrement
+<span class="nc" id="L245">            psPrepSencencias = cn.prepareStatement(&quot;UPDATE pedido SET estado = ? WHERE idPedido = ?&quot;,PreparedStatement.RETURN_GENERATED_KEYS);</span>
+            // cargo parametros
+<span class="nc" id="L247">            psPrepSencencias.setInt(1, est);</span>
+<span class="nc" id="L248">            psPrepSencencias.setInt(2, idPedido);</span>
+            //ejecuto sentencia
+<span class="nc" id="L250">            psPrepSencencias.executeUpdate();</span>
+            //obtengo el id del registro recien insertado
+           
+<span class="nc" id="L253">        } catch (SQLException ex) {</span>
+<span class="nc" id="L254">            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L255">        }</span>
+<span class="nc" id="L256">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

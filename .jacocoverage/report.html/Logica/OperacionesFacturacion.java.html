@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OperacionesFacturacion.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;FastFoodSystem&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">Logica</a> &gt; <span class="el_source">OperacionesFacturacion.java</span></div><h1>OperacionesFacturacion.java</h1><pre class="source lang-java linenums">package Logica;
+
+import Datos.Cliente;
+import Datos.Comida;
+import Datos.DetallePedido;
+import Datos.Facturacion;
+import Datos.Pedido;
+import Datos.Zona;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+/**
+ *
+ * @author Leandro
+ */
+<span class="nc" id="L16">public class OperacionesFacturacion {</span>
+    
+    public ArrayList&lt;Facturacion&gt; obtenerInformacionPedidosListos() throws ClassNotFoundException, SQLException {
+        ResultSet pedidoslistos;
+<span class="nc" id="L20">        Pedido ped = new Pedido();</span>
+<span class="nc" id="L21">        Facturacion factura = new Facturacion();</span>
+<span class="nc" id="L22">        ArrayList&lt;Facturacion&gt; listafacturas = new ArrayList&lt;Facturacion&gt;();</span>
+<span class="nc" id="L23">        pedidoslistos = ped.obtenerPedidosListos();</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        while (pedidoslistos.next()) {</span>
+<span class="nc" id="L25">            factura = new Facturacion();</span>
+<span class="nc" id="L26">            ped = new Pedido();</span>
+<span class="nc" id="L27">            ped.setIdPedido(pedidoslistos.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L28">            ped.setIdCliente(pedidoslistos.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L29">            ped.setEstado(pedidoslistos.getInt(&quot;estado&quot;));</span>
+<span class="nc" id="L30">            ped.setFecha(pedidoslistos.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L31">            ped.setHora(pedidoslistos.getTime(&quot;hora&quot;));</span>
+<span class="nc" id="L32">            ped.setLugarDeEnvio(pedidoslistos.getString(&quot;lugarDeEnvio&quot;));</span>
+<span class="nc" id="L33">            ped.setZona(pedidoslistos.getInt(&quot;zona&quot;));</span>
+<span class="nc" id="L34">            ped.setIdCadete(pedidoslistos.getInt(&quot;idCadete&quot;));         </span>
+<span class="nc" id="L35">            System.out.print(pedidoslistos.getInt(&quot;idPedido&quot;));</span>
+<span class="nc" id="L36">            System.out.print(ped.getIdPedido());</span>
+<span class="nc" id="L37">            OperacionesCliente opCli = new OperacionesCliente();</span>
+<span class="nc" id="L38">            Cliente cli =  new Cliente(); </span>
+<span class="nc" id="L39">            cli = opCli.buscarClienteConId(ped.getIdCliente());</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">            if (cli != null) {</span>
+<span class="nc" id="L41">                factura.setDatospedido(ped);</span>
+<span class="nc" id="L42">                factura.setDatoscliente(cli);</span>
+                //listafacturas.add(factura);
+                //return listafacturas;
+            }
+<span class="nc" id="L46">            listafacturas.add(factura);</span>
+<span class="nc" id="L47">        }</span>
+<span class="nc" id="L48">        return listafacturas;</span>
+    }
+
+     public ArrayList&lt;DetallePedido&gt; obtenerDetallesDePedidos(Facturacion fac) throws SQLException, ClassNotFoundException{
+<span class="nc" id="L52">        ResultSet listadetalles =  null;</span>
+<span class="nc" id="L53">        DetallePedido detalle = new DetallePedido();</span>
+<span class="nc" id="L54">        Pedido pd = new Pedido();</span>
+<span class="nc" id="L55">        ArrayList&lt;DetallePedido&gt; listaDetalles = new ArrayList&lt;DetallePedido&gt;();        </span>
+<span class="nc" id="L56">        listadetalles = pd.obtenerDetallesPedidosListos(fac.getDatospedido().getIdPedido());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        while (listadetalles.next()) {</span>
+            //ped = new Pedido2();
+<span class="nc" id="L59">            detalle = new DetallePedido();</span>
+<span class="nc" id="L60">            detalle.setNumLinea(listadetalles.getInt(&quot;numLinea&quot;));</span>
+<span class="nc" id="L61">            detalle.setCantidad(listadetalles.getInt(&quot;cantidad&quot;));</span>
+<span class="nc" id="L62">            Comida C = new Comida();</span>
+<span class="nc" id="L63">            ResultSet comida = C.consultaComidaId(listadetalles.getInt(&quot;idComida&quot;));</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            if(comida.first()){</span>
+<span class="nc" id="L65">                C.setDescripcion(comida.getString(&quot;descripcion&quot;));</span>
+<span class="nc" id="L66">                C.setPrecio(comida.getFloat(&quot;precio&quot;));</span>
+<span class="nc" id="L67">                detalle.setDatoscomida(C);</span>
+            }
+<span class="nc" id="L69">            listaDetalles.add(detalle);</span>
+<span class="nc" id="L70">        }</span>
+<span class="nc" id="L71">        return listaDetalles;</span>
+    }
+     
+     
+   public Zona obtenerZona(int idZona) throws ClassNotFoundException, SQLException{
+<span class="nc" id="L76">       Zona z = new Zona ();</span>
+<span class="nc" id="L77">       ResultSet resultado = z.consultaZonaPorId(idZona);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">       if(resultado.first())</span>
+       {
+<span class="nc" id="L80">           z.setIdZona(resultado.getInt(&quot;idZona&quot;));</span>
+<span class="nc" id="L81">           z.setDescripcion(resultado.getString(&quot;descripcion&quot;));</span>
+<span class="nc" id="L82">           z.setPrecio(resultado.getFloat(&quot;precio&quot;));</span>
+<span class="nc" id="L83">           return z;</span>
+       }
+<span class="nc" id="L85">       return null;</span>
+   }
+   
+   public void guardarDetalle(Facturacion factura, ArrayList&lt;DetallePedido&gt; listaDetalles) throws SQLException, ClassNotFoundException{
+<span class="nc bnc" id="L89" title="All 2 branches missed.">       for (int i = 0; i &lt; listaDetalles.size(); i++) {</span>
+<span class="nc" id="L90">           Pedido p = new Pedido();</span>
+<span class="nc" id="L91">           p = factura.getDatospedido();</span>
+<span class="nc" id="L92">           p.setDetalle(listaDetalles.get(i));</span>
+<span class="nc" id="L93">           factura.setDatospedido(p);</span>
+<span class="nc" id="L94">           System.out.println(factura.getDatospedido().getDetalle().getCantidad());</span>
+<span class="nc" id="L95">           System.out.println(factura.getDatospedido().getDetalle().getIdComida());</span>
+<span class="nc" id="L96">           System.out.println(factura.getDatospedido().getDetalle().getNumLinea());</span>
+<span class="nc" id="L97">           System.out.println(factura.getDatospedido().getDetalle().getIdPedido());</span>
+<span class="nc" id="L98">           System.out.println(factura.getDatospedido().getDetalle().getDatoscomida().getDescripcion());</span>
+<span class="nc" id="L99">           System.out.println(factura.getDatospedido().getDetalle().getDatoscomida().getPrecio());</span>
+<span class="nc" id="L100">           factura.insertarDetalle();</span>
+       }
+<span class="nc" id="L102">   }</span>
+
+    public Facturacion buscarFactura(int id) throws SQLException, ClassNotFoundException {
+        ResultSet datosFactura;        
+<span class="nc" id="L106">        Facturacion f = new Facturacion();</span>
+<span class="nc" id="L107">        datosFactura = f.obtenerFactura(id);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        if(datosFactura.first()){</span>
+<span class="nc" id="L109">            f = new Facturacion();</span>
+<span class="nc" id="L110">            f.setNumFactura(datosFactura.getInt(&quot;numFactura&quot;));</span>
+<span class="nc" id="L111">            f.setImporte(0);</span>
+<span class="nc" id="L112">            Pedido p = new Pedido();</span>
+<span class="nc" id="L113">            p.setFecha(datosFactura.getDate(&quot;fecha&quot;));</span>
+<span class="nc" id="L114">            p.setIdPedido(datosFactura.getInt(&quot;idPedido&quot;));</span>
+            //p.setHora(datosFactura.getTime(&quot;hora&quot;));            
+<span class="nc" id="L116">            p.setHora(null);</span>
+<span class="nc" id="L117">            f.setDatospedido(p);</span>
+<span class="nc" id="L118">            Cliente c = new Cliente();</span>
+            //c.setIdCliente(datosFactura.getInt(&quot;idCliente&quot;));
+<span class="nc" id="L120">            c.setIdCliente(0);</span>
+<span class="nc" id="L121">            c.setNombre(datosFactura.getString(&quot;nombreCliente&quot;));</span>
+<span class="nc" id="L122">            f.setDatoscliente(c);</span>
+<span class="nc" id="L123">            f.setEstado(datosFactura.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L124">            return f;</span>
+        }
+<span class="nc" id="L126">        return null;</span>
+    }
+    
+    
+    public Cliente buscarCliente(long telefono) throws ClassNotFoundException, SQLException {
+        ResultSet datosCliente;
+<span class="nc" id="L132">        Cliente miCliente = new Cliente();</span>
+<span class="nc" id="L133">        datosCliente = miCliente.obtenerCliente(telefono);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (datosCliente.first()) {</span>
+<span class="nc" id="L135">            miCliente.setIdCliente(datosCliente.getInt(&quot;idCliente&quot;));</span>
+<span class="nc" id="L136">            miCliente.setNombre(datosCliente.getString(&quot;nombre&quot;));</span>
+<span class="nc" id="L137">            miCliente.setApellido(datosCliente.getString(&quot;apellido&quot;));</span>
+<span class="nc" id="L138">            miCliente.setDomicilio(datosCliente.getString(&quot;domicilio&quot;));</span>
+<span class="nc" id="L139">            miCliente.setTelefono(datosCliente.getLong(&quot;telefono&quot;));</span>
+<span class="nc" id="L140">            miCliente.setEstado(datosCliente.getBoolean(&quot;estado&quot;));</span>
+<span class="nc" id="L141">            return miCliente;            </span>
+        }
+<span class="nc" id="L143">        return null;</span>
+    }
+    
+   
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
